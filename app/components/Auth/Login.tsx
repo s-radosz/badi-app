@@ -16,7 +16,7 @@ import InputComponent from "./../Utils/InputComponent";
 import Alert from "./../Alert/Alert";
 import lang from "./../../assets/lang/Auth/Login";
 import {
-  customBlueColor,
+  customOrangeColor,
   fontSizeBig
 } from "./../../assets/global/globalStyles";
 
@@ -28,11 +28,11 @@ const Login = (props: any) => {
   const loginUser = (): void => {
     //console.log([email, password]);
     if (email && !password) {
-      context.setAlert(true, "danger", lang.passwordError["en"]);
+      context.setAlert(true, "danger", lang.passwordError["pl"]);
     } else if (!email && password) {
-      context.setAlert(true, "danger", lang.emailError["en"]);
+      context.setAlert(true, "danger", lang.emailError["pl"]);
     } else if (!email && !password) {
-      context.setAlert(true, "danger", lang.emailPasswordError["en"]);
+      context.setAlert(true, "danger", lang.emailPasswordError["pl"]);
     } else if (email && password) {
       console.log(["API_URL", context.API_URL, context.API_URL + "api/login"]);
       try {
@@ -40,7 +40,7 @@ const Login = (props: any) => {
         //let navProps = navigation.state.params;
         //console.log([API_URL]);
         axios
-          .post(API_URL + "api/login", {
+          .post(API_URL + "/api/login", {
             email: email,
             password: password
           })
@@ -58,12 +58,9 @@ const Login = (props: any) => {
                 Accept: "application/json"
               };
 
-              console.log(["1", context.API_URL + "api/details"])
-
               axios
-                .post(context.API_URL + "api/details", {}, { headers: config })
+                .post(context.API_URL + "/api/details", {}, { headers: config })
                 .then(response => {
-                  console.log(['res', response.data])
                   if (response.data.result) {
                     //navProps.setUserData(response2.data.result);
 
@@ -73,15 +70,14 @@ const Login = (props: any) => {
                   }
                 })
                 .catch(error => {
-                  context.setAlert(true, "danger", lang.loginError["en"]);
+                  context.setAlert(true, "danger", lang.loginError["pl"]);
                 });
             } else {
               //console.log("Nie ma tokena");
             }
           })
           .catch(error => {
-            console.log(error);
-            context.setAlert(true, "danger", lang.loginError["en"]);
+            context.setAlert(true, "danger", lang.loginError["pl"]);
           });
       } catch (e) {
         //console.log(e);
@@ -103,10 +99,10 @@ const Login = (props: any) => {
         )}
         <ScrollView keyboardShouldPersistTaps={"always"}>
           <View style={styles.container}>
-            <Text style={styles.headerText}>{lang.header["en"]}</Text>
+            <Text style={styles.headerText}>{lang.header["pl"]}</Text>
 
             <InputComponent
-              placeholder={lang.email["en"]}
+              placeholder={lang.email["pl"]}
               inputOnChange={(email: string) => setEmail(email)}
               value={email}
               secureTextEntry={false}
@@ -114,7 +110,7 @@ const Login = (props: any) => {
             />
 
             <InputComponent
-              placeholder={lang.password["en"]}
+              placeholder={lang.password["pl"]}
               inputOnChange={(password: string) => setPassword(password)}
               value={password}
               secureTextEntry={true}
@@ -123,7 +119,7 @@ const Login = (props: any) => {
 
             <ButtonComponent
               pressButtonComponent={loginUser}
-              buttonComponentText={lang.login["en"]}
+              buttonComponentText={lang.login["pl"]}
               fullWidth={false}
               underlayColor="#dd904d"
               whiteBg={false}
@@ -132,13 +128,13 @@ const Login = (props: any) => {
 
             <View style={styles.subBtnSection}>
               <Text style={styles.subBtnSectionAsk}>
-                {lang.notHaveAccount["en"]}
+                {lang.notHaveAccount["pl"]}
               </Text>
               <TouchableHighlight
                 onPress={() => navigation.navigate("Register")}
                 underlayColor={"#fff"}
               >
-                <Text style={styles.registerBtn}>{lang.register["en"]}</Text>
+                <Text style={styles.registerBtn}>{lang.register["pl"]}</Text>
               </TouchableHighlight>
             </View>
 
@@ -146,7 +142,7 @@ const Login = (props: any) => {
               style={styles.resetPasswordBtn}
               onPress={() => navigation.navigate("ResetPassword")}
             >
-              {lang.resetPassword["en"]}
+              {lang.resetPassword["pl"]}
             </Text>
           </View>
         </ScrollView>
@@ -200,7 +196,7 @@ const styles = StyleSheet.create<Style>({
     //fontFamily: "Open Sans"
   },
   registerBtn: {
-    color: customBlueColor,
+    color: customOrangeColor,
     fontSize: 16,
     //fontFamily: "Open Sans"
   }

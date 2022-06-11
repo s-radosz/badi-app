@@ -286,9 +286,9 @@ class Users extends Component<UsersProps, UsersState> {
               filterDistance: "",
               filterHobbyName: ""
             });
-
-            await this.context.setShowLoader(false);
           }
+
+          await this.context.setShowLoader(false);
         })
         .catch(error => {
           this.context.setAlert(true, "danger", lang.usersListError["en"]);
@@ -312,7 +312,7 @@ class Users extends Component<UsersProps, UsersState> {
       //console.log("Focus listener mount");
       this.context.setCurrentNavName("POZNAJ");
 
-      this.loadUsersNearCoords();
+      // this.loadUsersNearCoords();
     });
   };
 

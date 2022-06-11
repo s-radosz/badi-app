@@ -1,18 +1,21 @@
 const lang = {
-  people: {
-    en: "People"
+  start: {
+    en: "Start"
   },
-  auctions: {
-    en: "Items"
-  },
+  // people: {
+  //   en: "People"
+  // },
   messages: {
-    en: "Messages"
+    en: "Czaty"
   },
-  forum: {
-    en: "Forum"
+  addNewEvent: {
+    en: "Dodaj"
+  },
+  notifications: {
+    en: "Powiadomienia"
   },
   profile: {
-    en: "Profile"
+    en: "Profil"
   }
 };
 

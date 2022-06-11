@@ -7,7 +7,7 @@ import {
 } from "react-native";
 import {
   pageTitleWhite,
-  customBlueColor,
+  customOrangeColor,
   btnFullWidth,
   lightBorderRadius,
   peachBtnText,
@@ -103,7 +103,7 @@ export default StyleSheet.create<Style>({
     left: 0,
     zIndex: 11,
     paddingRight: 3,
-    backgroundColor: customBlueColor,
+    backgroundColor: customOrangeColor,
     borderBottomRightRadius: lightBorderRadius
   },
   mainModalContainer: {
@@ -320,7 +320,7 @@ export default StyleSheet.create<Style>({
   },
   conversationDetailsSeeMore: {
     fontWeight: "600",
-    color: customBlueColor,
+    color: customOrangeColor,
     //fontFamily: "Open Sans"
   },
   loaderContainer: loaderContainer

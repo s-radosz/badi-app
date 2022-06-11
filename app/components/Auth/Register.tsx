@@ -20,7 +20,7 @@ import InputComponent from "./../Utils/InputComponent";
 import Alert from "./../Alert/Alert";
 import lang from "./../../assets/lang/Auth/Register";
 import {
-  customBlueColor,
+  customOrangeColor,
   fontSizeBig,
   loaderContainer
 } from "./../../assets/global/globalStyles";
@@ -52,17 +52,17 @@ const Register = (props: { navigation: any }) => {
 
   const registerUser = async () => {
     if (!name || !email || !password || !passwordConf) {
-      context.setAlert(true, "danger", lang.allFieldsError["en"]);
+      context.setAlert(true, "danger", lang.allFieldsError["pl"]);
     } else if (password !== passwordConf) {
       context.setAlert(
         true,
         "danger",
-        lang.passwordAndConfirmationNotMatchedError["en"]
+        lang.passwordAndConfirmationNotMatchedError["pl"]
       );
     } else if (password == passwordConf && password.length < 6) {
-      context.setAlert(true, "danger", lang.passwordLengthError["en"]);
+      context.setAlert(true, "danger", lang.passwordLengthError["pl"]);
     } else if (!validateEmail(email)) {
-      context.setAlert(true, "danger", lang.emailError["en"]);
+      context.setAlert(true, "danger", lang.emailError["pl"]);
     } else if (
       password === passwordConf &&
       name &&
@@ -84,7 +84,7 @@ const Register = (props: { navigation: any }) => {
             if (response.data.status === "OK" && response.data.result === 1) {
               //console.log(["checkIfEmailExists", response.data.result]);
 
-              context.setAlert(true, "danger", lang.accountExistsError["en"]);
+              context.setAlert(true, "danger", lang.accountExistsError["pl"]);
 
               setEmail("");
 
@@ -105,7 +105,7 @@ const Register = (props: { navigation: any }) => {
                     context.setAlert(
                       true,
                       "success",
-                      lang.confirmAccountSuccess["en"]
+                      lang.confirmAccountSuccess["pl"]
                     );
 
                     setName("");
@@ -127,7 +127,7 @@ const Register = (props: { navigation: any }) => {
       context.setAlert(
         true,
         "danger",
-        lang.passwordAndConfirmationNotMatchedError["en"]
+        lang.passwordAndConfirmationNotMatchedError["pl"]
       );
     }
   };
@@ -149,31 +149,31 @@ const Register = (props: { navigation: any }) => {
           )}
           <ScrollView keyboardShouldPersistTaps={"always"}>
             <View style={styles.container}>
-              <Text style={styles.headerText}>{lang.header["en"]}</Text>
+              <Text style={styles.headerText}>{lang.header["pl"]}</Text>
 
               <InputComponent
-                placeholder={lang.name["en"]}
+                placeholder={lang.name["pl"]}
                 inputOnChange={(name: string) => setName(name)}
                 value={name}
                 secureTextEntry={false}
                 maxLength={100}
               />
               <InputComponent
-                placeholder={lang.email["en"]}
+                placeholder={lang.email["pl"]}
                 inputOnChange={(email: string) => setEmail(email)}
                 value={email}
                 secureTextEntry={false}
                 maxLength={100}
               />
               <InputComponent
-                placeholder={lang.password["en"]}
+                placeholder={lang.password["pl"]}
                 inputOnChange={(password: string) => setPassword(password)}
                 value={password}
                 secureTextEntry={true}
                 maxLength={100}
               />
               <InputComponent
-                placeholder={lang.passwordConfirmation["en"]}
+                placeholder={lang.passwordConfirmation["pl"]}
                 inputOnChange={(passwordConf: string) =>
                   setPasswordConf(passwordConf)
                 }
@@ -188,13 +188,13 @@ const Register = (props: { navigation: any }) => {
                 underlayColor={"#fff"}
               >
                 <Text style={styles.termsBtn}>
-                  {lang.registerAcceptTerms["en"]}
+                  {lang.registerAcceptTerms["pl"]}
                 </Text>
               </TouchableHighlight>
 
               <ButtonComponent
                 pressButtonComponent={registerUser}
-                buttonComponentText={lang.register["en"]}
+                buttonComponentText={lang.register["pl"]}
                 fullWidth={false}
                 underlayColor="#dd904d"
                 whiteBg={false}
@@ -203,13 +203,13 @@ const Register = (props: { navigation: any }) => {
 
               <View style={styles.subBtnSection}>
                 <Text style={styles.subBtnSectionAsk}>
-                  {lang.haveAccount["en"]}
+                  {lang.haveAccount["pl"]}
                 </Text>
                 <TouchableHighlight
                   onPress={() => navigation.navigate("Login")}
                   underlayColor={"#fff"}
                 >
-                  <Text style={styles.registerBtn}>{lang.login["en"]}</Text>
+                  <Text style={styles.registerBtn}>{lang.login["pl"]}</Text>
                 </TouchableHighlight>
               </View>
             </View>
@@ -270,7 +270,7 @@ const styles = StyleSheet.create<Style>({
     //fontFamily: "Open Sans"
   },
   registerBtn: {
-    color: customBlueColor,
+    color: customOrangeColor,
     fontSize: 16,
     //fontFamily: "Open Sans"
   },

@@ -1,6 +1,6 @@
 import { StyleSheet, ViewStyle, TextStyle } from "react-native";
 import {
-  customBlueColor,
+  customOrangeColor,
   whiteBtnText,
   lightBorderRadius,
   peachBtnText,
@@ -42,9 +42,9 @@ export default StyleSheet.create<Style>({
     height: 45,
     width: 180,
     borderRadius: lightBorderRadius,
-    borderColor: customBlueColor,
+    borderColor: customOrangeColor,
     borderWidth: 2,
-    backgroundColor: customBlueColor,
+    backgroundColor: customOrangeColor,
     marginTop: 20,
     marginBottom: 15,
     alignItems: "center",
@@ -93,9 +93,9 @@ export default StyleSheet.create<Style>({
   removeFilterBtn: {
     height: 40,
     width: 40,
-    borderColor: customBlueColor,
+    borderColor: customOrangeColor,
     borderWidth: 2,
-    backgroundColor: customBlueColor,
+    backgroundColor: customOrangeColor,
     alignItems: "center",
     justifyContent: "center",
     marginLeft: 10,

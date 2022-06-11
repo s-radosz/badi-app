@@ -22,7 +22,7 @@ const BottomPanel = (props: any) => {
         >
           <View
             style={
-              context.currentNavName === lang.people["en"]
+              context.currentNavName === lang.start["en"]
                 ? styles.bottomPanelImageActive
                 : styles.bottomPanelImage
             }
@@ -35,38 +35,12 @@ const BottomPanel = (props: any) => {
           </View>
           <Text
             style={
-              context.currentNavName === lang.people["en"]
+              context.currentNavName === lang.start["en"]
                 ? styles.buttonTextActive
                 : styles.buttonText
             }
           >
-            {lang.people["en"]}
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => context.NavigationService.navigate("Auctions", {})}
-        >
-          <View
-            style={
-              context.currentNavName === lang.auctions["en"]
-                ? styles.bottomPanelImageActive
-                : styles.bottomPanelImage
-            }
-          >
-            <Image
-              style={styles.buttonImage}
-              source={sell}
-              resizeMode="contain"
-            />
-          </View>
-          <Text
-            style={
-              context.currentNavName === lang.auctions["en"]
-                ? styles.buttonTextActive
-                : styles.buttonText
-            }
-          >
-            {lang.auctions["en"]}
+            {lang.start["en"]}
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
@@ -126,11 +100,38 @@ const BottomPanel = (props: any) => {
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() => context.NavigationService.navigate("Forum", {})}
+          onPress={() => context.NavigationService.navigate("Auctions", {})}
         >
           <View
             style={
-              context.currentNavName === lang.forum["en"]
+              context.currentNavName === lang.addNewEvent["en"]
+                ? styles.bottomPanelImageActive
+                : styles.bottomPanelImage
+            }
+          >
+            <Image
+              style={styles.buttonImage}
+              source={sell}
+              resizeMode="contain"
+            />
+          </View>
+          <Text
+            style={
+              context.currentNavName === lang.addNewEvent["en"]
+                ? styles.buttonTextActive
+                : styles.buttonText
+            }
+          >
+            {lang.addNewEvent["en"]}
+          </Text>
+        </TouchableOpacity>
+        
+        <TouchableOpacity
+          onPress={() => context.NavigationService.navigate("UserNotificationList", {})}
+        >
+          <View
+            style={
+              context.currentNavName === lang.notifications["en"]
                 ? styles.bottomPanelImageActive
                 : styles.bottomPanelImage
             }
@@ -143,12 +144,12 @@ const BottomPanel = (props: any) => {
           </View>
           <Text
             style={
-              context.currentNavName === lang.forum["en"]
+              context.currentNavName === lang.notifications["en"]
                 ? styles.buttonTextActive
                 : styles.buttonText
             }
           >
-            {lang.forum["en"]}
+            {lang.notifications["en"]}
           </Text>
         </TouchableOpacity>
         <TouchableOpacity

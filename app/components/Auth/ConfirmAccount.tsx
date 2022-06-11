@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import lang from "./../../assets/lang/Auth/ConfirmAccount";
 import {
-  customBlueColor,
+  customOrangeColor,
   fontSizeBig
 } from "./../../assets/global/globalStyles";
 
@@ -19,14 +19,14 @@ const ConfirmAccount = (props: { navigation: any }) => {
     <React.Fragment>
       <SafeAreaView style={styles.areaContainer}>
         <View style={styles.container}>
-          <Text style={styles.headerText}>{lang.header["en"]}</Text>
+          <Text style={styles.headerText}>{lang.header["pl"]}</Text>
 
-          <Text style={styles.descriptionText}>{lang.description["en"]}</Text>
+          <Text style={styles.descriptionText}>{lang.description["pl"]}</Text>
           <TouchableHighlight
             onPress={() => props.navigation.navigate("Login")}
             underlayColor={"#fff"}
           >
-            <Text style={styles.registerBtn}>{lang.login["en"]}</Text>
+            <Text style={styles.registerBtn}>{lang.login["pl"]}</Text>
           </TouchableHighlight>
         </View>
       </SafeAreaView>
@@ -64,7 +64,7 @@ const styles = StyleSheet.create<Style>({
   },
   descriptionText: { marginBottom: 40 },
   registerBtn: {
-    color: customBlueColor,
+    color: customOrangeColor,
     fontSize: 16,
     //fontFamily: "Open Sans"
   }

@@ -16,7 +16,7 @@ import InputComponent from "./../Utils/InputComponent";
 import Alert from "./../Alert/Alert";
 import lang from "./../../assets/lang/Auth/ResetPassword";
 import {
-  customBlueColor,
+  customOrangeColor,
   fontSizeBig
 } from "./../../assets/global/globalStyles";
 
@@ -34,17 +34,17 @@ const ResetPassword = (props: any) => {
         .then(response => {
           if (response.data.status === "OK") {
             setEmail("");
-            context.setAlert(true, "success", lang.chackEmailSuccess["en"]);
+            context.setAlert(true, "success", lang.chackEmailSuccess["pl"]);
           } else {
             setEmail("");
-            context.setAlert(true, "danger", lang.resetError["en"]);
+            context.setAlert(true, "danger", lang.resetError["pl"]);
           }
         })
         .catch(error => {
-          context.setAlert(true, "danger", lang.checkCredentialsError["en"]);
+          context.setAlert(true, "danger", lang.checkCredentialsError["pl"]);
         });
     } catch (e) {
-      context.setAlert(true, "danger", lang.resetError["en"]);
+      context.setAlert(true, "danger", lang.resetError["pl"]);
     }
   };
 
@@ -62,10 +62,10 @@ const ResetPassword = (props: any) => {
         )}
         <ScrollView keyboardShouldPersistTaps={"always"}>
           <View style={styles.container}>
-            <Text style={styles.headerText}>{lang.header["en"]}</Text>
+            <Text style={styles.headerText}>{lang.header["pl"]}</Text>
 
             <InputComponent
-              placeholder={lang.email["en"]}
+              placeholder={lang.email["pl"]}
               inputOnChange={(email: string) => setEmail(email)}
               value={email}
               secureTextEntry={false}
@@ -74,7 +74,7 @@ const ResetPassword = (props: any) => {
 
             <ButtonComponent
               pressButtonComponent={resetPassword}
-              buttonComponentText={lang.header["en"]}
+              buttonComponentText={lang.header["pl"]}
               fullWidth={false}
               underlayColor="#dd904d"
               whiteBg={false}
@@ -83,13 +83,13 @@ const ResetPassword = (props: any) => {
 
             <View style={styles.subBtnSection}>
               <Text style={styles.subBtnSectionAsk}>
-                {lang.hasAccount["en"]}
+                {lang.hasAccount["pl"]}
               </Text>
               <TouchableHighlight
                 onPress={() => navigation.navigate("Login")}
                 underlayColor={"#fff"}
               >
-                <Text style={styles.registerBtn}>{lang.login["en"]}</Text>
+                <Text style={styles.registerBtn}>{lang.login["pl"]}</Text>
               </TouchableHighlight>
             </View>
           </View>
@@ -138,7 +138,7 @@ const styles = StyleSheet.create<Style>({
     //fontFamily: "Open Sans"
   },
   registerBtn: {
-    color: customBlueColor,
+    color: customOrangeColor,
     fontSize: 16,
     //fontFamily: "Open Sans"
   }

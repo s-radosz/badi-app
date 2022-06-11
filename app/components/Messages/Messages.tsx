@@ -57,15 +57,16 @@ class Messages extends Component<MessagesProps, MessagesState> {
         user_id: user_id
       })
       .then(async response => {
+        
         if (response.data.status === "OK") {
           //console.log(["messagesList", response.data.result.conversationData]);
           await this.setState({
             messagesList: response.data.result.conversationData,
             displayPrivateMessages: true
-          });
-
-          await this.context.setShowLoader(false);
+          });  
         }
+
+        await this.context.setShowLoader(false);
       })
       .catch(async error => {
         await this.context.setAlert(
@@ -96,9 +97,9 @@ class Messages extends Component<MessagesProps, MessagesState> {
             messagesList: response.data.result.conversationData,
             displayPrivateMessages: false
           });
-
-          await this.context.setShowLoader(false);
         }
+
+        await this.context.setShowLoader(false);
       })
       .catch(async error => {
         await this.context.setAlert(

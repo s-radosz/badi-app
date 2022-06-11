@@ -8,7 +8,7 @@ import {
 const fullHeight = Dimensions.get("window").height;
 import {
   pageTitleWhite,
-  customBlueColor,
+  customOrangeColor,
   darkGrayColor,
   btnFullWidth,
   lightBorderRadius,
@@ -151,7 +151,7 @@ export default StyleSheet.create<Style>({
     flexDirection: "row",
     flexWrap: "wrap",
     justifyContent: "center",
-    borderColor: customBlueColor,
+    borderColor: customOrangeColor,
     borderRadius: lightBorderRadius
   },
   infoContainer: {

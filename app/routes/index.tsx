@@ -236,13 +236,14 @@ export default class App extends Component<
       alertType: "",
       userData: [],
       userLoggedIn: false,
-      API_URL: "http://127.0.0.1:8080/",
+      API_URL: "http://127.0.0.1:8080",
       //API_URL: "http://10.0.2.2:8000/",
       //API_URL: "https://e-mamy.pl/",
       showLoader: false,
       currentNavName: "USERS",
       translations: [],
-      language: "en"
+      // language: "en"
+      language: "pl"
     };
   }
 
@@ -378,9 +379,10 @@ export default class App extends Component<
 
   checkUserStatus = (): void => {
     const { userData } = this.state;
-    //console.log(["checkUserStatus"]);
+    console.log(["checkUserStatus", userData]);
 
     if (userData.verified === 1 && userData.user_filled_info === 1) {
+      console.log(["user list redirect"])
       NavigationService.navigate("UserList", {});
     } else if (userData.verified === 0) {
       NavigationService.navigate("ConfirmAccount", {});
@@ -390,6 +392,7 @@ export default class App extends Component<
   };
 
   setUserData = (data: any) => {
+    console.log(["data", data])
     if (data) {
       const userData = {
         age: data.age,
@@ -499,7 +502,9 @@ export default class App extends Component<
         <SafeAreaView
           style={{
             flex: 1,
-            backgroundColor: "#5e88fc"
+            //color on top
+            // backgroundColor: "#5e88fc"
+            backgroundColor: "#fff"
           }}
         >
           {/*<StatusBar backgroundColor="#f4a157" barStyle="light-content" />*/}

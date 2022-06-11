@@ -14,9 +14,9 @@ import {
 import AppIntroSlider from "react-native-app-intro-slider";
 import ButtonComponent from "./../Utils/ButtonComponent";
 import { GlobalContext } from "./../../Context/GlobalContext";
-import Languages from "./Languages/Languages";
+// import Languages from "./Languages/Languages";
 import {
-  customBlueColor,
+  customOrangeColor,
   fontSizeBig,
   peachBtnText
 } from "../../assets/global/globalStyles";
@@ -58,42 +58,6 @@ const Welcome = (props: any) => {
       image: like
     }
   ];
-  // const [slides, setSlides] = useState([{
-  //   key: "slide1",
-  //   text:"slide1",
-  //   image: logo
-  // }]);
-
-  // useEffect(() => {
-  //   //console.log(["welcome render", context]);
-  //   context.setUserData("");
-  //   let slides: Array<{ key: string; text: string; image: any }>;
-
-  //   slides = [
-  //     {
-  //       key: "slide1",
-  //       text:"slide1",
-  //       image: logo
-  //     },
-  //     {
-  //       key: "slide2",
-  //       text:"slide2",
-  //       image: friends
-  //     },
-  //     {
-  //       key: "slide3",
-  //       text: "slide3",
-  //       image: support
-  //     },
-  //     {
-  //       key: "slide4",
-  //       text: "slide4",
-  //       image: like
-  //     }
-  //   ];
-
-  //   setSlides(slides);
-  // }, [context.translations, context.language]);
 
   const welcomeSliderRenderItem = ({item}:any) => {
     return (
@@ -114,9 +78,7 @@ const Welcome = (props: any) => {
   return (
     <SafeAreaView style={styles.areaContainer}>
       <View style={styles.container}>
-        <Languages />
-
-        
+        {/* <Languages /> */}
 
         <View>
           <View style={{height: 400}}>
@@ -137,9 +99,9 @@ const Welcome = (props: any) => {
             //   context.translations.login &&
             //   context.translations.login[context.language]
             // }
-            buttonComponentText={"Login"}
+            buttonComponentText={"Logowanie"}
             fullWidth={false}
-            underlayColor="#5e88fc"
+            underlayColor="#000"
             whiteBg={false}
             showBackIcon={false}
           />
@@ -149,7 +111,7 @@ const Welcome = (props: any) => {
             underlayColor={"#fff"}
           >
             <Text style={styles.subBtn}>
-              Register
+              Nie masz konta? Zarejestruj się
             </Text>
           </TouchableHighlight>
           </View>
@@ -183,7 +145,7 @@ const styles = StyleSheet.create<Style>({
     marginBottom: 30
   },
   activeWelcomeSlideRect: {
-    backgroundColor: customBlueColor,
+    backgroundColor: customOrangeColor,
     width: 35,
     marginTop: 100
   },
@@ -215,7 +177,7 @@ const styles = StyleSheet.create<Style>({
     paddingBottom: 10
   },
   subBtn: {
-    color: "#5e88fc",
+    color: "#000",
     textAlign: "center",
     fontSize: 16,
     //fontFamily: "Open Sans"
