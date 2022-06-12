@@ -57,7 +57,7 @@ class UserMessageBox extends Component<
               response.data.result
             ]);*/
 
-            navigation.navigate("UserList", {});
+            navigation.navigate("Start", {});
           }
         });
     });
