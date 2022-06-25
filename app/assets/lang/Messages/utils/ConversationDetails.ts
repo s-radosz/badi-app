@@ -1,22 +1,22 @@
 const lang = {
-  conversationWith: {
-    en: "Conversation with: "
-  },
-  seeProfile: {
-    en: "See profile"
-  },
-  seeItemDetails: {
-    en: "See item details"
-  },
-  conversationDetailsError: {
-    en: "Cannot display conversation details"
-  },
-  messageSavingError: {
-    en: "Cannot save a message"
-  },
-  newMessageNotification: {
-    en: "You have a new message from "
-  }
+    conversationWith: {
+        pl: 'Rozmowa z: ',
+    },
+    seeProfile: {
+        pl: 'Zobacz profil',
+    },
+    seeItemDetails: {
+        pl: 'Zobacz szczegóły produktu',
+    },
+    conversationDetailsError: {
+        pl: 'Nie można wyświetlić szczegółów.',
+    },
+    messageSavingError: {
+        pl: 'Nie można wysłać wiadomości',
+    },
+    newMessageNotification: {
+        pl: 'Masz nową wiadomość od ',
+    },
 };
 
 export default lang;

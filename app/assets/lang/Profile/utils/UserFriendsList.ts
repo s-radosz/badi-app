@@ -1,16 +1,16 @@
 const lang = {
-  myFriends: {
-    en: "My friends"
-  },
-  friends: {
-    en: "Friends"
-  },
-  waiting: {
-    en: "Waiting"
-  },
-  friendsListError: {
-    en: "Cannot get friends list"
-  }
+    myFriends: {
+        pl: 'Moi znajomi',
+    },
+    friends: {
+        pl: 'Znajomi',
+    },
+    waiting: {
+        pl: 'Oczekujący',
+    },
+    friendsListError: {
+        pl: 'Nie można pobrać informacji',
+    },
 };
 
 export default lang;

@@ -1,21 +1,18 @@
 const lang = {
     start: {
-        en: 'Start',
+        pl: 'Start',
     },
-    // people: {
-    //   en: "People"
-    // },
     messages: {
-        en: 'Czat',
+        pl: 'Czat',
     },
     addNewEvent: {
-        en: 'Dodaj',
+        pl: 'Dodaj',
     },
     notifications: {
-        en: 'Powiadomienia',
+        pl: 'Powiadomienia',
     },
     profile: {
-        en: 'Profil',
+        pl: 'Profil',
     },
 };
 

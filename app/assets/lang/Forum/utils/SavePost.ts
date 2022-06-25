@@ -1,25 +1,25 @@
 const lang = {
-  addNewPost: {
-    en: "Add new post"
-  },
-  subject: {
-    en: "Subject"
-  },
-  content: {
-    en: "Content"
-  },
-  category: {
-    en: "Category:"
-  },
-  allFieldsError: {
-    en: "All fields are required"
-  },
-  postAddedSuccess: {
-    en: "Successfully added new post"
-  },
-  postAddedError: {
-    en: "Cannot add new post"
-  }
+    addNewPost: {
+        pl: 'Dodaj post',
+    },
+    subject: {
+        pl: 'Temat',
+    },
+    content: {
+        pl: 'Treść',
+    },
+    category: {
+        pl: 'Kategoria:',
+    },
+    allFieldsError: {
+        pl: 'Wszystkie pola są wymagane',
+    },
+    postAddedSuccess: {
+        pl: 'Prawidłowo dodano nowy post',
+    },
+    postAddedError: {
+        pl: 'Nie mona dodać nowego postu',
+    },
 };
 
 export default lang;

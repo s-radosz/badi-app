@@ -1,10 +1,10 @@
 const lang = {
-  message: {
-    en: "Message..."
-  },
-  sendMessage: {
-    en: "Send Message"
-  }
+    message: {
+        pl: 'Napisz wiadomość...',
+    },
+    sendMessage: {
+        pl: 'Wyślij',
+    },
 };
 
 export default lang;

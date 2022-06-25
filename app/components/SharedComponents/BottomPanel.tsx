@@ -25,7 +25,7 @@ const BottomPanel = (props: any) => {
                     }>
                     <View
                         style={
-                            context.currentNavName === lang.start['en']
+                            context.currentNavName === lang.start['pl']
                                 ? styles.bottomPanelImageActive
                                 : styles.bottomPanelImage
                         }>
@@ -37,11 +37,11 @@ const BottomPanel = (props: any) => {
                     </View>
                     <Text
                         style={
-                            context.currentNavName === lang.start['en']
+                            context.currentNavName === lang.start['pl']
                                 ? styles.buttonTextActive
                                 : styles.buttonText
                         }>
-                        {lang.start['en']}
+                        {lang.start['pl']}
                     </Text>
                 </TouchableOpacity>
                 <TouchableOpacity
@@ -52,7 +52,7 @@ const BottomPanel = (props: any) => {
                     }>
                     <View
                         style={
-                            context.currentNavName === lang.messages['en']
+                            context.currentNavName === lang.messages['pl']
                                 ? styles.bottomPanelImageActive
                                 : styles.bottomPanelImage
                         }>
@@ -106,11 +106,11 @@ const BottomPanel = (props: any) => {
                         )}
                     <Text
                         style={
-                            context.currentNavName === lang.messages['en']
+                            context.currentNavName === lang.messages['pl']
                                 ? styles.buttonTextActive
                                 : styles.buttonText
                         }>
-                        {lang.messages['en']}
+                        {lang.messages['pl']}
                     </Text>
                 </TouchableOpacity>
                 <TouchableOpacity
@@ -121,7 +121,7 @@ const BottomPanel = (props: any) => {
                     }>
                     <View
                         style={
-                            context.currentNavName === lang.addNewEvent['en']
+                            context.currentNavName === lang.addNewEvent['pl']
                                 ? styles.bottomPanelImageActive
                                 : styles.bottomPanelImage
                         }>
@@ -133,11 +133,11 @@ const BottomPanel = (props: any) => {
                     </View>
                     <Text
                         style={
-                            context.currentNavName === lang.addNewEvent['en']
+                            context.currentNavName === lang.addNewEvent['pl']
                                 ? styles.buttonTextActive
                                 : styles.buttonText
                         }>
-                        {lang.addNewEvent['en']}
+                        {lang.addNewEvent['pl']}
                     </Text>
                 </TouchableOpacity>
 
@@ -152,7 +152,7 @@ const BottomPanel = (props: any) => {
                     }>
                     <View
                         style={
-                            context.currentNavName === lang.notifications['en']
+                            context.currentNavName === lang.notifications['pl']
                                 ? styles.bottomPanelImageActive
                                 : styles.bottomPanelImage
                         }>
@@ -164,11 +164,11 @@ const BottomPanel = (props: any) => {
                     </View>
                     <Text
                         style={
-                            context.currentNavName === lang.notifications['en']
+                            context.currentNavName === lang.notifications['pl']
                                 ? styles.buttonTextActive
                                 : styles.buttonText
                         }>
-                        {lang.notifications['en']}
+                        {lang.notifications['pl']}
                     </Text>
                 </TouchableOpacity>
                 <TouchableOpacity
@@ -179,7 +179,7 @@ const BottomPanel = (props: any) => {
                     }>
                     <View
                         style={
-                            context.currentNavName === lang.profile['en']
+                            context.currentNavName === lang.profile['pl']
                                 ? styles.bottomPanelImageActive
                                 : styles.bottomPanelImage
                         }>
@@ -232,11 +232,11 @@ const BottomPanel = (props: any) => {
                         )}
                     <Text
                         style={
-                            context.currentNavName === lang.profile['en']
+                            context.currentNavName === lang.profile['pl']
                                 ? styles.buttonTextActive
                                 : styles.buttonText
                         }>
-                        {lang.profile['en']}
+                        {lang.profile['pl']}
                     </Text>
                 </TouchableOpacity>
             </View>

@@ -1,26 +1,25 @@
 const lang = {
-  header: {
-    en: "People like you \n in your neighborhood"
-  },
-  loading: {
-    en: `Loading...`
-  },
-  filterResults: {
-    en: "Filter results "
-  },
-  usersNotFound: {
-    en:
-      "Not found users in your neighbourhood. Invite people to juff-app and build your local community"
-  },
-  filtersListError: {
-    en: "Cannot get filters list"
-  },
-  hobbiesListError: {
-    en: "Cannot get hobbies list"
-  },
-  usersListError: {
-    en: "Cannot get users list"
-  }
+    header: {
+        pl: 'Znajdź znajomych do wspólnej rozrywki',
+    },
+    loading: {
+        pl: `Wczytywanie...`,
+    },
+    filterResults: {
+        pl: 'Wyniki ',
+    },
+    usersNotFound: {
+        pl: 'Nie znaleziono użytkowników. Zaproś znajomych do pobrania aplikacji.',
+    },
+    filtersListError: {
+        pl: 'Nie można zwrócić listy filtrów.',
+    },
+    hobbiesListError: {
+        pl: 'Nie można zwrócić listy hobby.',
+    },
+    usersListError: {
+        pl: 'Nie można zwrócić listy użytkowników.',
+    },
 };
 
 export default lang;

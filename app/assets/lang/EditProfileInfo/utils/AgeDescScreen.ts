@@ -1,25 +1,25 @@
 const lang = {
-  header: {
-    en: `Tell others about \n yourself`
-  },
-  fillBasicInfo: {
-    en: "Fill basic information"
-  },
-  nick: {
-    en: "Nickname"
-  },
-  chars: {
-    en: "chars"
-  },
-  age: {
-    en: "Age"
-  },
-  description: {
-    en: "description"
-  },
-  next: {
-    en: "Next"
-  }
+    header: {
+        pl: `Dodaj opis do swojego profilu`,
+    },
+    fillBasicInfo: {
+        pl: 'Wypełnij podstawowe informacje',
+    },
+    nick: {
+        pl: 'Nick',
+    },
+    chars: {
+        pl: 'znaków',
+    },
+    age: {
+        pl: 'Wiek',
+    },
+    description: {
+        pl: 'Opis',
+    },
+    next: {
+        pl: 'Przejdź dalej',
+    },
 };
 
 export default lang;

@@ -1,25 +1,25 @@
 const lang = {
-  header: {
-    en: `See what's happen \n in neighbourhood`
-  },
-  loading: {
-    en: `Loading ...`
-  },
-  category: {
-    en: "Category: "
-  },
-  suggestNewCategory: {
-    en: "Do you suggest new category?"
-  },
-  writeToUs: {
-    en: "Write to us"
-  },
-  addNewPost: {
-    en: "Write new post"
-  },
-  categoryListError: {
-    en: "Cannot display categories list"
-  }
+    header: {
+        pl: `Forum`,
+    },
+    loading: {
+        pl: `Wczytywanie...`,
+    },
+    category: {
+        pl: 'Kategoria: ',
+    },
+    suggestNewCategory: {
+        pl: 'Zaproponuj nową kategorię',
+    },
+    writeToUs: {
+        pl: 'Napisz do nas',
+    },
+    addNewPost: {
+        pl: 'Dodaj post',
+    },
+    categoryListError: {
+        pl: 'Nie można wyświetlić szczegółów.',
+    },
 };
 
 export default lang;

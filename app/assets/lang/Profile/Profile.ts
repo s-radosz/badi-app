@@ -1,7 +1,7 @@
 const lang = {
-  loading: {
-    en: `Loading...`
-  }
+    loading: {
+        pl: `Wczytywanie...`,
+    },
 };
 
 export default lang;

@@ -1,16 +1,16 @@
 const lang = {
-  activeFilters: {
-    en: `Active filters: `
-  },
-  distance: {
-    en: `Distance`
-  },
-  hobby: {
-    en: `Hobby`
-  },
-  status: {
-    en: `Status`
-  }
+    activeFilters: {
+        pl: `Aktywne filtry: `,
+    },
+    distance: {
+        pl: `Dystans`,
+    },
+    hobby: {
+        pl: `Hobby`,
+    },
+    status: {
+        pl: `Status`,
+    },
 };
 
 export default lang;

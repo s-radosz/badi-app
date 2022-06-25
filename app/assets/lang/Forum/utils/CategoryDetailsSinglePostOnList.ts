@@ -1,7 +1,7 @@
 const lang = {
-  comments: {
-    en: "Comments: "
-  }
+    comments: {
+        pl: 'Komentarze: ',
+    },
 };
 
 export default lang;

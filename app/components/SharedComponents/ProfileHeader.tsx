@@ -40,7 +40,7 @@ const ProfileHeader = (props: any) => {
                                 resizeMode="contain"
                             />
                             <Text style={styles.logoutText}>
-                                {lang.notifications['en']}
+                                {lang.notifications['pl']}
                             </Text>
                         </View>
                     </TouchableOpacity>
@@ -61,7 +61,7 @@ const ProfileHeader = (props: any) => {
                                 resizeMode="contain"
                             />
                             <Text style={styles.logoutText}>
-                                {lang.loggedOut['en']}
+                                {lang.loggedOut['pl']}
                             </Text>
                         </View>
                     </TouchableOpacity>
@@ -92,7 +92,7 @@ const ProfileHeader = (props: any) => {
                             style={
                                 styles.profileHeaderSingleInfoContainerSubText
                             }>
-                            {lang.yearsOld['en']}
+                            {lang.yearsOld['pl']}
                         </Text>
                     </View>
                     <View style={{width: '50%'}}>
@@ -106,7 +106,7 @@ const ProfileHeader = (props: any) => {
                             style={
                                 styles.profileHeaderSingleInfoContainerSubText
                             }>
-                            {lang.friends['en']}
+                            {lang.friends['pl']}
                         </Text>
                     </View>
                 </View>

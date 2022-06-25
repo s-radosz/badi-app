@@ -1,10 +1,10 @@
 const lang = {
-  loading: {
-    en: `Loading ...`
-  },
-  nickExistsError: {
-    en: "Nick already exists"
-  }
+    loading: {
+        pl: `Wczytywanie...`,
+    },
+    nickExistsError: {
+        pl: 'Nick jest już zarezerwowany',
+    },
 };
 
 export default lang;

@@ -1,7 +1,7 @@
 const lang = {
-  notificationListError: {
-    en: "Cannot get notification list"
-  }
+    notificationListError: {
+        pl: 'Nie można pobrać informacji',
+    },
 };
 
 export default lang;

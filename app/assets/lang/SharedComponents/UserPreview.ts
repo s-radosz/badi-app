@@ -1,7 +1,7 @@
 const lang = {
-  hobby: {
-    en: "Hobby"
-  }
+    hobby: {
+        pl: 'Hobby',
+    },
 };
 
 export default lang;

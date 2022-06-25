@@ -1,19 +1,19 @@
 const lang = {
-  header: {
-    en: "Ask question for product"
-  },
-  addMessage: {
-    en: "Add message..."
-  },
-  send: {
-    en: "Send"
-  },
-  sendMessageError: {
-    en: "Can't send a message"
-  },
-  sendMessageSuccess: {
-    en: "Message send successfully"
-  }
+    header: {
+        pl: 'Ask question for product',
+    },
+    addMessage: {
+        pl: 'Add message...',
+    },
+    send: {
+        pl: 'Send',
+    },
+    sendMessageError: {
+        pl: "Can't send a message",
+    },
+    sendMessageSuccess: {
+        pl: 'Message send successfully',
+    },
 };
 
 export default lang;

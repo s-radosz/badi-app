@@ -1,7 +1,7 @@
 const lang = {
-  noResults: {
-    en: "No results"
-  }
+    noResults: {
+        pl: 'Brak wyników',
+    },
 };
 
 export default lang;

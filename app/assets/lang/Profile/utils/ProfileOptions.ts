@@ -1,22 +1,22 @@
 const lang = {
-  preview: {
-    en: "Preview"
-  },
-  editData: {
-    en: "Edit data"
-  },
-  myFriends: {
-    en: "My friends"
-  },
-  addedItems: {
-    en: "Added items"
-  },
-  notifications: {
-    en: "Notifications"
-  },
-  aboutTheApp: {
-    en: "About the app"
-  }
+    preview: {
+        pl: 'Podgląd',
+    },
+    editData: {
+        pl: 'Edytuj',
+    },
+    myFriends: {
+        pl: 'Moi znajomi',
+    },
+    addedItems: {
+        pl: 'Dodane produkty',
+    },
+    notifications: {
+        pl: 'Powiadomienia',
+    },
+    aboutTheApp: {
+        pl: 'O aplikacji',
+    },
 };
 
 export default lang;

@@ -1,29 +1,28 @@
 const lang = {
-  header: {
-    en: `Contact us`
-  },
-  feedbackText: {
-    en:
-      "Share your thoughts with us and help us make that app better for everyone!"
-  },
-  messageSubject: {
-    en: "Message topic"
-  },
-  writeMessage: {
-    en: "Write a message"
-  },
-  send: {
-    en: "Send"
-  },
-  allDataError: {
-    en: "All fields are required"
-  },
-  messageSuccess: {
-    en: "Thank you for a message"
-  },
-  messageError: {
-    en: "Problem with sending a message"
-  }
+    header: {
+        pl: `Napisz do nas`,
+    },
+    feedbackText: {
+        pl: 'Zaproponuj zmianę w aplikacji',
+    },
+    messageSubject: {
+        pl: 'Temat',
+    },
+    writeMessage: {
+        pl: 'Napisz wiadomość',
+    },
+    send: {
+        pl: 'Wyślij',
+    },
+    allDataError: {
+        pl: 'Wszystkie pola wymagane',
+    },
+    messageSuccess: {
+        pl: 'Dziękujemy za wiadomość',
+    },
+    messageError: {
+        pl: 'Nie mona wysłać wiadomości',
+    },
 };
 
 export default lang;

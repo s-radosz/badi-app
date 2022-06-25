@@ -1,10 +1,10 @@
 const lang = {
-  noResults: {
-    en: "No results"
-  },
-  category: {
-    en: "Category"
-  }
+    noResults: {
+        pl: 'No results',
+    },
+    category: {
+        pl: 'Category',
+    },
 };
 
 export default lang;

@@ -1,19 +1,19 @@
 const lang = {
-  sendMessage: {
-    en: "Send a message"
-  },
-  message: {
-    en: "Message..."
-  },
-  sendMessageError: {
-    en: "Cannot sent a message"
-  },
-  sendYouMessage: {
-    en: "sended you a message"
-  },
-  sendMessageSuccess: {
-    en: "Message sended sucessfully"
-  }
+    sendMessage: {
+        pl: 'Wyślij wiadomość',
+    },
+    message: {
+        pl: 'Napisz wiadomość...',
+    },
+    sendMessageError: {
+        pl: 'Nie można wysłać wiadomości',
+    },
+    sendYouMessage: {
+        pl: 'wysłał/a Ci wiadomość',
+    },
+    sendMessageSuccess: {
+        pl: 'Prawidłowo wysłano wiadomość',
+    },
 };
 
 export default lang;

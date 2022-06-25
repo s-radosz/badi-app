@@ -1,7 +1,7 @@
 const lang = {
-  categories: {
-    en: "Categories: "
-  }
+    categories: {
+        pl: 'Kategorie: ',
+    },
 };
 
 export default lang;

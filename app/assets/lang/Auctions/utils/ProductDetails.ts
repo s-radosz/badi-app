@@ -1,52 +1,52 @@
 const lang = {
-  closeOffer: {
-    en: "Close offer"
-  },
-  showGallery: {
-    en: "Click photo to display gallery"
-  },
-  category: {
-    en: "Category"
-  },
-  condition: {
-    en: "Condition"
-  },
-  new: {
-    en: "New"
-  },
-  used: {
-    en: "Used"
-  },
-  addedBy: {
-    en: "Added by"
-  },
-  near: {
-    en: "Near"
-  },
-  sendMessage: {
-    en: "Send message"
-  },
-  offerClosed: {
-    en: "Offer closed"
-  },
-  offerClosedConversationTogether: {
-    en: "Offer closed. You're in conversation"
-  },
-  conversationTogether: {
-    en: "You're in conversation"
-  },
-  reactivateOffer: {
-    en: "Re-activate an offer"
-  },
-  userDataError: {
-    en: "Can't get user data"
-  },
-  opinionSuccess: {
-    en: "Thank you for submit an opinion"
-  },
-  opinionError: {
-    en: "Can't add an opinion. You can add only one opinion for every user"
-  }
+    closeOffer: {
+        pl: 'Close offer',
+    },
+    showGallery: {
+        pl: 'Click photo to display gallery',
+    },
+    category: {
+        pl: 'Category',
+    },
+    condition: {
+        pl: 'Condition',
+    },
+    new: {
+        pl: 'New',
+    },
+    used: {
+        pl: 'Used',
+    },
+    addedBy: {
+        pl: 'Added by',
+    },
+    near: {
+        pl: 'Near',
+    },
+    sendMessage: {
+        pl: 'Send message',
+    },
+    offerClosed: {
+        pl: 'Offer closed',
+    },
+    offerClosedConversationTogether: {
+        pl: "Offer closed. You're in conversation",
+    },
+    conversationTogether: {
+        pl: "You're in conversation",
+    },
+    reactivateOffer: {
+        pl: 'Re-activate an offer',
+    },
+    userDataError: {
+        pl: "Can't get user data",
+    },
+    opinionSuccess: {
+        pl: 'Thank you for submit an opinion',
+    },
+    opinionError: {
+        pl: "Can't add an opinion. You can add only one opinion for every user",
+    },
 };
 
 export default lang;

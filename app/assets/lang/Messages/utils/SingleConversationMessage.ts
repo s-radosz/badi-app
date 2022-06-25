@@ -1,7 +1,7 @@
 const lang = {
-  createdAt: {
-    en: "Created at "
-  }
+    createdAt: {
+        pl: 'Stworzono ',
+    },
 };
 
 export default lang;

@@ -1,16 +1,16 @@
 const lang = {
-  header: {
-    en: `Choose some \n hobbies`
-  },
-  hobbyText: {
-    en: "It gives others opportunity to contact you by same interests"
-  },
-  back: {
-    en: "Back"
-  },
-  save: {
-    en: "Save"
-  }
+    header: {
+        pl: `Wybierz hobby`,
+    },
+    hobbyText: {
+        pl: 'Znajdź znajomych do wspólnej rozrywki',
+    },
+    back: {
+        pl: 'Powrót',
+    },
+    save: {
+        pl: 'Zapisz',
+    },
 };
 
 export default lang;

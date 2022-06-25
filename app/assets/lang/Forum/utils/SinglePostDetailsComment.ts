@@ -1,7 +1,7 @@
 const lang = {
-  seeProfile: {
-    en: "See profile"
-  }
+    seeProfile: {
+        pl: 'Zobacz profil',
+    },
 };
 
 export default lang;

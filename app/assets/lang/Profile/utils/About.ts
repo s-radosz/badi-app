@@ -1,31 +1,31 @@
 const lang = {
-  myFriends: {
-    en: "My friends"
-  },
-  appName: {
-    en: "Juff-app"
-  },
-  appDesc: {
-    en: "People like you in your neighborhood"
-  },
-  haveQuestion: {
-    en: "Do you have a question? "
-  },
-  writeToUs: {
-    en: "Write to us"
-  },
-  visitWebsite: {
-    en: "Visit our website "
-  },
-  websiteAddress: {
-    en: "juff-app.com"
-  },
-  voteApp: {
-    en: "Vote the app"
-  },
-  socialText: {
-    en: "Follow us"
-  }
+    myFriends: {
+        pl: 'Znajomi',
+    },
+    appName: {
+        pl: 'BadiApp',
+    },
+    appDesc: {
+        pl: 'Znajdź znajomych do wspólnej rozrywki',
+    },
+    haveQuestion: {
+        pl: 'Masz pytanie? ',
+    },
+    writeToUs: {
+        pl: 'Napisz do nas',
+    },
+    visitWebsite: {
+        pl: 'Odwiedź naszą stronę ',
+    },
+    websiteAddress: {
+        pl: 'badi-app.com',
+    },
+    voteApp: {
+        pl: 'Oceń aplikację',
+    },
+    socialText: {
+        pl: 'Śledź nas',
+    },
 };
 
 export default lang;

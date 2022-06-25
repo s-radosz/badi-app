@@ -1,7 +1,7 @@
 const lang = {
-  itemsListError: {
-    en: "Cannot get items list"
-  }
+    itemsListError: {
+        pl: 'Nie można pobrać informacji',
+    },
 };
 
 export default lang;

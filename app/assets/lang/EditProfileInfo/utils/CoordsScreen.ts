@@ -1,16 +1,16 @@
 const lang = {
-  header: {
-    en: `Choose your \n neighbourhood`
-  },
-  cordsText: {
-    en: "Make friends near selected area"
-  },
-  back: {
-    en: "Back"
-  },
-  next: {
-    en: "Next"
-  }
+    header: {
+        pl: `Wybierz swoją lokalizację`,
+    },
+    cordsText: {
+        pl: 'Wskaż okolicę w której poszukujesz wydarzeń',
+    },
+    back: {
+        pl: 'Powrót',
+    },
+    next: {
+        pl: 'Przejdź dalej',
+    },
 };
 
 export default lang;

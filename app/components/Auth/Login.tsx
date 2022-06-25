@@ -104,6 +104,68 @@ const Login = (props: any) => {
         }
     };
 
+    const adminLoginUser = () => {
+        try {
+            let API_URL = context.API_URL;
+            //let navProps = navigation.state.params;
+            //console.log([API_URL]);
+            axios
+                .post(API_URL + '/api/login', {
+                    email: 'radoszszymon@gmail.com',
+                    password: '123qwe',
+                })
+                .then(response => {
+                    // console.log(response);
+
+                    console.log([
+                        'response.data.status',
+                        response.data.result.token,
+                    ]);
+                    if (response.data.result.token) {
+                        //console.log(["response.data.user", response.data]);
+                        let token = response.data.result.token;
+
+                        const config = {
+                            Authorization: `Bearer ${token}`,
+                            'Content-Type': 'application/x-www-form-urlencoded',
+                            Accept: 'application/json',
+                        };
+
+                        axios
+                            .post(
+                                context.API_URL + '/api/details',
+                                {},
+                                {headers: config},
+                            )
+                            .then(response => {
+                                if (response.data.result) {
+                                    //navProps.setUserData(response2.data.result);
+
+                                    //console.log(["userData", response2.data.result]);
+
+                                    context.setUserData(response.data.result);
+                                    context.setUserLoggedIn(true);
+                                }
+                            })
+                            .catch(error => {
+                                context.setAlert(
+                                    true,
+                                    'danger',
+                                    lang.loginError['pl'],
+                                );
+                            });
+                    } else {
+                        //console.log("Nie ma tokena");
+                    }
+                })
+                .catch(error => {
+                    context.setAlert(true, 'danger', lang.loginError['pl']);
+                });
+        } catch (e) {
+            //console.log(e);
+        }
+    };
+
     const navigation = props.navigation;
 
     return (
@@ -143,6 +205,15 @@ const Login = (props: any) => {
                         <ButtonComponent
                             pressButtonComponent={loginUser}
                             buttonComponentText={lang.login['pl']}
+                            fullWidth={false}
+                            underlayColor="#dd904d"
+                            whiteBg={false}
+                            showBackIcon={false}
+                        />
+
+                        <ButtonComponent
+                            pressButtonComponent={adminLoginUser}
+                            buttonComponentText={'Admin login'}
                             fullWidth={false}
                             underlayColor="#dd904d"
                             whiteBg={false}

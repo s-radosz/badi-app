@@ -1,7 +1,7 @@
 const lang = {
-  userDetailsError: {
-    en: "Cannot get user information"
-  }
+    userDetailsError: {
+        pl: 'Nie można pobrać informacji',
+    },
 };
 
 export default lang;

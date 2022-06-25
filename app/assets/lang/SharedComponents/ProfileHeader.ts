@@ -1,16 +1,16 @@
 const lang = {
-  notifications: {
-    en: "Notifications"
-  },
-  loggedOut: {
-    en: "Logout"
-  },
-  yearsOld: {
-    en: "years old"
-  },
-  friends: {
-    en: "friends"
-  }
+    notifications: {
+        pl: 'Powiadomienia',
+    },
+    loggedOut: {
+        pl: 'Wyloguj',
+    },
+    yearsOld: {
+        pl: '',
+    },
+    friends: {
+        pl: 'znajomi',
+    },
 };
 
 export default lang;

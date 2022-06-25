@@ -1,22 +1,22 @@
 const lang = {
-  header: {
-    en: `Your latest \n conversations`
-  },
-  noResultsUsers: {
-    en: `No results. Invite users from your neighbourhood`
-  },
-  noResultsItems: {
-    en: "No results."
-  },
-  privateMessages: {
-    en: "Private"
-  },
-  itemsMessages: {
-    en: "Items"
-  },
-  conversationDetailsError: {
-    en: "Cannot display conversation details"
-  }
+    header: {
+        pl: `Wiadomości`,
+    },
+    noResultsUsers: {
+        pl: `Brak wyników. Zaproś osoby z Twojej okolicy.`,
+    },
+    noResultsItems: {
+        pl: 'Brak wyników',
+    },
+    privateMessages: {
+        pl: 'Prywatne',
+    },
+    itemsMessages: {
+        pl: 'Przedmioty',
+    },
+    conversationDetailsError: {
+        pl: 'Nie można wyświetlić szczegółów.',
+    },
 };
 
 export default lang;

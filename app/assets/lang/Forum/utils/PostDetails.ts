@@ -1,43 +1,43 @@
 const lang = {
-  seeProfile: {
-    en: "See profile"
-  },
-  createdAt: {
-    en: "Created at:"
-  },
-  comments: {
-    en: "Comments: "
-  },
-  addingCommentError: {
-    en: "Cannot add new comment"
-  },
-  addingCommentSuccess: {
-    en: "Successfully added new comment"
-  },
-  addedCommentToYourPost: {
-    en: "Your post has new comment"
-  },
-  commentContentError: {
-    en: "Please add content"
-  },
-  selfCommentVoteError: {
-    en: "You cannot add vote to your comment"
-  },
-  existsCommentVoteError: {
-    en: "You added vote in the past"
-  },
-  voteSaveError: {
-    en: "Cannot add a comment"
-  },
-  voteSaveSuccess: {
-    en: "Vote added sucessfully"
-  },
-  commentListError: {
-    en: "Cannot display comments list"
-  },
-  postDetailsError: {
-    en: "Cannot display post details"
-  }
+    seeProfile: {
+        pl: 'Zobacz profil',
+    },
+    createdAt: {
+        pl: 'Stworzono:',
+    },
+    comments: {
+        pl: 'Komentarze: ',
+    },
+    addingCommentError: {
+        pl: 'Nie można dodać komentarza',
+    },
+    addingCommentSuccess: {
+        pl: 'Poprawnie dodano komentarz',
+    },
+    addedCommentToYourPost: {
+        pl: 'Twoj post ma nowy komentarz',
+    },
+    commentContentError: {
+        pl: 'Proszę dodać treść wiadomości',
+    },
+    selfCommentVoteError: {
+        pl: 'Nie możesz głosować na swój komentarz',
+    },
+    existsCommentVoteError: {
+        pl: 'Dodałeś/aś już ocenę do komentarza',
+    },
+    voteSaveError: {
+        pl: 'Nie można dodać komentarza',
+    },
+    voteSaveSuccess: {
+        pl: 'Prawidłowo dodano ocenę',
+    },
+    commentListError: {
+        pl: 'Nie można wyświetlić szczegółów.',
+    },
+    postDetailsError: {
+        pl: 'Nie można wyświetlić szczegółów.',
+    },
 };
 
 export default lang;

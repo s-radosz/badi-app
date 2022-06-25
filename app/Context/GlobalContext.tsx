@@ -1,6 +1,6 @@
 import React from 'react';
 
-export const GlobalContext = React.createContext({
+export const GlobalContext: any = React.createContext({
     showAlert: false,
     alertType: '',
     alertMessage: '',

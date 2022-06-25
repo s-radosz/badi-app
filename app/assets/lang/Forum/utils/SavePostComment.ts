@@ -1,10 +1,10 @@
 const lang = {
-  comment: {
-    en: "Comment..."
-  },
-  addComment: {
-    en: "Add comment"
-  }
+    comment: {
+        pl: 'Napisz komentarz...',
+    },
+    addComment: {
+        pl: 'Dodaj komentarz',
+    },
 };
 
 export default lang;
