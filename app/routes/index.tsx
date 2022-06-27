@@ -1,6 +1,6 @@
 import {createAppContainer, createSwitchNavigator} from 'react-navigation';
-import React, {Component} from 'react';
-import {SafeAreaView} from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {SafeAreaView, Text} from 'react-native';
 import Welcome from '../components/Welcome/Welcome';
 import Login from './../components/Auth/Login';
 import Register from './../components/Auth/Register';
@@ -42,6 +42,11 @@ import {GlobalContext} from './../Context/GlobalContext';
 import axios from 'axios';
 import NavigationService from './NavigationService';
 import {ifIphoneX} from 'react-native-iphone-x-helper';
+
+import {useDispatch, useSelector} from 'react-redux';
+import {setAlert} from '../../app/store/alert/actions';
+
+import Alert from './../components/Alert/Alert';
 
 const MainStack = createSwitchNavigator(
     {
@@ -234,32 +239,34 @@ interface NavigationScreenInterface {
     };
 }
 
-export default class App extends Component<
-    NavigationScreenInterface,
-    AppState
-> {
-    constructor(props: NavigationScreenInterface) {
-        super(props);
-        this.state = {
-            showAlert: false,
-            alertMessage: '',
-            alertType: '',
-            userData: [],
-            userLoggedIn: false,
-            API_URL: 'http://127.0.0.1:8080',
-            //API_URL: "http://10.0.2.2:8000/",
-            //API_URL: "https://e-mamy.pl/",
-            showLoader: false,
-            currentNavName: 'USERS',
-            translations: [],
-            // language: "en"
-            language: 'pl',
-        };
-    }
+const App = ({navigation}: NavigationScreenInterface) => {
+    // const [showAlert, setShowAlert] = useState(false);
+    // const [alertMessage, setAlertMessage] = useState('');
+    // const [alertType, setAlertType] = useState('');
+    const [userData, setUserData] = useState(null);
+    const [userLoggedIn, setUserLoggedIn] = useState(false);
+    const [API_URL, setAPI_URL] = useState('http://127.0.0.1:8080');
 
-    getTranslations = () => {
+    //API_URL: "http://10.0.2.2:8000/",
+    //API_URL: "https://e-mamy.pl/",
+
+    const [showLoader, setShowLoader] = useState(false);
+    const [currentNavName, setCurrentNavName] = useState('USERS');
+    const [translations, setTranslations] = useState(null);
+
+    // language: "en"
+    const [language, setLanguage] = useState('pl');
+
+    const alertType = useSelector((state: any) => state?.alert);
+    const alertText = useSelector((state: any) => state?.alert?.text);
+
+    // const alertType = '';
+    // const alertText = '';
+
+    const dispatch = useDispatch();
+
+    const getTranslations = () => {
         return new Promise(resolve => {
-            const {API_URL} = this.state;
             axios
                 .get(API_URL + '/api/get-translations')
                 .then(async response => {
@@ -289,7 +296,9 @@ export default class App extends Component<
                             },
                         );
 
-                        this.setState({translations: translations});
+                        setTranslations(translations);
+
+                        // this.setState({translations: translations});
                     }
 
                     resolve(response);
@@ -300,22 +309,25 @@ export default class App extends Component<
         });
     };
 
-    setLanguage = (language: string) => {
-        this.setState({language});
+    const handleSetLanguage = (language: string) => {
+        //@ts-ignore
+        setLanguage(language);
+        // this.setState({language});
         setTimeout(() => {
-            console.log(['language', this.state.language]);
+            console.log(['language', language]);
         }, 2000);
     };
 
-    setShowLoader = (param: boolean): any => {
-        this.setState({
-            showLoader: param,
-        });
+    const handleSetShowLoader = (param: boolean): any => {
+        setShowLoader(param);
+        // this.setState({
+        //     showLoader: param,
+        // });
     };
 
-    setUserFilledInfo = async () => {
-        let userEmailName = this.state.userData.email;
-        let API_URL = this.state.API_URL;
+    const setUserFilledInfo = async () => {
+        //@ts-ignore
+        let userEmailName = userData.email;
 
         let json = await axios
             .post(API_URL + '/api/setUserFilledInfo', {
@@ -323,11 +335,13 @@ export default class App extends Component<
             })
             .then(async response => {
                 if (response.data.status === 'OK') {
-                    await this.setState({
-                        userData: response.data.result[0],
-                        //editProfileData: false
-                    });
-                    this.checkUserStatus();
+                    //@ts-ignore
+                    await setUserData(response.data.result[0]);
+                    // this.setState({
+                    //     userData: response.data.result[0],
+                    //     //editProfileData: false
+                    // });
+                    checkUserStatus();
                 }
             })
             .catch(error => {
@@ -337,10 +351,7 @@ export default class App extends Component<
         return json;
     };
 
-    clearUserNotificationsStatus = async (userId: number) => {
-        const {userData} = this.state;
-        let API_URL = this.state.API_URL;
-
+    const clearUserNotificationsStatus = async (userId: number) => {
         axios
             .post(API_URL + '/api/clearUserNotificationsStatus', {
                 userId: userId,
@@ -350,7 +361,8 @@ export default class App extends Component<
                     let newUserState = userData;
                     newUserState.unreadedNotifications = false;
                     newUserState.unreadedNotificationsAmount = 0;
-                    await this.setState({userData: newUserState});
+                    setUserData(newUserState);
+                    // await this.setState({userData: newUserState});
                 }
             })
             .catch(error => {
@@ -358,14 +370,11 @@ export default class App extends Component<
             });
     };
 
-    clearUserUnreadedMessages = async (
+    const clearUserUnreadedMessages = async (
         userId: number,
         conversationId: number,
     ) => {
         try {
-            const {userData} = this.state;
-            let API_URL = this.state.API_URL;
-
             axios
                 .post(API_URL + '/api/setUserMessagesStatus', {
                     userId: userId,
@@ -378,7 +387,7 @@ export default class App extends Component<
                             response.data.result.userUnreadedMessages;
                         newUserState.unreadedConversationMessageAmount =
                             response.data.result.userUnreadedMessagesCount;
-                        await this.setState({userData: newUserState});
+                        setUserData(newUserState);
 
                         //that.checkUserStatus();
                     }
@@ -393,8 +402,7 @@ export default class App extends Component<
         //console.log(this.state.userData);
     };
 
-    checkUserStatus = (): void => {
-        const {userData} = this.state;
+    const checkUserStatus = (): void => {
         console.log(['checkUserStatus', userData]);
 
         if (userData.verified === 1 && userData.user_filled_info === 1) {
@@ -407,11 +415,12 @@ export default class App extends Component<
         }
     };
 
-    setUserLoggedIn = (status: boolean) => {
-        this.setState({userLoggedIn: status});
+    const handleSetUserLoggedIn = (status: boolean) => {
+        setUserLoggedIn(status);
+        // this.setState({userLoggedIn: status});
     };
 
-    setUserData = (data: any) => {
+    const handleSetUserData = (data: any) => {
         console.log(['data', data]);
         if (data) {
             const userData = {
@@ -439,112 +448,124 @@ export default class App extends Component<
                 platform: data.platform,
                 nickname: data.nickname,
             };
-            this.setState({userData: userData});
+            setUserData(userData);
+            // this.setState({userData: userData});
 
-            this.checkUserStatus();
+            checkUserStatus();
         } else {
-            this.setState({userData: []});
+            setUserData([]);
+            // this.setState({userData: []});
         }
     };
 
-    setAlert = (
+    const setAlert = (
         showAlert: boolean,
         alertType: string,
         alertMessage: string,
     ): any => {
-        this.setState({
-            showAlert: showAlert,
-            alertType: alertType,
-            alertMessage: alertMessage,
-        });
+        console.log(['setAlert']);
+        dispatch(setAlert(true, alertType, alertMessage));
+        // this.setState({
+        //     showAlert: showAlert,
+        //     alertType: alertType,
+        //     alertMessage: alertMessage,
+        // });
     };
 
-    closeAlert = () => {
-        this.setState({
-            showAlert: false,
-            alertType: '',
-            alertMessage: '',
-        });
+    const closeAlert = () => {
+        console.log('closeAlert');
+        dispatch(setAlert(false, null, null));
+        // this.setState({
+        //     showAlert: false,
+        //     alertType: '',
+        //     alertMessage: '',
+        // });
     };
 
-    clearUserData = (): void => {
-        this.setState({userData: []});
+    const clearUserData = (): void => {
+        setUserData([]);
+        // this.setState({userData: []});
     };
 
-    componentDidMount = async () => {
-        await this.getTranslations();
+    // componentDidMount = async () => {
+    //     await this.getTranslations();
+    //     NavigationService.navigate('Welcome', {});
+    // };
+
+    useEffect(() => {
+        getTranslations();
         NavigationService.navigate('Welcome', {});
+    }, []);
+
+    const handleSetCurrentNavName = (name: string) => {
+        setCurrentNavName(name);
+        // this.setState({currentNavName: name});
     };
 
-    setCurrentNavName = (name: string) => {
-        this.setState({currentNavName: name});
-    };
+    return (
+        <GlobalContext.Provider
+            value={{
+                showAlert: false,
+                alertType: alertType,
+                alertMessage: '',
+                setAlert: setAlert,
+                userData: userData,
+                setUserData: handleSetUserData,
+                clearUserData: clearUserData,
+                setUserFilledInfo: setUserFilledInfo,
+                API_URL: API_URL,
+                clearUserUnreadedMessages: clearUserUnreadedMessages,
+                clearUserNotificationsStatus: clearUserNotificationsStatus,
+                showLoader: showLoader,
+                setShowLoader: handleSetShowLoader,
+                closeAlert: closeAlert,
+                //@ts-ignore
+                NavigationService: NavigationService,
+                currentNavName: currentNavName,
+                setCurrentNavName: handleSetCurrentNavName,
+                translations: translations,
+                language: language,
+                setLanguage: handleSetLanguage,
 
-    render() {
-        const {
-            showAlert,
-            alertType,
-            alertMessage,
-            userData,
-            userLoggedIn,
-            API_URL,
-            showLoader,
-            currentNavName,
-            translations,
-            language,
-        } = this.state;
-
-        return (
-            <GlobalContext.Provider
-                value={{
-                    showAlert: showAlert,
-                    alertType: alertType,
-                    alertMessage: alertMessage,
-                    setAlert: this.setAlert,
-                    userData: userData,
-                    setUserData: this.setUserData,
-                    clearUserData: this.clearUserData,
-                    setUserFilledInfo: this.setUserFilledInfo,
-                    API_URL: API_URL,
-                    clearUserUnreadedMessages: this.clearUserUnreadedMessages,
-                    clearUserNotificationsStatus:
-                        this.clearUserNotificationsStatus,
-                    showLoader: showLoader,
-                    setShowLoader: this.setShowLoader,
-                    closeAlert: this.closeAlert,
-                    //@ts-ignore
-                    NavigationService: NavigationService,
-                    currentNavName: currentNavName,
-                    setCurrentNavName: this.setCurrentNavName,
-                    translations: translations,
-                    language: language,
-                    setLanguage: this.setLanguage,
-
-                    setUserLoggedIn: this.setUserLoggedIn,
-                    userLoggedIn: userLoggedIn,
+                setUserLoggedIn: handleSetUserLoggedIn,
+                userLoggedIn: userLoggedIn,
+            }}>
+            <SafeAreaView
+                style={{
+                    flex: 1,
+                    //color on top
+                    // backgroundColor: "#5e88fc"
+                    backgroundColor: '#fff',
                 }}>
-                <SafeAreaView
-                    style={{
-                        flex: 1,
-                        //color on top
-                        // backgroundColor: "#5e88fc"
-                        backgroundColor: '#fff',
-                    }}>
-                    {/*<StatusBar backgroundColor="#f4a157" barStyle="light-content" />*/}
-                    <AppContainer
-                        ref={navigatorRef => {
-                            NavigationService.setTopLevelNavigator(
-                                navigatorRef,
-                            );
-                        }}
-                        //@ts-ignore
-                        alertType={alertType}
-                        alertMessage={alertMessage}
-                        closeAlert={this.closeAlert}
-                        showAlert={showAlert}
-                    />
-                </SafeAreaView>
-            </GlobalContext.Provider>
-        );
-    }
-}
+                {alertType && alertText ? (
+                    <>
+                        <Text>1111</Text>
+
+                        <Alert
+                            //@ts-ignore
+                            alertType={alertType}
+                            //@ts-ignore
+                            alertMessage={alertText}
+                            //@ts-ignore
+                            closeAlert={closeAlert}
+                        />
+                    </>
+                ) : null}
+
+                {/*<StatusBar backgroundColor="#f4a157" barStyle="light-content" />*/}
+                <AppContainer
+                    ref={navigatorRef => {
+                        NavigationService.setTopLevelNavigator(navigatorRef);
+                    }}
+                    //@ts-ignore
+                    alertType={alertType}
+                    alertMessage={''}
+                    closeAlert={closeAlert}
+                    showAlert={false}
+                />
+            </SafeAreaView>
+        </GlobalContext.Provider>
+    );
+};
+
+export default App;

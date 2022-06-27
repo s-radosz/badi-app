@@ -300,7 +300,7 @@ class AddNewProductBox extends Component<
                         flex: 1,
                         backgroundColor: '#fff',
                     }}>
-                    {
+                    {/* {
                         //@ts-ignore
                         this.context.showAlert && (
                             <Alert
@@ -312,7 +312,7 @@ class AddNewProductBox extends Component<
                                 closeAlert={this.context.closeAlert}
                             />
                         )
-                    }
+                    } */}
                     <View
                         style={{
                             flex: 1,

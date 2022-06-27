@@ -111,14 +111,24 @@
 
 // export default App;
 
+import React, {Component} from 'react';
+import AppContainer from './app/routes';
 
+import {Provider} from 'react-redux';
+import store from './app/store/index';
 
-import React from "react";
-import { Component } from "react";
-import AppContainer from "./app/routes";
+if (__DEV__) {
+    import('./ReactotronConfig').then(() =>
+        console.log('Reactotron Configured'),
+    );
+}
 
 export default class App extends Component {
-  render() {
-    return <AppContainer />;
-  }
+    render() {
+        return (
+            <Provider store={store}>
+                <AppContainer />
+            </Provider>
+        );
+    }
 }

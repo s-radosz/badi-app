@@ -20,7 +20,12 @@ import {
     fontSizeBig,
 } from './../../assets/global/globalStyles';
 
+import {useDispatch} from 'react-redux';
+import {setAlert} from '../../../app/store/alert/actions';
+
 const Login = (props: any) => {
+    const dispatch = useDispatch();
+
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const context = useContext(GlobalContext);
@@ -141,10 +146,20 @@ const Login = (props: any) => {
                                 if (response.data.result) {
                                     //navProps.setUserData(response2.data.result);
 
-                                    //console.log(["userData", response2.data.result]);
+                                    console.log([
+                                        'userData',
+                                        response.data.result,
+                                    ]);
 
                                     context.setUserData(response.data.result);
                                     context.setUserLoggedIn(true);
+
+                                    dispatch(
+                                        setAlert(
+                                            'success',
+                                            'Poprawnie zalogowano',
+                                        ),
+                                    );
                                 }
                             })
                             .catch(error => {
