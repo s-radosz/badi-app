@@ -8,6 +8,8 @@ import {Appbar} from 'react-native-paper';
 // import Footer from './../../../components/footer/footer';
 import {TextInput, Button, Chip} from 'react-native-paper';
 
+import TopHeader from './../../Utils/TopHeader';
+
 interface SelectCategoryProps {
     onClose: () => void;
     navigation: any;
@@ -81,12 +83,14 @@ const SelectCategory = (props: SelectCategoryProps) => {
 
     return (
         <SafeAreaView testID="MainScreen" style={styles.container}>
-            <Appbar style={styles.topBar}>
+            <TopHeader onClose={props?.onClose} title={'Wybierz Kategorię'} />
+
+            {/* <Appbar style={styles.topBar}>
                 <Appbar.Header style={styles.topBarBack}>
                     <Appbar.BackAction onPress={props?.onClose} />
                 </Appbar.Header>
                 <Appbar.Content title="Wybierz Kategorię" />
-            </Appbar>
+            </Appbar> */}
             {/* <Screen style={styles.wrapper} preset="scroll"> */}
             <View>
                 <View style={styles.singleListContainer}>

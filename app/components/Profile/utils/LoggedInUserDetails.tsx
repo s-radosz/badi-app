@@ -10,6 +10,8 @@ import PageHeader from './../../SharedComponents/PageHeader';
 import {GlobalContext} from './../../../Context/GlobalContext';
 import lang from './../../../assets/lang/Profile/utils/LoggedInUserDetails';
 
+import TopHeader from './../../Utils/TopHeader';
+
 const loaderImage: any = require('./../../../assets/images/loader.gif');
 
 interface LoggedInUserDetailsState {
@@ -138,7 +140,7 @@ class LoggedInUserDetails extends Component<
                             <React.Fragment>
                                 {userDetailsData && (
                                     <ScrollView>
-                                        <PageHeader
+                                        {/* <PageHeader
                                             boldText={userDetailsData.name}
                                             normalText={''}
                                             closeMethod={() => {
@@ -147,7 +149,14 @@ class LoggedInUserDetails extends Component<
                                                 );
                                             }}
                                             closeMethodParameter={''}
+                                        /> */}
+
+                                        <TopHeader
+                                            onClose={() => {}}
+                                            title={userDetailsData.name}
+                                            ignoreBottomMargin={true}
                                         />
+
                                         <React.Fragment>
                                             <ProfileHeader
                                                 API_URL={this.context.API_URL}

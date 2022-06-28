@@ -10,6 +10,8 @@ import {GlobalContext} from './../../Context/GlobalContext';
 import {withNavigation} from 'react-navigation';
 import lang from './../../assets/lang/Profile/Profile';
 
+import TopHeader from './../Utils/TopHeader';
+
 const UserPreview = React.lazy(
     () => import('./../SharedComponents/UserPreview'),
 );
@@ -130,12 +132,17 @@ class Profile extends Component<
                         <ScrollView>
                             {/* user preview page header */}
                             {showProfilePreview && !showEditUserData && (
-                                <PageHeader
-                                    boldText={this.context.userData.name}
-                                    normalText={''}
-                                    closeMethod={this.setShowProfilePreview}
-                                    closeMethodParameter={''}
-                                    data-test="PageHeader"
+                                // <PageHeader
+                                //     boldText={this.context.userData.name}
+                                //     normalText={''}
+                                //     closeMethod={this.setShowProfilePreview}
+                                //     closeMethodParameter={''}
+                                //     data-test="PageHeader"
+                                // />
+
+                                <TopHeader
+                                    onClose={this.setShowProfilePreview}
+                                    title={this.context.userData.name}
                                 />
                             )}
 

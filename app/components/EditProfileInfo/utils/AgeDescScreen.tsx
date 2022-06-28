@@ -6,6 +6,8 @@ import InputComponent from './../../Utils/InputComponent';
 import TextAreaComponent from './../../Utils/TextAreaComponent';
 import lang from './../../../assets/lang/EditProfileInfo/utils/AgeDescScreen';
 
+import TopHeader from './../../Utils/TopHeader';
+
 const fillInfoBg: any = require('./../../../assets/images/fillInfoBgMin.jpg');
 
 const AgeDescScreen = (props: {
@@ -18,9 +20,11 @@ const AgeDescScreen = (props: {
     return (
         <View style={styles.sectionContainer}>
             <ScrollView>
-                <ImageBackground source={fillInfoBg} style={{width: '100%'}}>
+                {/* <ImageBackground source={fillInfoBg} style={{width: '100%'}}>
                     <Text style={styles.headerText}>{lang.header['pl']}</Text>
-                </ImageBackground>
+                </ImageBackground> */}
+
+                <TopHeader onClose={() => {}} title={lang.header['pl']} />
 
                 <View style={styles.infoContainer}>
                     <Text style={styles.fillInfoHeader}>

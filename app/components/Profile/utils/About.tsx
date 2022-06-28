@@ -14,6 +14,8 @@ import {GlobalContext} from './../../../Context/GlobalContext';
 import PageHeader from './../../SharedComponents/PageHeader';
 import lang from './../../../assets/lang/Profile/utils/About';
 
+import TopHeader from './../../Utils/TopHeader';
+
 const fb: any = require('./../../../assets/images/fb.png');
 const ig: any = require('./../../../assets/images/ig.png');
 
@@ -44,12 +46,17 @@ const About = (props: any) => {
                     }}
                     data-test="ProfileContainer">
                     <ScrollView>
-                        <PageHeader
+                        {/* <PageHeader
                             boldText={lang.myFriends['pl']}
                             normalText={''}
                             closeMethod={() => props.navigation.goBack(null)}
                             closeMethodParameter={''}
+                        /> */}
+                        <TopHeader
+                            onClose={() => {}}
+                            title={lang.aboutApp['pl']}
                         />
+
                         <View
                             style={{
                                 paddingLeft: 10,

@@ -19,6 +19,8 @@ import lang from './../../assets/lang/Messages/Messages';
 
 import PageHeader from './../SharedComponents/PageHeader';
 
+import TopHeader from './../Utils/TopHeader';
+
 const messagesBgMin: any = require('./../../assets/images/messagesBgMin.jpg');
 const loaderImage: any = require('./../../assets/images/loader.gif');
 
@@ -176,7 +178,12 @@ class Messages extends Component<MessagesProps, MessagesState> {
                         ) : (
                             <React.Fragment>
                                 <ScrollView>
-                                    <PageHeader
+                                    <TopHeader
+                                        onClose={() => {}}
+                                        title={lang.header['pl']}
+                                    />
+
+                                    {/* <PageHeader
                                         boldText={lang.header['pl']}
                                         normalText={''}
                                         // closeMethod={() =>
@@ -184,7 +191,7 @@ class Messages extends Component<MessagesProps, MessagesState> {
                                         // }
                                         // // closeMethod={() => this.props.navigation.goBack(null)}
                                         // closeMethodParameter={''}
-                                    />
+                                    /> */}
                                     {/* <ImageBackground
                     source={messagesBgMin}
                     style={{ width: "100%" }}

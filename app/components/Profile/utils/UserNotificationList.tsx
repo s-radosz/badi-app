@@ -9,6 +9,8 @@ import PageHeader from './../../SharedComponents/PageHeader';
 import styles from './../style';
 import lang from './../../../assets/lang/Profile/utils/UserNotificationList';
 
+import TopHeader from './../../Utils/TopHeader';
+
 const loaderImage: any = require('./../../../assets/images/loader.gif');
 
 interface UserNotificationListProps {
@@ -114,7 +116,11 @@ class UserNotificationList extends Component<
                         ) : (
                             <React.Fragment>
                                 <ScrollView>
-                                    <PageHeader
+                                    <TopHeader
+                                        onClose={() => {}}
+                                        title={'Powiadomienia'}
+                                    />
+                                    {/* <PageHeader
                                         boldText={'Powiadomienia'}
                                         normalText={''}
                                         // closeMethod={() =>
@@ -122,7 +128,7 @@ class UserNotificationList extends Component<
                                         // }
                                         // // closeMethod={() => this.props.navigation.goBack(null)}
                                         // closeMethodParameter={''}
-                                    />
+                                    /> */}
                                     <View style={{padding: 10}}>
                                         {userNotificationList &&
                                             userNotificationList.map(

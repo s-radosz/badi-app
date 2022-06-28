@@ -26,6 +26,9 @@ const lang = {
     socialText: {
         pl: 'Śledź nas',
     },
+    aboutApp: {
+        pl: 'O aplikacji',
+    },
 };
 
 export default lang;

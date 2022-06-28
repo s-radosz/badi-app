@@ -16,6 +16,8 @@ import UserFriendsListRenderList from './UserFriendsListRenderList/UserFriendsLi
 import styles from './../style';
 import lang from './../../../assets/lang/Profile/utils/UserFriendsList';
 
+import TopHeader from './../../Utils/TopHeader';
+
 const loaderImage: any = require('./../../../assets/images/loader.gif');
 
 interface NavigationScreenInterface {
@@ -170,13 +172,18 @@ class UserFriendsList extends Component<
                         ) : (
                             <React.Fragment>
                                 <ScrollView>
-                                    <PageHeader
+                                    {/* <PageHeader
                                         boldText={lang.myFriends['pl']}
                                         normalText={''}
                                         closeMethod={() =>
                                             this.props.navigation.goBack(null)
                                         }
                                         closeMethodParameter={''}
+                                    /> */}
+
+                                    <TopHeader
+                                        onClose={() => {}}
+                                        title={lang.myFriends['pl']}
                                     />
 
                                     <View>
