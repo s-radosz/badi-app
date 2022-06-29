@@ -1,6 +1,6 @@
 import {createAppContainer, createSwitchNavigator} from 'react-navigation';
 import React, {useState, useEffect} from 'react';
-import {SafeAreaView, Text} from 'react-native';
+import {SafeAreaView, Text, View} from 'react-native';
 import Welcome from '../components/Welcome/Welcome';
 import Login from './../components/Auth/Login';
 import Register from './../components/Auth/Register';
@@ -537,20 +537,7 @@ const App = ({navigation}: NavigationScreenInterface) => {
                     // backgroundColor: "#5e88fc"
                     backgroundColor: '#fff',
                 }}>
-                {alertType && alertText ? (
-                    <>
-                        <Text>1111</Text>
-
-                        <Alert
-                            //@ts-ignore
-                            alertType={alertType}
-                            //@ts-ignore
-                            alertMessage={alertText}
-                            //@ts-ignore
-                            closeAlert={closeAlert}
-                        />
-                    </>
-                ) : null}
+                <Alert />
 
                 {/*<StatusBar backgroundColor="#f4a157" barStyle="light-content" />*/}
                 <AppContainer
