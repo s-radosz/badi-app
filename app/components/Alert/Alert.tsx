@@ -4,7 +4,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {closeAlert} from '../../../app/store/alert/actions';
 import DropdownAlert from 'react-native-dropdownalert';
 
-const Alert = ({}) => {
+const Alert = () => {
     let dropDownAlertRef = useRef();
     const dispatch = useDispatch();
 

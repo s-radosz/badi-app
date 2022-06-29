@@ -23,7 +23,11 @@ import {
 import {useDispatch} from 'react-redux';
 import {setAlert} from '../../../app/store/alert/actions';
 
-const Login = (props: any) => {
+interface ILoginProps {
+    navigation: any;
+}
+
+const Login = ({navigation}: ILoginProps) => {
     const dispatch = useDispatch();
 
     const [email, setEmail] = useState('');
@@ -180,8 +184,6 @@ const Login = (props: any) => {
             //console.log(e);
         }
     };
-
-    const navigation = props.navigation;
 
     return (
         <React.Fragment>

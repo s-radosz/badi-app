@@ -27,15 +27,17 @@ import {
 
 const loaderImage: any = require('./../../assets/images/loader.gif');
 
-const Register = (props: {navigation: any}) => {
+interface IRegisterProps {
+    navigation: any;
+}
+
+const Register = ({navigation}: IRegisterProps) => {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [passwordConf, setPasswordConf] = useState('');
     const [platform, setPlatform] = useState('');
     const context = useContext(GlobalContext);
-
-    const navigation = props.navigation;
 
     useEffect(() => {
         if (Platform.OS === 'ios') {
