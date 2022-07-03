@@ -5,8 +5,10 @@ import moment from 'moment';
 import {GlobalContext} from './../../../Context/GlobalContext';
 import lang from './../../../assets/lang/Messages/utils/MessageList';
 
+import {API_URL} from './../../../helpers/globalVariables';
+
 const MessageList = (props: {messagesList: any; navigation: any}): any => {
-    const context = useContext(GlobalContext);
+    // const context = useContext(GlobalContext);
     if (props.messagesList) {
         //console.log(["MessageList", props]);
         return props.messagesList && props.messagesList.length > 0 ? (
@@ -20,7 +22,7 @@ const MessageList = (props: {messagesList: any; navigation: any}): any => {
 
                 return (
                     <ListItem
-                        API_URL={context.API_URL}
+                        API_URL={API_URL}
                         key={`MessageList-${i}`}
                         image={`${props.messagesList[i][0].receiverPhotoPath}`}
                         mainText={props.messagesList[i][0].receiverName}

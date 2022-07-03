@@ -26,7 +26,7 @@ import PostDetails from './../components/Forum/utils/PostDetails';
 //Profile
 import Profile from './../components/Profile/Profile';
 import UserFriendsList from './../components/Profile/utils/UserFriendsList';
-import UserAuctionsList from './../components/Profile/utils/UserAuctionsList';
+// import UserAuctionsList from './../components/Profile/utils/UserAuctionsList';
 import UserNotificationList from './../components/Profile/utils/UserNotificationList';
 import About from './../components/Profile/utils/About';
 import LoggedInUserDetails from './../components/Profile/utils/LoggedInUserDetails';
@@ -45,8 +45,11 @@ import {ifIphoneX} from 'react-native-iphone-x-helper';
 
 import {useDispatch, useSelector} from 'react-redux';
 import {setAlert} from '../../app/store/alert/actions';
+import {setUserDetails} from '../../app/store/user/actions';
 
 import Alert from './../components/Alert/Alert';
+
+import {getTranslations} from './../store/translations/actions';
 
 const MainStack = createSwitchNavigator(
     {
@@ -177,12 +180,12 @@ const MainStack = createSwitchNavigator(
                 header: null,
             },
         },
-        UserAuctionsList: {
-            screen: UserAuctionsList,
-            navigationOptions: {
-                header: null,
-            },
-        },
+        // UserAuctionsList: {
+        //     screen: UserAuctionsList,
+        //     navigationOptions: {
+        //         header: null,
+        //     },
+        // },
         UserNotificationList: {
             screen: UserNotificationList,
             navigationOptions: {
@@ -240,10 +243,14 @@ interface NavigationScreenInterface {
 }
 
 const App = ({navigation}: NavigationScreenInterface) => {
+    console.log(['routes index']);
+
+    const userData = useSelector((state: any) => state?.User);
+
     // const [showAlert, setShowAlert] = useState(false);
     // const [alertMessage, setAlertMessage] = useState('');
     // const [alertType, setAlertType] = useState('');
-    const [userData, setUserData] = useState(null);
+    // const [userData, setUserData] = useState(null);
     const [userLoggedIn, setUserLoggedIn] = useState(false);
     const [API_URL, setAPI_URL] = useState('http://127.0.0.1:8080');
 
@@ -265,49 +272,49 @@ const App = ({navigation}: NavigationScreenInterface) => {
 
     const dispatch = useDispatch();
 
-    const getTranslations = () => {
-        return new Promise(resolve => {
-            axios
-                .get(API_URL + '/api/get-translations')
-                .then(async response => {
-                    console.log([
-                        'response',
-                        response.data.result.translations,
-                    ]);
+    // const getTranslations = () => {
+    //     return new Promise(resolve => {
+    //         axios
+    //             .get(API_URL + '/get-translations')
+    //             .then(async response => {
+    //                 console.log([
+    //                     'response',
+    //                     response.data.result.translations,
+    //                 ]);
 
-                    if (response.data.status === 'OK') {
-                        let translations = {};
+    //                 if (response.data.status === 'OK') {
+    //                     let translations = {};
 
-                        response.data.result.translations.map(
-                            (translation: any, i: number) => {
-                                let single = {
-                                    [translation.name]: {
-                                        en: translation.en,
-                                        de: translation.de,
-                                        fr: translation.fr,
-                                        es: translation.es,
-                                        zh: translation.zh,
-                                    },
-                                };
-                                translations = Object.assign(
-                                    translations,
-                                    single,
-                                );
-                            },
-                        );
+    //                     response.data.result.translations.map(
+    //                         (translation: any, i: number) => {
+    //                             let single = {
+    //                                 [translation.name]: {
+    //                                     en: translation.en,
+    //                                     de: translation.de,
+    //                                     fr: translation.fr,
+    //                                     es: translation.es,
+    //                                     zh: translation.zh,
+    //                                 },
+    //                             };
+    //                             translations = Object.assign(
+    //                                 translations,
+    //                                 single,
+    //                             );
+    //                         },
+    //                     );
 
-                        setTranslations(translations);
+    //                     setTranslations(translations);
 
-                        // this.setState({translations: translations});
-                    }
+    //                     // this.setState({translations: translations});
+    //                 }
 
-                    resolve(response);
-                })
-                .catch(error => {
-                    //console.log(["setUserFilledInfoErr1", error]);
-                });
-        });
-    };
+    //                 resolve(response);
+    //             })
+    //             .catch(error => {
+    //                 //console.log(["setUserFilledInfoErr1", error]);
+    //             });
+    //     });
+    // };
 
     const handleSetLanguage = (language: string) => {
         //@ts-ignore
@@ -330,7 +337,7 @@ const App = ({navigation}: NavigationScreenInterface) => {
         let userEmailName = userData.email;
 
         let json = await axios
-            .post(API_URL + '/api/setUserFilledInfo', {
+            .post(API_URL + '/setUserFilledInfo', {
                 userEmail: userEmailName,
             })
             .then(async response => {
@@ -351,56 +358,56 @@ const App = ({navigation}: NavigationScreenInterface) => {
         return json;
     };
 
-    const clearUserNotificationsStatus = async (userId: number) => {
-        axios
-            .post(API_URL + '/api/clearUserNotificationsStatus', {
-                userId: userId,
-            })
-            .then(async response => {
-                if (response.data.status === 'OK') {
-                    let newUserState = userData;
-                    newUserState.unreadedNotifications = false;
-                    newUserState.unreadedNotificationsAmount = 0;
-                    setUserData(newUserState);
-                    // await this.setState({userData: newUserState});
-                }
-            })
-            .catch(error => {
-                //console.log(error);
-            });
-    };
+    // const clearUserNotificationsStatus = async (userId: number) => {
+    //     axios
+    //         .post(API_URL + '/clearUserNotificationsStatus', {
+    //             userId: userId,
+    //         })
+    //         .then(async response => {
+    //             if (response.data.status === 'OK') {
+    //                 let newUserState = userData;
+    //                 newUserState.unreadedNotifications = false;
+    //                 newUserState.unreadedNotificationsAmount = 0;
+    //                 setUserData(newUserState);
+    //                 // await this.setState({userData: newUserState});
+    //             }
+    //         })
+    //         .catch(error => {
+    //             //console.log(error);
+    //         });
+    // };
 
-    const clearUserUnreadedMessages = async (
-        userId: number,
-        conversationId: number,
-    ) => {
-        try {
-            axios
-                .post(API_URL + '/api/setUserMessagesStatus', {
-                    userId: userId,
-                    conversationId: conversationId,
-                })
-                .then(async response => {
-                    if (response.data.status === 'OK') {
-                        let newUserState = userData;
-                        newUserState.unreadedConversationMessage =
-                            response.data.result.userUnreadedMessages;
-                        newUserState.unreadedConversationMessageAmount =
-                            response.data.result.userUnreadedMessagesCount;
-                        setUserData(newUserState);
+    // const clearUserUnreadedMessages = async (
+    //     userId: number,
+    //     conversationId: number,
+    // ) => {
+    //     try {
+    //         axios
+    //             .post(API_URL + '/setUserMessagesStatus', {
+    //                 userId: userId,
+    //                 conversationId: conversationId,
+    //             })
+    //             .then(async response => {
+    //                 if (response.data.status === 'OK') {
+    //                     let newUserState = userData;
+    //                     newUserState.unreadedConversationMessage =
+    //                         response.data.result.userUnreadedMessages;
+    //                     newUserState.unreadedConversationMessageAmount =
+    //                         response.data.result.userUnreadedMessagesCount;
+    //                     setUserData(newUserState);
 
-                        //that.checkUserStatus();
-                    }
-                })
-                .catch(error => {
-                    //console.log(error);
-                });
-        } catch (error) {
-            //console.log(error);
-        }
+    //                     //that.checkUserStatus();
+    //                 }
+    //             })
+    //             .catch(error => {
+    //                 //console.log(error);
+    //             });
+    //     } catch (error) {
+    //         //console.log(error);
+    //     }
 
-        //console.log(this.state.userData);
-    };
+    //     //console.log(this.state.userData);
+    // };
 
     const checkUserStatus = (): void => {
         console.log(['checkUserStatus', userData]);
@@ -420,43 +427,43 @@ const App = ({navigation}: NavigationScreenInterface) => {
         // this.setState({userLoggedIn: status});
     };
 
-    const handleSetUserData = (data: any) => {
-        console.log(['data', data]);
-        if (data) {
-            const userData = {
-                age: data.age,
-                conversations: data.conversations,
-                description: data.description,
-                email: data.email,
-                hobbies: data.hobbies,
-                id: data.id,
-                kids: data.kids,
-                lattitude: data.lattitude,
-                longitude: data.longitude,
-                location_string: data.location_string,
-                name: data.name,
-                notifications: data.notifications,
-                photo_path: data.photo_path,
-                unreadedConversationMessage: data.unreadedConversationMessage,
-                unreadedConversationMessageAmount:
-                    data.unreadedConversationMessageAmount,
-                unreadedNotifications: data.unreadedNotifications,
-                unreadedNotificationsAmount: data.unreadedNotificationsAmount,
-                user_filled_info: data.user_filled_info,
-                verified: data.verified,
-                votes: data.votes,
-                platform: data.platform,
-                nickname: data.nickname,
-            };
-            setUserData(userData);
-            // this.setState({userData: userData});
+    // const handleSetUserData = (data: any) => {
+    //     console.log(['data', data]);
+    //     if (data) {
+    //         const userData = {
+    //             age: data.age,
+    //             conversations: data.conversations,
+    //             description: data.description,
+    //             email: data.email,
+    //             hobbies: data.hobbies,
+    //             id: data.id,
+    //             kids: data.kids,
+    //             lattitude: data.lattitude,
+    //             longitude: data.longitude,
+    //             location_string: data.location_string,
+    //             name: data.name,
+    //             notifications: data.notifications,
+    //             photo_path: data.photo_path,
+    //             unreadedConversationMessage: data.unreadedConversationMessage,
+    //             unreadedConversationMessageAmount:
+    //                 data.unreadedConversationMessageAmount,
+    //             unreadedNotifications: data.unreadedNotifications,
+    //             unreadedNotificationsAmount: data.unreadedNotificationsAmount,
+    //             user_filled_info: data.user_filled_info,
+    //             verified: data.verified,
+    //             votes: data.votes,
+    //             platform: data.platform,
+    //             nickname: data.nickname,
+    //         };
+    //         setUserData(userData);
+    //         // this.setState({userData: userData});
 
-            checkUserStatus();
-        } else {
-            setUserData([]);
-            // this.setState({userData: []});
-        }
-    };
+    //         checkUserStatus();
+    //     } else {
+    //         setUserData([]);
+    //         // this.setState({userData: []});
+    //     }
+    // };
 
     const setAlert = (
         showAlert: boolean,
@@ -483,7 +490,8 @@ const App = ({navigation}: NavigationScreenInterface) => {
     };
 
     const clearUserData = (): void => {
-        setUserData([]);
+        dispatch(setUserDetails(null));
+        // setUserData([]);
         // this.setState({userData: []});
     };
 
@@ -493,7 +501,10 @@ const App = ({navigation}: NavigationScreenInterface) => {
     // };
 
     useEffect(() => {
-        getTranslations();
+        console.log(['routes index']);
+        dispatch(getTranslations());
+
+        // getTranslations();
         NavigationService.navigate('Welcome', {});
     }, []);
 
@@ -503,55 +514,55 @@ const App = ({navigation}: NavigationScreenInterface) => {
     };
 
     return (
-        <GlobalContext.Provider
-            value={{
-                showAlert: false,
-                alertType: alertType,
-                alertMessage: '',
-                setAlert: setAlert,
-                userData: userData,
-                setUserData: handleSetUserData,
-                clearUserData: clearUserData,
-                setUserFilledInfo: setUserFilledInfo,
-                API_URL: API_URL,
-                clearUserUnreadedMessages: clearUserUnreadedMessages,
-                clearUserNotificationsStatus: clearUserNotificationsStatus,
-                showLoader: showLoader,
-                setShowLoader: handleSetShowLoader,
-                closeAlert: closeAlert,
-                //@ts-ignore
-                NavigationService: NavigationService,
-                currentNavName: currentNavName,
-                setCurrentNavName: handleSetCurrentNavName,
-                translations: translations,
-                language: language,
-                setLanguage: handleSetLanguage,
+        // <GlobalContext.Provider
+        //     value={{
+        //         showAlert: false,
+        //         alertType: alertType,
+        //         alertMessage: '',
+        //         setAlert: setAlert,
+        //         userData: userData,
+        //         setUserData: handleSetUserData,
+        //         clearUserData: clearUserData,
+        //         setUserFilledInfo: setUserFilledInfo,
+        //         API_URL: API_URL,
+        //         clearUserUnreadedMessages: clearUserUnreadedMessages,
+        //         clearUserNotificationsStatus: clearUserNotificationsStatus,
+        //         showLoader: showLoader,
+        //         setShowLoader: handleSetShowLoader,
+        //         closeAlert: closeAlert,
+        //         //@ts-ignore
+        //         NavigationService: NavigationService,
+        //         currentNavName: currentNavName,
+        //         setCurrentNavName: handleSetCurrentNavName,
+        //         translations: translations,
+        //         language: language,
+        //         setLanguage: handleSetLanguage,
 
-                setUserLoggedIn: handleSetUserLoggedIn,
-                userLoggedIn: userLoggedIn,
+        //         setUserLoggedIn: handleSetUserLoggedIn,
+        //         userLoggedIn: userLoggedIn,
+        //     }}>
+        <SafeAreaView
+            style={{
+                flex: 1,
+                //color on top
+                // backgroundColor: "#5e88fc"
+                backgroundColor: '#fff',
             }}>
-            <SafeAreaView
-                style={{
-                    flex: 1,
-                    //color on top
-                    // backgroundColor: "#5e88fc"
-                    backgroundColor: '#fff',
-                }}>
-                <Alert />
+            <Alert />
 
-                {/*<StatusBar backgroundColor="#f4a157" barStyle="light-content" />*/}
-                <AppContainer
-                    ref={navigatorRef => {
-                        NavigationService.setTopLevelNavigator(navigatorRef);
-                    }}
-                    //@ts-ignore
-                    alertType={alertType}
-                    alertMessage={''}
-                    closeAlert={closeAlert}
-                    showAlert={false}
-                />
-            </SafeAreaView>
-        </GlobalContext.Provider>
+            {/*<StatusBar backgroundColor="#f4a157" barStyle="light-content" />*/}
+            <AppContainer
+                ref={navigatorRef => {
+                    NavigationService.setTopLevelNavigator(navigatorRef);
+                }}
+                //@ts-ignore
+                alertType={alertType}
+                alertMessage={''}
+                closeAlert={closeAlert}
+                showAlert={false}
+            />
+        </SafeAreaView>
+        // </GlobalContext.Provider>
     );
 };
 

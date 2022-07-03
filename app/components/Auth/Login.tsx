@@ -10,10 +10,10 @@ import {
     TextStyle,
 } from 'react-native';
 import axios from 'axios';
-import {GlobalContext} from './../../Context/GlobalContext';
+// import {GlobalContext} from './../../Context/GlobalContext';
 import ButtonComponent from './../Utils/ButtonComponent';
 import InputComponent from './../Utils/InputComponent';
-import Alert from './../Alert/Alert';
+// import Alert from './../Alert/Alert';
 import lang from './../../assets/lang/Auth/Login';
 import {
     customOrangeColor,
@@ -22,6 +22,10 @@ import {
 
 import {useDispatch} from 'react-redux';
 import {setAlert} from '../../../app/store/alert/actions';
+import {setUserDetails} from '../../../app/store/user/actions';
+import {API_URL} from './../../helpers/globalVariables';
+
+import NavigationService from './../../routes/NavigationService';
 
 interface ILoginProps {
     navigation: any;
@@ -32,28 +36,24 @@ const Login = ({navigation}: ILoginProps) => {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const context = useContext(GlobalContext);
+    // const context = useContext(GlobalContext);
 
     const loginUser = (): void => {
         //console.log([email, password]);
         if (email && !password) {
-            context.setAlert(true, 'danger', lang.passwordError['pl']);
+            dispatch(setAlert('danger', lang.passwordError['pl']));
         } else if (!email && password) {
-            context.setAlert(true, 'danger', lang.emailError['pl']);
+            dispatch(setAlert('danger', lang.emailError['pl']));
         } else if (!email && !password) {
-            context.setAlert(true, 'danger', lang.emailPasswordError['pl']);
+            dispatch(setAlert('danger', lang.emailPasswordError['pl']));
         } else if (email && password) {
-            console.log([
-                'API_URL',
-                context.API_URL,
-                context.API_URL + 'api/login',
-            ]);
+            console.log(['API_URL', API_URL, API_URL + '/login']);
             try {
-                let API_URL = context.API_URL;
+                // let API_URL = context.API_URL;
                 //let navProps = navigation.state.params;
                 //console.log([API_URL]);
                 axios
-                    .post(API_URL + '/api/login', {
+                    .post(API_URL + '/login', {
                         email: email,
                         password: password,
                     })
@@ -77,7 +77,7 @@ const Login = ({navigation}: ILoginProps) => {
 
                             axios
                                 .post(
-                                    context.API_URL + '/api/details',
+                                    API_URL + '/details',
                                     {},
                                     {headers: config},
                                 )
@@ -87,17 +87,25 @@ const Login = ({navigation}: ILoginProps) => {
 
                                         //console.log(["userData", response2.data.result]);
 
-                                        context.setUserData(
-                                            response.data.result,
+                                        //@ts-ignore
+                                        dispatch(
+                                            setUserDetails(
+                                                response.data.result,
+                                            ),
                                         );
-                                        context.setUserLoggedIn(true);
+
+                                        // context.setUserData(
+                                        //     response.data.result,
+                                        // );
+                                        // context.setUserLoggedIn(true);
                                     }
                                 })
                                 .catch(error => {
-                                    context.setAlert(
-                                        true,
-                                        'danger',
-                                        lang.loginError['pl'],
+                                    dispatch(
+                                        setAlert(
+                                            'danger',
+                                            lang.loginError['pl'],
+                                        ),
                                     );
                                 });
                         } else {
@@ -105,7 +113,8 @@ const Login = ({navigation}: ILoginProps) => {
                         }
                     })
                     .catch(error => {
-                        context.setAlert(true, 'danger', lang.loginError['pl']);
+                        dispatch(setAlert('danger', lang.loginError['pl']));
+                        // context.setAlert(true, 'danger', lang.loginError['pl']);
                     });
             } catch (e) {
                 //console.log(e);
@@ -114,17 +123,18 @@ const Login = ({navigation}: ILoginProps) => {
     };
 
     const adminLoginUser = () => {
+        console.log(['API_URL', API_URL + '/login']);
         try {
-            let API_URL = context.API_URL;
+            // let API_URL = context.API_URL;
             //let navProps = navigation.state.params;
             //console.log([API_URL]);
             axios
-                .post(API_URL + '/api/login', {
+                .post(API_URL + '/login', {
                     email: 'radoszszymon@gmail.com',
                     password: '123qwe',
                 })
                 .then(response => {
-                    // console.log(response);
+                    console.log(response.data);
 
                     console.log([
                         'response.data.status',
@@ -141,12 +151,8 @@ const Login = ({navigation}: ILoginProps) => {
                         };
 
                         axios
-                            .post(
-                                context.API_URL + '/api/details',
-                                {},
-                                {headers: config},
-                            )
-                            .then(response => {
+                            .post(API_URL + '/details', {}, {headers: config})
+                            .then((response: any) => {
                                 if (response.data.result) {
                                     //navProps.setUserData(response2.data.result);
 
@@ -155,8 +161,17 @@ const Login = ({navigation}: ILoginProps) => {
                                         response.data.result,
                                     ]);
 
-                                    context.setUserData(response.data.result);
-                                    context.setUserLoggedIn(true);
+                                    // const userDetails = response.data.result
+
+                                    dispatch(
+                                        setUserDetails({
+                                            ...response.data.result,
+                                            token: token,
+                                        }),
+                                    );
+
+                                    // context.setUserData(response.data.result);
+                                    // context.setUserLoggedIn(true);
 
                                     dispatch(
                                         setAlert(
@@ -164,13 +179,20 @@ const Login = ({navigation}: ILoginProps) => {
                                             'Poprawnie zalogowano',
                                         ),
                                     );
+
+                                    NavigationService.navigate('Start', {});
                                 }
                             })
                             .catch(error => {
-                                context.setAlert(
-                                    true,
-                                    'danger',
-                                    lang.loginError['pl'],
+                                console.log(['error', error]);
+                                // context.setAlert(
+                                //     true,
+                                //     'danger',
+                                //     lang.loginError['pl'],
+                                // );
+
+                                dispatch(
+                                    setAlert('danger', lang.loginError['pl']),
                                 );
                             });
                     } else {
@@ -178,7 +200,9 @@ const Login = ({navigation}: ILoginProps) => {
                     }
                 })
                 .catch(error => {
-                    context.setAlert(true, 'danger', lang.loginError['pl']);
+                    console.log(['error', error]);
+                    // context.setAlert(true, 'danger', lang.loginError['pl']);
+                    dispatch(setAlert('danger', lang.loginError['pl']));
                 });
         } catch (e) {
             //console.log(e);
@@ -188,13 +212,13 @@ const Login = ({navigation}: ILoginProps) => {
     return (
         <React.Fragment>
             <SafeAreaView style={styles.areaContainer}>
-                {context.showAlert && (
+                {/* {context.showAlert && (
                     <Alert
                         alertType={context.alertType}
                         alertMessage={context.alertMessage}
                         closeAlert={context.closeAlert}
                     />
-                )}
+                )} */}
                 <ScrollView keyboardShouldPersistTaps={'always'}>
                     <View style={styles.container}>
                         <Text style={styles.headerText}>

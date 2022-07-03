@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {useState} from 'react';
 import {
     TouchableOpacity,
     View,
@@ -7,256 +7,247 @@ import {
     ScrollView,
     Image,
 } from 'react-native';
-import Alert from './../Alert/Alert';
+// import Alert from './../Alert/Alert';
 import BottomPanel from './../SharedComponents/BottomPanel';
 import styles from './style';
 import ButtonComponent from './../Utils/ButtonComponent';
 import TextAreaComponent from './../Utils/TextAreaComponent';
-import {GlobalContext} from './../../Context/GlobalContext';
+// import {GlobalContext} from './../../Context/GlobalContext';
 import axios from 'axios';
 import {withNavigation} from 'react-navigation';
 import lang from './../../assets/lang/FeedbackModal/FeedbackModal';
 
+import {useDispatch, useSelector} from 'react-redux';
+import {API_URL} from './../../helpers/globalVariables';
+import {setAlert} from '../../../app/store/alert/actions';
+import {setLoader} from '../../../app/store/loader/actions';
+
 const loaderImage: any = require('./../../assets/images/loader.gif');
 
-interface FeedbackModalState {
-    feedbackMessage: string;
-    feedbackTopic: any;
-    activeTopic: string;
-}
-
-interface FeedbackModalProps {
+interface IFeedbackModalProps {
     navigation: any;
 }
 
-class FeedbackModal extends Component<FeedbackModalProps, FeedbackModalState> {
-    constructor(props: FeedbackModalProps) {
-        super(props);
-        this.state = {
-            feedbackMessage: '',
-            feedbackTopic: [
-                {index: 0, text: 'App troubles'},
-                {index: 1, text: 'Rebuild a feature'},
-                {index: 2, text: 'New feature'},
-                {index: 3, text: 'Other'},
-            ],
-            activeTopic: '',
-        };
-    }
+const FeedbackModal = ({navigation}: IFeedbackModalProps) => {
+    const dispatch = useDispatch();
 
-    setFeedbackTopic = (index: number) => {
-        let activeTopic = this.state.feedbackTopic.find((obj: any) => {
+    const userData = useSelector((state: any) => state?.User?.details);
+
+    const [feedbackMessage, setFeedbackMessage] = useState('');
+    const [feedbackTopic, setFeedbackTopic] = useState([
+        {index: 0, text: 'App troubles'},
+        {index: 1, text: 'Rebuild a feature'},
+        {index: 2, text: 'New feature'},
+        {index: 3, text: 'Other'},
+    ]);
+    const [activeTopic, setActiveTopic] = useState('');
+
+    const handleSetFeedbackTopic = (index: number) => {
+        let activeTopic = feedbackTopic.find((obj: any) => {
             return obj.index === index;
         });
 
-        this.setState({activeTopic: activeTopic.text});
+        setActiveTopic(activeTopic.text);
     };
 
-    setFeedbackMessage = (message: string) => {
-        this.setState({feedbackMessage: message});
-    };
+    const sendFeedback = async () => {
+        let topic = activeTopic;
+        let message = feedbackMessage;
+        let userId = userData?.id;
+        // let API_URL = this.context.API_URL;
 
-    sendFeedback = async () => {
-        let topic = this.state.activeTopic;
-        let message = this.state.feedbackMessage;
-        let userId = this.context.userData.id;
-        let API_URL = this.context.API_URL;
-
-        if (!topic || !message) {
-            this.context.setAlert(true, 'danger', lang.allDataError['pl']);
+        if (!activeTopic || !feedbackMessage) {
+            // this.context.setAlert(true, 'danger', lang.allDataError['pl']);
+            dispatch(setAlert('danger', lang.allDataError['pl']));
         }
 
-        if (topic && message && userId && API_URL) {
-            await this.context.setShowLoader(true);
+        if (activeTopic && feedbackMessage && userId && API_URL) {
+            // await this.context.setShowLoader(true);
+            dispatch(setLoader(true));
 
             axios
-                .post(API_URL + '/api/saveUserFeedback', {
-                    topic: topic,
-                    message: message,
+                .post(API_URL + '/saveUserFeedback', {
+                    topic: activeTopic,
+                    message: feedbackMessage,
                     userId: userId,
                 })
                 .then(response => {
                     if (response.data.status === 'OK') {
-                        this.setState({
-                            activeTopic: '',
-                            feedbackMessage: '',
-                        });
+                        setActiveTopic('');
+                        setFeedbackMessage('');
 
-                        this.context.setAlert(
-                            true,
-                            'success',
-                            lang.messageSuccess['pl'],
+                        // this.context.setAlert(
+                        //     true,
+                        //     'success',
+                        //     lang.messageSuccess['pl'],
+                        // );
+
+                        dispatch(
+                            setAlert('success', lang.messageSuccess['pl']),
                         );
 
-                        this.context.setShowLoader(false);
+                        // this.context.setShowLoader(false);
 
-                        this.props.navigation.goBack(null);
+                        dispatch(setLoader(false));
+                        navigation.goBack(null);
                     }
                 })
                 .catch(error => {
                     //console.log(error);
-                    this.context.setAlert(
-                        true,
-                        'danger',
-                        lang.messageError['pl'],
-                    );
+                    // this.context.setAlert(
+                    //     true,
+                    //     'danger',
+                    //     lang.messageError['pl'],
+                    // );
 
-                    this.context.setShowLoader(false);
+                    dispatch(setAlert('danger', lang.messageError['pl']));
 
-                    this.props.navigation.goBack(null);
+                    // this.context.setShowLoader(false);
+
+                    dispatch(setLoader(false));
+
+                    navigation.goBack(null);
                 });
         }
     };
 
-    componentDidMount = (): void => {
-        //console.log("FindUsers did mount");
-        /*let user = this.context.userData;
-    if (user && user.lattitude && user.longitude) {
-      this.loadUsersNearCoords();
-    }*/
-
-        const {navigation} = this.props;
-        this.focusListener = navigation.addListener('willFocus', () => {
-            this.context.setCurrentNavName('');
-        });
-    };
-
-    componentWillUnmount() {
-        // Remove the event listener
-        this.focusListener.remove();
-    }
-
-    render() {
-        const {feedbackTopic, activeTopic, feedbackMessage} = this.state;
-        return (
-            <React.Fragment>
-                <SafeAreaView
+    return (
+        <React.Fragment>
+            <SafeAreaView
+                style={{
+                    flex: 1,
+                    backgroundColor: '#fff',
+                }}>
+                {/* {this.context.showAlert && (
+                    <Alert
+                        alertType={this.context.alertType}
+                        alertMessage={this.context.alertMessage}
+                        closeAlert={this.context.closeAlert}
+                    />
+                )} */}
+                <View
                     style={{
                         flex: 1,
-                        backgroundColor: '#fff',
-                    }}>
-                    {this.context.showAlert && (
-                        <Alert
-                            alertType={this.context.alertType}
-                            alertMessage={this.context.alertMessage}
-                            closeAlert={this.context.closeAlert}
-                        />
-                    )}
-                    <View
-                        style={{
-                            flex: 1,
-                            flexDirection: 'column',
-                            justifyContent: 'space-between',
-                        }}
-                        data-test="FindUsers">
-                        {this.context.showLoader ? (
+                        flexDirection: 'column',
+                        justifyContent: 'space-between',
+                    }}
+                    data-test="FindUsers">
+                    {/* {this.context.showLoader ? (
+                        <View style={styles.loaderContainer} data-test="loader">
+                            <Image
+                                style={{width: 100, height: 100}}
+                                source={loaderImage}
+                            />
+                        </View>
+                    ) : ( */}
+                    <React.Fragment>
+                        <ScrollView keyboardShouldPersistTaps={'always'}>
+                            <Text style={styles.feedbackHeaderText}>
+                                {lang.header['pl']}
+                            </Text>
+                            <Text style={styles.feedbackSubHeaderText}>
+                                {lang.feedbackText['pl']}
+                            </Text>
+
+                            <Text style={styles.feedbackTopic}>
+                                {lang.messageSubject['pl']}
+                            </Text>
+
+                            {feedbackTopic.map((topic: any, index: number) => {
+                                return (
+                                    <View
+                                        style={styles.checkboxWrapper}
+                                        key={`FeedbackModal-${index}`}>
+                                        <TouchableOpacity
+                                            onPress={
+                                                () =>
+                                                    handleSetFeedbackTopic(
+                                                        index,
+                                                    )
+                                                // this.setFeedbackTopic(
+                                                //     index,
+                                                // )
+                                            }
+                                            style={
+                                                activeTopic == topic.text
+                                                    ? styles.activeCheckbox
+                                                    : styles.inActiveCheckbox
+                                            }
+                                        />
+                                        <Text
+                                            onPress={() =>
+                                                handleSetFeedbackTopic(index)
+                                            }
+                                            style={
+                                                activeTopic == topic.text
+                                                    ? styles.checkboxTextActive
+                                                    : styles.checkboxText
+                                            }>
+                                            {topic.text}
+                                        </Text>
+                                    </View>
+                                );
+                            })}
+
                             <View
-                                style={styles.loaderContainer}
-                                data-test="loader">
-                                <Image
-                                    style={{width: 100, height: 100}}
-                                    source={loaderImage}
+                                style={{
+                                    paddingLeft: 10,
+                                    paddingRight: 10,
+                                }}>
+                                <TextAreaComponent
+                                    placeholder={lang.writeMessage['pl']}
+                                    inputOnChange={(feedbackMessage: string) =>
+                                        setFeedbackMessage(feedbackMessage)
+                                    }
+                                    value={feedbackMessage}
+                                    maxLength={800}
+                                    multiline={true}
+                                    numberOfLines={10}
                                 />
                             </View>
-                        ) : (
-                            <React.Fragment>
-                                <ScrollView
-                                    keyboardShouldPersistTaps={'always'}>
-                                    <Text style={styles.feedbackHeaderText}>
-                                        {lang.header['pl']}
-                                    </Text>
-                                    <Text style={styles.feedbackSubHeaderText}>
-                                        {lang.feedbackText['pl']}
-                                    </Text>
 
-                                    <Text style={styles.feedbackTopic}>
-                                        {lang.messageSubject['pl']}
-                                    </Text>
+                            <ButtonComponent
+                                pressButtonComponent={sendFeedback}
+                                buttonComponentText={lang.send['pl']}
+                                fullWidth={true}
+                                underlayColor="#dd904d"
+                                whiteBg={false}
+                                showBackIcon={false}
+                            />
+                        </ScrollView>
 
-                                    {feedbackTopic.map(
-                                        (topic: any, index: number) => {
-                                            return (
-                                                <View
-                                                    style={
-                                                        styles.checkboxWrapper
-                                                    }
-                                                    key={`FeedbackModal-${index}`}>
-                                                    <TouchableOpacity
-                                                        onPress={() =>
-                                                            this.setFeedbackTopic(
-                                                                index,
-                                                            )
-                                                        }
-                                                        style={
-                                                            activeTopic ==
-                                                            topic.text
-                                                                ? styles.activeCheckbox
-                                                                : styles.inActiveCheckbox
-                                                        }
-                                                    />
-                                                    <Text
-                                                        onPress={() =>
-                                                            this.setFeedbackTopic(
-                                                                index,
-                                                            )
-                                                        }
-                                                        style={
-                                                            activeTopic ==
-                                                            topic.text
-                                                                ? styles.checkboxTextActive
-                                                                : styles.checkboxText
-                                                        }>
-                                                        {topic.text}
-                                                    </Text>
-                                                </View>
-                                            );
-                                        },
-                                    )}
+                        <BottomPanel
+                            data-test="BottomPanel"
+                            navigation={navigation}
+                        />
+                    </React.Fragment>
+                    {/* )} */}
+                </View>
+            </SafeAreaView>
+        </React.Fragment>
+    );
+};
 
-                                    <View
-                                        style={{
-                                            paddingLeft: 10,
-                                            paddingRight: 10,
-                                        }}>
-                                        <TextAreaComponent
-                                            placeholder={
-                                                lang.writeMessage['pl']
-                                            }
-                                            inputOnChange={(
-                                                feedbackMessage: string,
-                                            ) =>
-                                                this.setFeedbackMessage(
-                                                    feedbackMessage,
-                                                )
-                                            }
-                                            value={feedbackMessage}
-                                            maxLength={800}
-                                            multiline={true}
-                                            numberOfLines={10}
-                                        />
-                                    </View>
-
-                                    <ButtonComponent
-                                        pressButtonComponent={this.sendFeedback}
-                                        buttonComponentText={lang.send['pl']}
-                                        fullWidth={true}
-                                        underlayColor="#dd904d"
-                                        whiteBg={false}
-                                        showBackIcon={false}
-                                    />
-                                </ScrollView>
-
-                                <BottomPanel
-                                    data-test="BottomPanel"
-                                    navigation={this.props.navigation}
-                                />
-                            </React.Fragment>
-                        )}
-                    </View>
-                </SafeAreaView>
-            </React.Fragment>
-        );
-    }
-}
-FeedbackModal.contextType = GlobalContext;
 export default withNavigation(FeedbackModal);
+
+// class FeedbackModal extends Component<FeedbackModalProps, FeedbackModalState> {
+//     constructor(props: FeedbackModalProps) {
+//         super(props);
+//         this.state = {
+//             feedbackMessage: '',
+//             feedbackTopic: [
+//                 {index: 0, text: 'App troubles'},
+//                 {index: 1, text: 'Rebuild a feature'},
+//                 {index: 2, text: 'New feature'},
+//                 {index: 3, text: 'Other'},
+//             ],
+//             activeTopic: '',
+//         };
+//     }
+
+//     render() {
+//         const {feedbackTopic, activeTopic, feedbackMessage} = this.state;
+//     }
+// }
+// FeedbackModal.contextType = GlobalContext;
+// export default withNavigation(FeedbackModal);

@@ -20,56 +20,60 @@ import {
     fontSizeBig,
 } from './../../assets/global/globalStyles';
 
+import {useDispatch} from 'react-redux';
+import {setAlert} from '../../../app/store/alert/actions';
+import {setLoader} from '../../../app/store/loader/actions';
+import {setUserDetails} from '../../../app/store/user/actions';
+import {API_URL} from './../../helpers/globalVariables';
+
 interface IRegisterProps {
     navigation: any;
 }
 
 const ResetPassword = ({navigation}: IRegisterProps) => {
+    const dispatch = useDispatch();
+
     const [email, setEmail] = useState('');
     const context = useContext(GlobalContext);
 
     const resetPassword = (): void => {
         try {
-            let API_URL = context.API_URL;
+            // let API_URL = context.API_URL;
             axios
-                .post(API_URL + '/api/password-reset', {
+                .post(API_URL + '/password-reset', {
                     email: email,
                 })
                 .then(response => {
                     if (response.data.status === 'OK') {
                         setEmail('');
-                        context.setAlert(
-                            true,
-                            'success',
-                            lang.chackEmailSuccess['pl'],
+                        dispatch(
+                            setAlert('success', lang.chackEmailSuccess['pl']),
                         );
                     } else {
                         setEmail('');
-                        context.setAlert(true, 'danger', lang.resetError['pl']);
+                        dispatch(setAlert('danger', lang.resetError['pl']));
                     }
                 })
                 .catch(error => {
-                    context.setAlert(
-                        true,
-                        'danger',
-                        lang.checkCredentialsError['pl'],
+                    dispatch(
+                        setAlert('danger', lang.checkCredentialsError['pl']),
                     );
                 });
         } catch (e) {
-            context.setAlert(true, 'danger', lang.resetError['pl']);
+            dispatch(setAlert('danger', lang.resetError['pl']));
         }
     };
 
     return (
         <React.Fragment>
             <SafeAreaView style={styles.areaContainer}>
-                {context.showAlert && (
+                {/* {context.showAlert && (
                     <Alert
                         alertType={context.alertType}
                         alertMessage={context.alertMessage}
                         closeAlert={context.closeAlert}
                     />
-                )}
+                )} */}
                 <ScrollView keyboardShouldPersistTaps={'always'}>
                     <View style={styles.container}>
                         <Text style={styles.headerText}>

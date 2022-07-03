@@ -155,7 +155,7 @@ class AddNewProductBox extends Component<
             //console.log(["photosArray", photosArray]);
 
             let json = await axios
-                .post(API_URL + '/api/saveProduct', {
+                .post(API_URL + '/saveProduct', {
                     userId: currentUser.id,
                     name: name,
                     description: description,
@@ -226,7 +226,7 @@ class AddNewProductBox extends Component<
         let API_URL = this.context.API_URL;
 
         axios
-            .get(API_URL + '/api/getCategories')
+            .get(API_URL + '/getCategories')
             .then(response => {
                 //console.log(["getCategories", response]);
                 if (response.data.status === 'OK') {

@@ -16,11 +16,17 @@ import lang from './../../../assets/lang/Profile/utils/About';
 
 import TopHeader from './../../Utils/TopHeader';
 
+import {useDispatch, useSelector} from 'react-redux';
+
 const fb: any = require('./../../../assets/images/fb.png');
 const ig: any = require('./../../../assets/images/ig.png');
 
-const About = (props: any) => {
-    const context = useContext(GlobalContext);
+interface IAboutProps {
+    navigation: any;
+}
+
+const About = ({navigation}: IAboutProps) => {
+    const userData = useSelector((state: any) => state?.User?.details);
 
     //console.log(["about", context.userData]);
 
@@ -31,13 +37,13 @@ const About = (props: any) => {
                     flex: 1,
                     backgroundColor: '#fff',
                 }}>
-                {context.showAlert && (
+                {/* {context.showAlert && (
                     <Alert
                         alertType={context.alertType}
                         alertMessage={context.alertMessage}
                         closeAlert={context.closeAlert}
                     />
-                )}
+                )} */}
                 <View
                     style={{
                         flex: 1,
@@ -91,10 +97,7 @@ const About = (props: any) => {
                                         marginBottom: 30,
                                     }}
                                     onPress={() =>
-                                        props.navigation.navigate(
-                                            'FeedbackModal',
-                                            {},
-                                        )
+                                        navigation.navigate('FeedbackModal', {})
                                     }>
                                     {lang.haveQuestion['pl']}{' '}
                                     <Text
@@ -138,14 +141,13 @@ const About = (props: any) => {
                             <View>
                                 <TouchableHighlight
                                     onPress={() => {
-                                        context.userData.platform &&
-                                        context.userData.platform === 'android'
+                                        userData.platform &&
+                                        userData.platform === 'android'
                                             ? Linking.openURL(
                                                   'https://play.google.com/store/apps',
                                               )
-                                            : context.userData.platform &&
-                                              context.userData.platform ===
-                                                  'ios' &&
+                                            : userData.platform &&
+                                              userData.platform === 'ios' &&
                                               Linking.openURL(
                                                   'https://apps.apple.com/il/app',
                                               );
@@ -211,7 +213,7 @@ const About = (props: any) => {
                     </ScrollView>
                     <BottomPanel
                         data-test="BottomPanel"
-                        navigation={props.navigation}
+                        navigation={navigation}
                     />
                 </View>
             </SafeAreaView>

@@ -1,37 +1,19 @@
-// import { takeLatest, put, call } from "redux-saga/effects";
+// import {takeLatest, put, call} from 'redux-saga/effects';
+// import {GET_USER_DETAILS} from './actionTypes';
+// import {setUserDetailsSuccess, setUserDetailsFail} from './actions';
+// import {getUserDetails} from '../../helpers/backendHelper';
 
-// import { GET_POSTS, GET_POST_DETAILS } from "./actionTypes";
-
-// import {
-//   getPostsSuccess,
-//   getPostsFail,
-//   getPostDetailsSuccess,
-//   getPostDetailsFail,
-// } from "./actions";
-
-// import { getPosts, getPostDetails } from "../../helpers/backend_helper";
-
-// function* onGetPosts() {
-//   try {
-//     const response = yield call(getPosts);
-//     yield put(getPostsSuccess(response));
-//   } catch (error) {
-//     yield put(getPostsFail(error.response));
-//   }
+// function* onGetUserData() {
+//     try {
+//         const response = yield call(getUserDetails);
+//         yield put(setUserDetailsSuccess(response));
+//     } catch (error) {
+//         yield put(setUserDetailsFail());
+//     }
 // }
 
-// function* onGetPostDetails({ payload: id }) {
-//   try {
-//     const response = yield call(getPostDetails, id);
-//     yield put(getPostDetailsSuccess(response));
-//   } catch (error) {
-//     yield put(getPostDetailsFail(error.response));
-//   }
+// function* UserSaga() {
+//     yield takeLatest(GET_USER_DETAILS, onGetUserData);
 // }
 
-// function* CartSaga() {
-//   yield takeLatest(GET_POSTS, onGetPosts);
-//   yield takeLatest(GET_POST_DETAILS, onGetPostDetails);
-// }
-
-// export default CartSaga;
+// export default UserSaga;

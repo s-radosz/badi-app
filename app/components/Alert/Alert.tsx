@@ -40,7 +40,7 @@ const Alert = () => {
                 }}
                 imageSrc={null}
                 imageStyle={{width: 0, height: 0, display: 'none'}}
-                closeInterval={4000}
+                closeInterval={1500}
                 messageStyle={{
                     fontSize: 17,
                     fontWeight: 'bold',

@@ -25,6 +25,12 @@ import {
     loaderContainer,
 } from './../../assets/global/globalStyles';
 
+import {useDispatch} from 'react-redux';
+import {setAlert} from '../../../app/store/alert/actions';
+import {setLoader} from '../../../app/store/loader/actions';
+import {setUserDetails} from '../../../app/store/user/actions';
+import {API_URL} from './../../helpers/globalVariables';
+
 const loaderImage: any = require('./../../assets/images/loader.gif');
 
 interface IRegisterProps {
@@ -32,6 +38,8 @@ interface IRegisterProps {
 }
 
 const Register = ({navigation}: IRegisterProps) => {
+    const dispatch = useDispatch();
+
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -55,17 +63,18 @@ const Register = ({navigation}: IRegisterProps) => {
 
     const registerUser = async () => {
         if (!name || !email || !password || !passwordConf) {
-            context.setAlert(true, 'danger', lang.allFieldsError['pl']);
+            dispatch(setAlert('danger', lang.allFieldsError['pl']));
         } else if (password !== passwordConf) {
-            context.setAlert(
-                true,
-                'danger',
-                lang.passwordAndConfirmationNotMatchedError['pl'],
+            dispatch(
+                setAlert(
+                    'danger',
+                    lang.passwordAndConfirmationNotMatchedError['pl'],
+                ),
             );
         } else if (password == passwordConf && password.length < 6) {
-            context.setAlert(true, 'danger', lang.passwordLengthError['pl']);
+            dispatch(setAlert('danger', lang.passwordLengthError['pl']));
         } else if (!validateEmail(email)) {
-            context.setAlert(true, 'danger', lang.emailError['pl']);
+            dispatch(setAlert('danger', lang.emailError['pl']));
         } else if (
             password === passwordConf &&
             name &&
@@ -75,12 +84,12 @@ const Register = ({navigation}: IRegisterProps) => {
             validateEmail(email)
         ) {
             try {
-                let API_URL = context.API_URL;
+                // let API_URL = context.API_URL;
 
-                context.setShowLoader(true);
+                dispatch(setLoader(true));
 
                 axios
-                    .post(API_URL + '/api/checkIfEmailExists', {
+                    .post(API_URL + '/checkIfEmailExists', {
                         email: email,
                     })
                     .then(async response => {
@@ -90,18 +99,19 @@ const Register = ({navigation}: IRegisterProps) => {
                         ) {
                             //console.log(["checkIfEmailExists", response.data.result]);
 
-                            context.setAlert(
-                                true,
-                                'danger',
-                                lang.accountExistsError['pl'],
+                            dispatch(
+                                setAlert(
+                                    'danger',
+                                    lang.accountExistsError['pl'],
+                                ),
                             );
 
                             setEmail('');
 
-                            context.setShowLoader(false);
+                            dispatch(setLoader(false));
                         } else {
                             axios
-                                .post(API_URL + '/api/register', {
+                                .post(API_URL + '/register', {
                                     name: name,
                                     email: email,
                                     password: password,
@@ -110,12 +120,15 @@ const Register = ({navigation}: IRegisterProps) => {
                                 .then(response => {
                                     //console.log(response.data);
                                     if (response.data.status === 'OK') {
-                                        context.setShowLoader(false);
+                                        dispatch(setLoader(false));
 
-                                        context.setAlert(
-                                            true,
-                                            'success',
-                                            lang.confirmAccountSuccess['pl'],
+                                        dispatch(
+                                            setAlert(
+                                                'success',
+                                                lang.confirmAccountSuccess[
+                                                    'pl'
+                                                ],
+                                            ),
                                         );
 
                                         setName('');
@@ -123,116 +136,118 @@ const Register = ({navigation}: IRegisterProps) => {
                                         setPassword('');
                                         setPasswordConf('');
 
-                                        context.setUserData(response.data.user);
-                                        context.setUserLoggedIn(true);
+                                        // context.setUserData(response.data.user);
+                                        dispatch(
+                                            setUserDetails(response.data.user),
+                                        );
+                                        // context.setUserLoggedIn(true);
                                         //navProps.setUserData(response.data.user);
                                     }
                                 })
                                 .catch(error => {
-                                    context.setShowLoader(false);
+                                    dispatch(setLoader(false));
                                 });
                         }
                     });
             } catch (e) {}
         } else {
-            context.setAlert(
-                true,
-                'danger',
-                lang.passwordAndConfirmationNotMatchedError['pl'],
+            dispatch(
+                setAlert(
+                    'danger',
+                    lang.passwordAndConfirmationNotMatchedError['pl'],
+                ),
             );
         }
     };
 
     return (
         <React.Fragment>
-            {context.showLoader ? (
+            {/* {context.showLoader ? (
                 <View style={styles.loaderContainer}>
                     <Image style={styles.loaderImg} source={loaderImage} />
                 </View>
-            ) : (
-                <SafeAreaView style={styles.areaContainer}>
-                    {context.showAlert && (
+            ) : ( */}
+            <SafeAreaView style={styles.areaContainer}>
+                {/* {context.showAlert && (
                         <Alert
                             alertType={context.alertType}
                             alertMessage={context.alertMessage}
                             closeAlert={context.closeAlert}
                         />
-                    )}
-                    <ScrollView keyboardShouldPersistTaps={'always'}>
-                        <View style={styles.container}>
-                            <Text style={styles.headerText}>
-                                {lang.header['pl']}
-                            </Text>
+                    )} */}
+                <ScrollView keyboardShouldPersistTaps={'always'}>
+                    <View style={styles.container}>
+                        <Text style={styles.headerText}>
+                            {lang.header['pl']}
+                        </Text>
 
-                            <InputComponent
-                                placeholder={lang.name['pl']}
-                                inputOnChange={(name: string) => setName(name)}
-                                value={name}
-                                secureTextEntry={false}
-                                maxLength={100}
-                            />
-                            <InputComponent
-                                placeholder={lang.email['pl']}
-                                inputOnChange={(email: string) =>
-                                    setEmail(email)
-                                }
-                                value={email}
-                                secureTextEntry={false}
-                                maxLength={100}
-                            />
-                            <InputComponent
-                                placeholder={lang.password['pl']}
-                                inputOnChange={(password: string) =>
-                                    setPassword(password)
-                                }
-                                value={password}
-                                secureTextEntry={true}
-                                maxLength={100}
-                            />
-                            <InputComponent
-                                placeholder={lang.passwordConfirmation['pl']}
-                                inputOnChange={(passwordConf: string) =>
-                                    setPasswordConf(passwordConf)
-                                }
-                                value={passwordConf}
-                                secureTextEntry={true}
-                                maxLength={100}
-                            />
+                        <InputComponent
+                            placeholder={lang.name['pl']}
+                            inputOnChange={(name: string) => setName(name)}
+                            value={name}
+                            secureTextEntry={false}
+                            maxLength={100}
+                        />
+                        <InputComponent
+                            placeholder={lang.email['pl']}
+                            inputOnChange={(email: string) => setEmail(email)}
+                            value={email}
+                            secureTextEntry={false}
+                            maxLength={100}
+                        />
+                        <InputComponent
+                            placeholder={lang.password['pl']}
+                            inputOnChange={(password: string) =>
+                                setPassword(password)
+                            }
+                            value={password}
+                            secureTextEntry={true}
+                            maxLength={100}
+                        />
+                        <InputComponent
+                            placeholder={lang.passwordConfirmation['pl']}
+                            inputOnChange={(passwordConf: string) =>
+                                setPasswordConf(passwordConf)
+                            }
+                            value={passwordConf}
+                            secureTextEntry={true}
+                            maxLength={100}
+                        />
+                        <TouchableHighlight
+                            onPress={() => {
+                                Linking.openURL('');
+                            }}
+                            underlayColor={'#fff'}>
+                            <Text style={styles.termsBtn}>
+                                {lang.registerAcceptTerms['pl']}
+                            </Text>
+                        </TouchableHighlight>
+
+                        <ButtonComponent
+                            pressButtonComponent={registerUser}
+                            buttonComponentText={lang.register['pl']}
+                            fullWidth={false}
+                            underlayColor="#dd904d"
+                            whiteBg={false}
+                            showBackIcon={false}
+                        />
+
+                        <View style={styles.subBtnSection}>
+                            <Text style={styles.subBtnSectionAsk}>
+                                {lang.haveAccount['pl']}
+                            </Text>
                             <TouchableHighlight
-                                onPress={() => {
-                                    Linking.openURL('');
-                                }}
+                                onPress={() => navigation.navigate('Login')}
                                 underlayColor={'#fff'}>
-                                <Text style={styles.termsBtn}>
-                                    {lang.registerAcceptTerms['pl']}
+                                <Text style={styles.registerBtn}>
+                                    {lang.login['pl']}
                                 </Text>
                             </TouchableHighlight>
-
-                            <ButtonComponent
-                                pressButtonComponent={registerUser}
-                                buttonComponentText={lang.register['pl']}
-                                fullWidth={false}
-                                underlayColor="#dd904d"
-                                whiteBg={false}
-                                showBackIcon={false}
-                            />
-
-                            <View style={styles.subBtnSection}>
-                                <Text style={styles.subBtnSectionAsk}>
-                                    {lang.haveAccount['pl']}
-                                </Text>
-                                <TouchableHighlight
-                                    onPress={() => navigation.navigate('Login')}
-                                    underlayColor={'#fff'}>
-                                    <Text style={styles.registerBtn}>
-                                        {lang.login['pl']}
-                                    </Text>
-                                </TouchableHighlight>
-                            </View>
                         </View>
-                    </ScrollView>
-                </SafeAreaView>
-            )}
+                    </View>
+                </ScrollView>
+            </SafeAreaView>
+            {/* )} */}
         </React.Fragment>
     );
 };

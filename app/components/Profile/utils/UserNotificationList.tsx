@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, useEffect, useState} from 'react';
 import SingleNotification from './SingleNotification/SingleNotification';
 import {GlobalContext} from './../../../Context/GlobalContext';
 import axios from 'axios';
@@ -11,6 +11,11 @@ import lang from './../../../assets/lang/Profile/utils/UserNotificationList';
 
 import TopHeader from './../../Utils/TopHeader';
 
+import {useDispatch, useSelector} from 'react-redux';
+import {API_URL} from './../../../helpers/globalVariables';
+import {setAlert} from '../../../../app/store/alert/actions';
+import {setLoader} from '../../../../app/store/loader/actions';
+
 const loaderImage: any = require('./../../../assets/images/loader.gif');
 
 interface UserNotificationListProps {
@@ -21,148 +26,133 @@ interface UserNotificationListState {
     userNotificationList: any;
 }
 
-class UserNotificationList extends Component<
-    UserNotificationListProps,
-    UserNotificationListState
-> {
-    constructor(props: UserNotificationListProps) {
-        super(props);
-        this.state = {
-            userNotificationList: [],
-        };
-    }
+interface IUserNotificationListProps {
+    navigation: any;
+}
 
-    getUserNotificationList = () => {
-        let id = this.context.userData.id;
-        this.context.setShowLoader(true);
+const UserNotificationList = ({navigation}: IUserNotificationListProps) => {
+    const dispatch = useDispatch();
+
+    const userData = useSelector((state: any) => state?.User?.details);
+
+    const [userNotificationList, setUserNotificationList] = useState([]);
+
+    const getUserNotificationList = () => {
+        let id = userData?.id;
+        // this.context.setShowLoader(true);
+
+        dispatch(setLoader(true));
 
         return new Promise((resolve, reject) => {
             axios
-                .post(this.context.API_URL + '/api/loadNotificationByUserId', {
+                .post(API_URL + '/loadNotificationByUserId', {
                     userId: id,
                 })
                 .then(async response => {
                     if (response.data.status === 'OK') {
-                        await this.setState({
-                            userNotificationList: response.data.result,
-                        });
+                        setUserNotificationList(response.data.result);
 
-                        await this.context.setShowLoader(false);
+                        dispatch(setLoader(false));
 
                         resolve(true);
                     }
                 })
                 .catch(async error => {
-                    await this.context.setAlert(
-                        true,
-                        'danger',
-                        lang.notificationListError['pl'],
+                    dispatch(
+                        setAlert('danger', lang.notificationListError['pl']),
                     );
-                    await this.context.setShowLoader(false);
+
+                    dispatch(setLoader(false));
 
                     reject(true);
                 });
 
-            axios.post(
-                this.context.API_URL + '/api/clearNotificationByUserId',
-                {
-                    userId: id,
-                },
-            );
+            axios.post(API_URL + '/clearNotificationByUserId', {
+                userId: id,
+            });
         });
     };
 
-    componentDidMount = async () => {
-        if (this.context.userData) {
-            await this.getUserNotificationList();
-            await this.context.clearUserNotificationsStatus(
-                this.context.userData.id,
-            );
+    useEffect(() => {
+        if (userData) {
+            getUserNotificationList();
+            // await this.context.clearUserNotificationsStatus(
+            //     this.context.userData.id,
+            // );
         }
-    };
+    }, []);
 
-    render() {
-        const {userNotificationList} = this.state;
-        return (
-            <React.Fragment>
-                <SafeAreaView
+    return (
+        <React.Fragment>
+            <SafeAreaView
+                style={{
+                    flex: 1,
+                    backgroundColor: '#fff',
+                }}>
+                {/* {this.context.showAlert && (
+                    <Alert
+                        alertType={this.context.alertType}
+                        alertMessage={this.context.alertMessage}
+                        closeAlert={this.context.closeAlert}
+                    />
+                )} */}
+                <View
                     style={{
                         flex: 1,
-                        backgroundColor: '#fff',
-                    }}>
-                    {this.context.showAlert && (
-                        <Alert
-                            alertType={this.context.alertType}
-                            alertMessage={this.context.alertMessage}
-                            closeAlert={this.context.closeAlert}
-                        />
-                    )}
-                    <View
-                        style={{
-                            flex: 1,
-                            flexDirection: 'column',
-                            justifyContent: 'space-between',
-                        }}
-                        data-test="ProfileContainer">
-                        {this.context.showLoader ? (
-                            <View
-                                style={styles.loaderContainer}
-                                data-test="loader">
-                                <Image
-                                    style={{width: 100, height: 100}}
-                                    source={loaderImage}
-                                />
+                        flexDirection: 'column',
+                        justifyContent: 'space-between',
+                    }}
+                    data-test="ProfileContainer">
+                    {/* {this.context.showLoader ? (
+                        <View
+                            style={styles.loaderContainer}
+                            data-test="loader">
+                            <Image
+                                style={{width: 100, height: 100}}
+                                source={loaderImage}
+                            />
+                        </View>
+                    ) : ( */}
+                    <React.Fragment>
+                        <ScrollView>
+                            <TopHeader
+                                onClose={() => {}}
+                                title={'Powiadomienia'}
+                            />
+                            {/* <PageHeader
+                                    boldText={'Powiadomienia'}
+                                    normalText={''}
+                                    // closeMethod={() =>
+                                    //     this.context.NavigationService.goBack()
+                                    // }
+                                    // // closeMethod={() => this.props.navigation.goBack(null)}
+                                    // closeMethodParameter={''}
+                                /> */}
+                            <View style={{padding: 10}}>
+                                {userNotificationList &&
+                                    userNotificationList.map(
+                                        (notification: any, i: number) => {
+                                            return (
+                                                <SingleNotification
+                                                    notification={notification}
+                                                    key={`SingleNotification-${i}`}
+                                                    navigation={navigation}
+                                                />
+                                            );
+                                        },
+                                    )}
                             </View>
-                        ) : (
-                            <React.Fragment>
-                                <ScrollView>
-                                    <TopHeader
-                                        onClose={() => {}}
-                                        title={'Powiadomienia'}
-                                    />
-                                    {/* <PageHeader
-                                        boldText={'Powiadomienia'}
-                                        normalText={''}
-                                        // closeMethod={() =>
-                                        //     this.context.NavigationService.goBack()
-                                        // }
-                                        // // closeMethod={() => this.props.navigation.goBack(null)}
-                                        // closeMethodParameter={''}
-                                    /> */}
-                                    <View style={{padding: 10}}>
-                                        {userNotificationList &&
-                                            userNotificationList.map(
-                                                (
-                                                    notification: any,
-                                                    i: number,
-                                                ) => {
-                                                    return (
-                                                        <SingleNotification
-                                                            notification={
-                                                                notification
-                                                            }
-                                                            key={`SingleNotification-${i}`}
-                                                            navigation={
-                                                                this.props
-                                                                    .navigation
-                                                            }
-                                                        />
-                                                    );
-                                                },
-                                            )}
-                                    </View>
-                                </ScrollView>
-                                <BottomPanel
-                                    data-test="BottomPanel"
-                                    navigation={this.props.navigation}
-                                />
-                            </React.Fragment>
-                        )}
-                    </View>
-                </SafeAreaView>
-            </React.Fragment>
-        );
-    }
-}
-UserNotificationList.contextType = GlobalContext;
+                        </ScrollView>
+                        <BottomPanel
+                            data-test="BottomPanel"
+                            navigation={navigation}
+                        />
+                    </React.Fragment>
+                    {/* )} */}
+                </View>
+            </SafeAreaView>
+        </React.Fragment>
+    );
+};
+
 export default UserNotificationList;

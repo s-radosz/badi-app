@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, useEffect, useState} from 'react';
 import {GlobalContext} from './../../../Context/GlobalContext';
 import axios from 'axios';
 import {
@@ -18,266 +18,221 @@ import lang from './../../../assets/lang/Profile/utils/UserFriendsList';
 
 import TopHeader from './../../Utils/TopHeader';
 
+import {useDispatch, useSelector} from 'react-redux';
+import {API_URL} from './../../../helpers/globalVariables';
+import {setAlert} from '../../../../app/store/alert/actions';
+import {setLoader} from '../../../../app/store/loader/actions';
+
 const loaderImage: any = require('./../../../assets/images/loader.gif');
 
-interface NavigationScreenInterface {
-    navigation: {
-        navigate: any;
-        getParam: any;
-        state: any;
-    };
-}
-
-interface UserFriendsListState {
-    userFriendsList: any;
-    userPendingFriendsList: any;
-    showUserFriendsList: boolean;
-    showPendingUserFriendsList: boolean;
-    showUserNotificationList: boolean;
-    displayFriendList: boolean;
-}
-
-interface UserFriendsListProps {
+interface IUserFriendsListProps {
     navigation: any;
 }
 
-class UserFriendsList extends Component<
-    UserFriendsListProps,
-    UserFriendsListState,
-    NavigationScreenInterface
-> {
-    constructor(props: UserFriendsListProps) {
-        super(props);
-        this.state = {
-            userFriendsList: [],
-            userPendingFriendsList: [],
-            showUserFriendsList: false,
-            showPendingUserFriendsList: false,
-            showUserNotificationList: false,
-            displayFriendList: true,
-        };
-    }
+const UserFriendsList = ({navigation}: IUserFriendsListProps) => {
+    const dispatch = useDispatch();
 
-    loadUserFriendsList = (): void => {
-        let userId = this.context.userData.id;
-        this.context.setShowLoader(true);
+    const userData = useSelector((state: any) => state?.User?.details);
+
+    const [userFriendsList, setUserFriendsList] = useState([]);
+    const [userPendingFriendsList, setUserPendingFriendsList] = useState([]);
+    const [showUserFriendsList, setShowUserFriendsList] = useState(false);
+    const [showPendingUserFriendsList, setShowPendingUserFriendsList] =
+        useState(false);
+    const [showUserNotificationList, setShowUserNotificationList] =
+        useState(false);
+    const [displayFriendList, setDisplayFriendList] = useState(true);
+
+    const loadUserFriendsList = (): void => {
+        let userId = userData?.id;
+        // this.context.setShowLoader(true);
+        dispatch(setLoader(true));
 
         if (userId) {
             axios
-                .post(this.context.API_URL + '/api/friendsList', {
+                .post(API_URL + '/friendsList', {
                     userId: userId,
                 })
                 .then(async response => {
                     if (response.data.status === 'OK') {
-                        await this.setState({
-                            userFriendsList: response.data.result.friendsList,
-                            showUserFriendsList: true,
-                            showPendingUserFriendsList: false,
-                            showUserNotificationList: false,
-                            displayFriendList: true,
-                        });
+                        setUserFriendsList(response.data.result.friendsList);
+                        setShowUserFriendsList(true);
+                        setShowPendingUserFriendsList(false);
+                        setShowUserNotificationList(false);
+                        setDisplayFriendList(true);
 
-                        await this.context.setShowLoader(false);
+                        dispatch(setLoader(false));
                     }
                 })
                 .catch(async error => {
-                    await this.context.setAlert(
-                        true,
-                        'danger',
-                        lang.friendsListError['pl'],
-                    );
+                    dispatch(setAlert('danger', lang.friendsListError['pl']));
 
-                    await this.context.setShowLoader(false);
+                    dispatch(setLoader(false));
                 });
         }
     };
 
-    loadPendingUserFriendsList = (): void => {
-        let userId = this.context.userData.id;
-        this.context.setShowLoader(true);
+    const loadPendingUserFriendsList = (): void => {
+        let userId = userData?.id;
+        dispatch(setLoader(true));
 
         if (userId) {
             axios
-                .post(this.context.API_URL + '/api/pendingFriendsList', {
+                .post(API_URL + '/pendingFriendsList', {
                     userId: userId,
                 })
                 .then(async response => {
                     if (response.data.status === 'OK') {
-                        await this.setState({
-                            userPendingFriendsList:
-                                response.data.result.friendsList,
-                            showPendingUserFriendsList: true,
-                            showUserFriendsList: false,
-                            showUserNotificationList: false,
-                            displayFriendList: false,
-                        });
+                        setUserPendingFriendsList(
+                            response.data.result.friendsList,
+                        );
+                        setShowPendingUserFriendsList(true);
+                        setShowUserFriendsList(false);
+                        setShowUserNotificationList(false);
+                        setDisplayFriendList(false);
 
-                        await this.context.setShowLoader(false);
+                        dispatch(setLoader(false));
                     }
                 })
                 .catch(async error => {
-                    await this.context.setAlert(
-                        true,
-                        'danger',
-                        lang.friendsListError['pl'],
-                    );
+                    dispatch(setAlert('danger', lang.friendsListError['pl']));
 
-                    await this.context.setShowLoader(false);
+                    dispatch(setLoader(false));
                 });
         }
     };
 
-    componentDidMount = () => {
-        this.loadUserFriendsList();
-    };
+    useEffect(() => {
+        loadUserFriendsList();
+    }, []);
 
-    render() {
-        const {
-            userFriendsList,
-            userPendingFriendsList,
-            displayFriendList,
-            showUserFriendsList,
-            showPendingUserFriendsList,
-        } = this.state;
-        return (
-            <React.Fragment>
-                <SafeAreaView
+    return (
+        <React.Fragment>
+            <SafeAreaView
+                style={{
+                    flex: 1,
+                    backgroundColor: '#fff',
+                }}>
+                {/* {this.context.showAlert && (
+                    <Alert
+                        alertType={this.context.alertType}
+                        alertMessage={this.context.alertMessage}
+                        closeAlert={this.context.closeAlert}
+                    />
+                )} */}
+                <View
                     style={{
                         flex: 1,
-                        backgroundColor: '#fff',
-                    }}>
-                    {this.context.showAlert && (
-                        <Alert
-                            alertType={this.context.alertType}
-                            alertMessage={this.context.alertMessage}
-                            closeAlert={this.context.closeAlert}
-                        />
-                    )}
-                    <View
-                        style={{
-                            flex: 1,
-                            flexDirection: 'column',
-                            justifyContent: 'space-between',
-                        }}
-                        data-test="ProfileContainer">
-                        {this.context.showLoader ? (
-                            <View
-                                style={styles.loaderContainer}
-                                data-test="loader">
-                                <Image
-                                    style={{width: 100, height: 100}}
-                                    source={loaderImage}
-                                />
-                            </View>
-                        ) : (
-                            <React.Fragment>
-                                <ScrollView>
-                                    {/* <PageHeader
-                                        boldText={lang.myFriends['pl']}
-                                        normalText={''}
-                                        closeMethod={() =>
-                                            this.props.navigation.goBack(null)
-                                        }
-                                        closeMethodParameter={''}
-                                    /> */}
+                        flexDirection: 'column',
+                        justifyContent: 'space-between',
+                    }}
+                    data-test="ProfileContainer">
+                    {/* {this.context.showLoader ? (
+                        <View
+                            style={styles.loaderContainer}
+                            data-test="loader">
+                            <Image
+                                style={{width: 100, height: 100}}
+                                source={loaderImage}
+                            />
+                        </View>
+                    ) : ( */}
+                    <React.Fragment>
+                        <ScrollView>
+                            {/* <PageHeader
+                                    boldText={lang.myFriends['pl']}
+                                    normalText={''}
+                                    closeMethod={() =>
+                                        this.props.navigation.goBack(null)
+                                    }
+                                    closeMethodParameter={''}
+                                /> */}
 
-                                    <TopHeader
-                                        onClose={() => {}}
-                                        title={lang.myFriends['pl']}
-                                    />
+                            <TopHeader
+                                onClose={() => {}}
+                                title={lang.myFriends['pl']}
+                            />
 
-                                    <View>
-                                        <View style={styles.filterBtnContainer}>
-                                            <View
-                                                style={
-                                                    styles.singleButtonCol2Container
-                                                }>
-                                                <TouchableOpacity
-                                                    onPress={
-                                                        this.loadUserFriendsList
-                                                    }
-                                                    style={
-                                                        displayFriendList
-                                                            ? styles.filterBtnActive
-                                                            : styles.filterBtn
-                                                    }>
-                                                    <Text
-                                                        style={
-                                                            displayFriendList
-                                                                ? styles.filterBtnTextActive
-                                                                : styles.filterBtnText
-                                                        }>
-                                                        {lang.friends['pl']}
-                                                    </Text>
-                                                </TouchableOpacity>
-                                            </View>
-                                            <View
-                                                style={
-                                                    styles.singleButtonCol2Container
-                                                }>
-                                                <TouchableOpacity
-                                                    onPress={
-                                                        this
-                                                            .loadPendingUserFriendsList
-                                                    }
-                                                    style={
-                                                        !displayFriendList
-                                                            ? styles.filterBtnActive
-                                                            : styles.filterBtn
-                                                    }>
-                                                    <Text
-                                                        style={
-                                                            !displayFriendList
-                                                                ? styles.filterBtnTextActive
-                                                                : styles.filterBtnText
-                                                        }>
-                                                        {lang.waiting['pl']}
-                                                    </Text>
-                                                </TouchableOpacity>
-                                            </View>
-                                        </View>
-                                    </View>
-
+                            <View>
+                                <View style={styles.filterBtnContainer}>
                                     <View
-                                        style={{
-                                            paddingTop: 10,
-                                            paddingBottom: 10,
-                                        }}>
-                                        {showUserFriendsList &&
-                                            !showPendingUserFriendsList && (
-                                                <UserFriendsListRenderList
-                                                    navigation={
-                                                        this.props.navigation
-                                                    }
-                                                    userFriendsList={
-                                                        userFriendsList
-                                                    }
-                                                />
-                                            )}
-                                        {!showUserFriendsList &&
-                                            showPendingUserFriendsList && (
-                                                <UserFriendsListRenderList
-                                                    navigation={
-                                                        this.props.navigation
-                                                    }
-                                                    userFriendsList={
-                                                        userPendingFriendsList
-                                                    }
-                                                />
-                                            )}
+                                        style={
+                                            styles.singleButtonCol2Container
+                                        }>
+                                        <TouchableOpacity
+                                            onPress={loadUserFriendsList}
+                                            style={
+                                                displayFriendList
+                                                    ? styles.filterBtnActive
+                                                    : styles.filterBtn
+                                            }>
+                                            <Text
+                                                style={
+                                                    displayFriendList
+                                                        ? styles.filterBtnTextActive
+                                                        : styles.filterBtnText
+                                                }>
+                                                {lang.friends['pl']}
+                                            </Text>
+                                        </TouchableOpacity>
                                     </View>
-                                </ScrollView>
-                                <BottomPanel
-                                    data-test="BottomPanel"
-                                    navigation={this.props.navigation}
-                                />
-                            </React.Fragment>
-                        )}
-                    </View>
-                </SafeAreaView>
-            </React.Fragment>
-        );
-    }
-}
-UserFriendsList.contextType = GlobalContext;
+                                    <View
+                                        style={
+                                            styles.singleButtonCol2Container
+                                        }>
+                                        <TouchableOpacity
+                                            onPress={loadPendingUserFriendsList}
+                                            style={
+                                                !displayFriendList
+                                                    ? styles.filterBtnActive
+                                                    : styles.filterBtn
+                                            }>
+                                            <Text
+                                                style={
+                                                    !displayFriendList
+                                                        ? styles.filterBtnTextActive
+                                                        : styles.filterBtnText
+                                                }>
+                                                {lang.waiting['pl']}
+                                            </Text>
+                                        </TouchableOpacity>
+                                    </View>
+                                </View>
+                            </View>
+
+                            <View
+                                style={{
+                                    paddingTop: 10,
+                                    paddingBottom: 10,
+                                }}>
+                                {showUserFriendsList &&
+                                    !showPendingUserFriendsList && (
+                                        <UserFriendsListRenderList
+                                            navigation={navigation}
+                                            userFriendsList={userFriendsList}
+                                        />
+                                    )}
+                                {!showUserFriendsList &&
+                                    showPendingUserFriendsList && (
+                                        <UserFriendsListRenderList
+                                            navigation={navigation}
+                                            userFriendsList={
+                                                userPendingFriendsList
+                                            }
+                                        />
+                                    )}
+                            </View>
+                        </ScrollView>
+                        <BottomPanel
+                            data-test="BottomPanel"
+                            navigation={navigation}
+                        />
+                    </React.Fragment>
+                    {/* )} */}
+                </View>
+            </SafeAreaView>
+        </React.Fragment>
+    );
+};
+
 export default UserFriendsList;

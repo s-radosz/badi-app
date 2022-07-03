@@ -85,7 +85,7 @@ class ProductDetails extends Component<
         this.context.setShowLoader(true);
 
         axios
-            .post(API_URL + '/api/loadProductBasedOnId', {
+            .post(API_URL + '/loadProductBasedOnId', {
                 productId: productId,
             })
             .then(async response => {
@@ -118,7 +118,7 @@ class ProductDetails extends Component<
         this.context.setShowLoader(true);
 
         axios
-            .post(API_URL + '/api/checkIfUsersBelongsToProductConversation', {
+            .post(API_URL + '/checkIfUsersBelongsToProductConversation', {
                 searchedUser: searchedUser,
                 loggedInUser: loggedInUser,
                 productId: productId,
@@ -172,7 +172,7 @@ class ProductDetails extends Component<
         //console.log(["closeProduct", productId]);
 
         axios
-            .post(API_URL + '/api/closeProduct', {
+            .post(API_URL + '/closeProduct', {
                 productId: productId,
             })
             .then(response => {
@@ -193,7 +193,7 @@ class ProductDetails extends Component<
         //console.log(["reactivateProduct", productId]);
 
         axios
-            .post(API_URL + '/api/reactivateProduct', {
+            .post(API_URL + '/reactivateProduct', {
                 productId: productId,
             })
             .then(response => {

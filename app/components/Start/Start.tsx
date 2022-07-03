@@ -1,4 +1,4 @@
-import React, {FC, useState, useContext} from 'react';
+import React, {FC, useState, useContext, useEffect} from 'react';
 import {SafeAreaView, Dimensions, StyleSheet, View} from 'react-native';
 import {StackScreenProps} from '@react-navigation/stack';
 // import { observer } from "mobx-react-lite"
@@ -13,17 +13,22 @@ import MapView from 'react-native-maps';
 import SelectCategory from './SelectCategory/SelectCategory';
 import SelectDate from './SelectDate/SelectDate';
 import BottomPanel from './../SharedComponents/BottomPanel';
-import {GlobalContext} from './../../Context/GlobalContext';
+// import {GlobalContext} from './../../Context/GlobalContext';
 import {withNavigation} from 'react-navigation';
 import Alert from './../Alert/Alert';
 import ButtonComponent from './../Utils/ButtonComponent';
+import {useDispatch, useSelector} from 'react-redux';
+
+// import {checkUserLoggedIn} from './../../helpers/globalMethods';
 
 interface MainScreenProps {
     navigation: any;
 }
 
 const Start = ({navigation}: MainScreenProps) => {
-    const context = useContext(GlobalContext);
+    const userToken = useSelector((state: any) => state?.User?.details?.token);
+
+    // const context = useContext(GlobalContext);
 
     const [showSelectCategory, setSelectCategory] = useState(false);
     const [showSelectDate, setSelectDate] = useState(false);
@@ -46,6 +51,12 @@ const Start = ({navigation}: MainScreenProps) => {
         setSelectedCategoryName(name);
         setSelectCategory(false);
     };
+
+    useEffect(() => {
+        if (userToken) {
+            console.log(['userToken', userToken]);
+        }
+    }, [userToken]);
 
     return (
         <>
@@ -73,13 +84,13 @@ const Start = ({navigation}: MainScreenProps) => {
                     flex: 1,
                     backgroundColor: '#fff',
                 }}>
-                {context.showAlert && (
+                {/* {context.showAlert && (
                     <Alert
                         alertType={context.alertType}
                         alertMessage={context.alertMessage}
                         closeAlert={context.closeAlert}
                     />
-                )}
+                )} */}
                 <View
                     style={{
                         flex: 1,
@@ -126,7 +137,7 @@ const Start = ({navigation}: MainScreenProps) => {
                             justifyContent: 'center',
                             width: Dimensions.get('screen').width,
                         }}>
-                        {!context.userLoggedIn ? (
+                        {!userToken ? (
                             <ButtonComponent
                                 pressButtonComponent={() =>
                                     navigation?.navigate('Register')

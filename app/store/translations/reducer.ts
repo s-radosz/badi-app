@@ -1,16 +1,30 @@
-import {SET_TRANSLATIONS, SET_LANGUAGE} from './actionTypes';
+import {
+    SET_LANGUAGE,
+    GET_TRANSLATIONS,
+    GET_TRANSLATIONS_SUCCESS,
+    GET_TRANSLATIONS_FAIL,
+} from './actionTypes';
 
 const initialState = {
-    translations: [],
+    translations: null,
     language: '',
+    error: null,
 };
 
 const alert = (state = initialState, action) => {
     switch (action.type) {
-        case SET_TRANSLATIONS:
+        case GET_TRANSLATIONS:
+            state = {...state};
+            break;
+        case GET_TRANSLATIONS_SUCCESS:
+            state = {...state, translations: [action.payload]};
+            break;
+        case GET_TRANSLATIONS_FAIL:
             state = {
                 ...state,
-                translations: action.payload.translations,
+                error: {
+                    message: 'Error',
+                },
             };
             break;
 

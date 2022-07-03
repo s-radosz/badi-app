@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, useEffect, useState} from 'react';
 import {
     TouchableOpacity,
     Text,
@@ -21,291 +21,235 @@ import PageHeader from './../SharedComponents/PageHeader';
 
 import TopHeader from './../Utils/TopHeader';
 
+import {useDispatch, useSelector} from 'react-redux';
+import {API_URL} from './../../helpers/globalVariables';
+import {setAlert} from '../../../app/store/alert/actions';
+import {setLoader} from '../../../app/store/loader/actions';
+
 const messagesBgMin: any = require('./../../assets/images/messagesBgMin.jpg');
 const loaderImage: any = require('./../../assets/images/loader.gif');
 
-interface MessagesState {
-    messagesList: any;
-    showFilterPanel: boolean;
-    displayPrivateMessages: boolean;
-}
-
-interface MessagesProps {
+interface IMessagesProps {
     navigation: any;
 }
 
-class Messages extends Component<MessagesProps, MessagesState> {
-    constructor(props: MessagesProps) {
-        super(props);
-        this.state = {
-            messagesList: [],
-            showFilterPanel: false,
-            displayPrivateMessages: false,
-        };
-    }
+const Messages = ({navigation}: IMessagesProps) => {
+    const dispatch = useDispatch();
 
-    closeConversationDetails = (): void => {
-        this.getMessages();
-        this.setState({showFilterPanel: true});
+    const userData = useSelector((state: any) => state?.User?.details);
+
+    const [messagesList, setMessagesList] = useState([]);
+    const [showFilterPanel, setShowFilterPanel] = useState(false);
+    const [displayPrivateMessages, setDisplayPrivateMessages] = useState(false);
+
+    const closeConversationDetails = (): void => {
+        getMessages();
+        setShowFilterPanel(true);
     };
 
     //load all conversation with messages for them
-    getMessages = (): void => {
-        let API_URL = this.context.API_URL;
-        let user_id = this.context.userData.id;
+    const getMessages = (): void => {
+        // let API_URL = this.context.API_URL;
+        let user_id = userData?.id;
 
-        this.context.setShowLoader(true);
+        dispatch(setLoader(true));
 
         axios
-            .post(API_URL + '/api/showUserConversations', {
+            .post(API_URL + '/showUserConversations', {
                 user_id: user_id,
             })
             .then(async response => {
                 if (response.data.status === 'OK') {
                     //console.log(["messagesList", response.data.result.conversationData]);
-                    await this.setState({
-                        messagesList: response.data.result.conversationData,
-                        displayPrivateMessages: true,
-                    });
+                    setMessagesList(response.data.result.conversationData);
+                    setDisplayPrivateMessages(true);
                 }
 
-                await this.context.setShowLoader(false);
+                dispatch(setLoader(false));
             })
             .catch(async error => {
-                await this.context.setAlert(
-                    true,
-                    'danger',
-                    lang.conversationDetailsError['pl'],
+                dispatch(
+                    setAlert('danger', lang.conversationDetailsError['pl']),
                 );
 
-                await this.context.setShowLoader(false);
+                dispatch(setLoader(false));
             });
     };
 
-    getAuctionMessages = (): void => {
-        let API_URL = this.context.API_URL;
-        let user_id = this.context.userData.id;
+    const getAuctionMessages = (): void => {
+        let user_id = userData?.id;
 
-        this.context.setShowLoader(true);
+        dispatch(setLoader(true));
 
         axios
-            .post(API_URL + '/api/showUserConversations', {
+            .post(API_URL + '/showUserConversations', {
                 user_id: user_id,
                 showProductsConversations: true,
             })
             .then(async response => {
                 if (response.data.status === 'OK') {
                     //console.log(response.data.result.conversationData);
-                    await this.setState({
-                        messagesList: response.data.result.conversationData,
-                        displayPrivateMessages: false,
-                    });
+                    setMessagesList(response.data.result.conversationData);
+                    setDisplayPrivateMessages(false);
                 }
 
-                await this.context.setShowLoader(false);
+                dispatch(setLoader(false));
             })
             .catch(async error => {
-                await this.context.setAlert(
-                    true,
-                    'danger',
-                    lang.conversationDetailsError['pl'],
+                dispatch(
+                    setAlert('danger', lang.conversationDetailsError['pl']),
                 );
 
-                await this.context.setShowLoader(false);
+                dispatch(setLoader(false));
             });
     };
 
-    componentDidMount = (): void => {
-        /*if (this.context.userData) {
-      this.getMessages();
-      this.setState({ displayPrivateMessages: true, showFilterPanel: true });
-    }*/
+    useEffect(() => {
+        getMessages();
+        setDisplayPrivateMessages(true);
+        setShowFilterPanel(true);
+    }, []);
 
-        const {navigation} = this.props;
-        this.focusListener = navigation.addListener('willFocus', () => {
-            //console.log("Focus listener mount messages");
-
-            this.context.setCurrentNavName('WIADOMOŚCI');
-
-            this.getMessages();
-            this.setState({
-                displayPrivateMessages: true,
-                showFilterPanel: true,
-            });
-        });
-    };
-
-    componentWillUnmount() {
-        //console.log("Focus listener unmount messages");
-
-        // Remove the event listener
-        this.focusListener.remove();
-    }
-
-    render() {
-        const {displayPrivateMessages, showFilterPanel, messagesList} =
-            this.state;
-        return (
-            <React.Fragment>
-                <SafeAreaView
+    return (
+        <React.Fragment>
+            <SafeAreaView
+                style={{
+                    flex: 1,
+                    backgroundColor: '#fff',
+                }}>
+                {/* {this.context.showAlert && (
+                    <Alert
+                        alertType={this.context.alertType}
+                        alertMessage={this.context.alertMessage}
+                        closeAlert={this.context.closeAlert}
+                    />
+                )} */}
+                <View
                     style={{
                         flex: 1,
-                        backgroundColor: '#fff',
-                    }}>
-                    {this.context.showAlert && (
-                        <Alert
-                            alertType={this.context.alertType}
-                            alertMessage={this.context.alertMessage}
-                            closeAlert={this.context.closeAlert}
-                        />
-                    )}
-                    <View
-                        style={{
-                            flex: 1,
-                            flexDirection: 'column',
-                            justifyContent: 'space-between',
-                        }}
-                        data-test="Messages">
-                        {this.context.showLoader ? (
-                            <View
-                                style={styles.loaderContainer}
-                                data-test="loader">
-                                <Image
-                                    style={{width: 100, height: 100}}
-                                    source={loaderImage}
-                                />
-                            </View>
-                        ) : (
-                            <React.Fragment>
-                                <ScrollView>
-                                    <TopHeader
-                                        onClose={() => {}}
-                                        title={lang.header['pl']}
-                                    />
+                        flexDirection: 'column',
+                        justifyContent: 'space-between',
+                    }}
+                    data-test="Messages">
+                    {/* {this.context.showLoader ? (
+                        <View
+                            style={styles.loaderContainer}
+                            data-test="loader">
+                            <Image
+                                style={{width: 100, height: 100}}
+                                source={loaderImage}
+                            />
+                        </View>
+                    ) : ( */}
+                    <React.Fragment>
+                        <ScrollView>
+                            <TopHeader
+                                onClose={() => {}}
+                                title={lang.header['pl']}
+                            />
 
-                                    {/* <PageHeader
-                                        boldText={lang.header['pl']}
-                                        normalText={''}
-                                        // closeMethod={() =>
-                                        //     this.context.NavigationService.goBack()
-                                        // }
-                                        // // closeMethod={() => this.props.navigation.goBack(null)}
-                                        // closeMethodParameter={''}
-                                    /> */}
-                                    {/* <ImageBackground
-                    source={messagesBgMin}
-                    style={{ width: "100%" }}
-                    data-test="ImageBackground"
-                  >
-                    <Text style={styles.pageTitle}>{lang.header['pl']}</Text>
-                  </ImageBackground> */}
+                            {/* <PageHeader
+                                    boldText={lang.header['pl']}
+                                    normalText={''}
+                                    // closeMethod={() =>
+                                    //     this.context.NavigationService.goBack()
+                                    // }
+                                    // // closeMethod={() => this.props.navigation.goBack(null)}
+                                    // closeMethodParameter={''}
+                                /> */}
+                            {/* <ImageBackground
+                source={messagesBgMin}
+                style={{ width: "100%" }}
+                data-test="ImageBackground"
+              >
+                <Text style={styles.pageTitle}>{lang.header['pl']}</Text>
+              </ImageBackground> */}
 
-                                    {showFilterPanel && (
-                                        <View data-test="showFilterPanel">
-                                            <View
+                            {showFilterPanel && (
+                                <View data-test="showFilterPanel">
+                                    <View style={styles.filterBtnContainer}>
+                                        <View
+                                            style={
+                                                styles.singleButtonCol2Container
+                                            }>
+                                            <TouchableOpacity
+                                                onPress={getMessages}
                                                 style={
-                                                    styles.filterBtnContainer
+                                                    displayPrivateMessages
+                                                        ? styles.filterBtnActive
+                                                        : styles.filterBtn
                                                 }>
-                                                <View
+                                                <Text
                                                     style={
-                                                        styles.singleButtonCol2Container
+                                                        displayPrivateMessages
+                                                            ? styles.filterBtnTextActive
+                                                            : styles.filterBtnText
                                                     }>
-                                                    <TouchableOpacity
-                                                        onPress={
-                                                            this.getMessages
-                                                        }
-                                                        style={
-                                                            displayPrivateMessages
-                                                                ? styles.filterBtnActive
-                                                                : styles.filterBtn
-                                                        }>
-                                                        <Text
-                                                            style={
-                                                                displayPrivateMessages
-                                                                    ? styles.filterBtnTextActive
-                                                                    : styles.filterBtnText
-                                                            }>
-                                                            {
-                                                                lang
-                                                                    .privateMessages[
-                                                                    'en'
-                                                                ]
-                                                            }
-                                                        </Text>
-                                                    </TouchableOpacity>
-                                                </View>
-                                                <View
-                                                    style={
-                                                        styles.singleButtonCol2Container
-                                                    }>
-                                                    <TouchableOpacity
-                                                        onPress={
-                                                            this
-                                                                .getAuctionMessages
-                                                        }
-                                                        style={
-                                                            !displayPrivateMessages
-                                                                ? styles.filterBtnActive
-                                                                : styles.filterBtn
-                                                        }>
-                                                        <Text
-                                                            style={
-                                                                !displayPrivateMessages
-                                                                    ? styles.filterBtnTextActive
-                                                                    : styles.filterBtnText
-                                                            }>
-                                                            {
-                                                                lang
-                                                                    .itemsMessages[
-                                                                    'en'
-                                                                ]
-                                                            }
-                                                        </Text>
-                                                    </TouchableOpacity>
-                                                </View>
-                                            </View>
+                                                    {lang.privateMessages['pl']}
+                                                </Text>
+                                            </TouchableOpacity>
                                         </View>
-                                    )}
+                                        <View
+                                            style={
+                                                styles.singleButtonCol2Container
+                                            }>
+                                            <TouchableOpacity
+                                                onPress={getAuctionMessages}
+                                                style={
+                                                    !displayPrivateMessages
+                                                        ? styles.filterBtnActive
+                                                        : styles.filterBtn
+                                                }>
+                                                <Text
+                                                    style={
+                                                        !displayPrivateMessages
+                                                            ? styles.filterBtnTextActive
+                                                            : styles.filterBtnText
+                                                    }>
+                                                    {lang.itemsMessages['pl']}
+                                                </Text>
+                                            </TouchableOpacity>
+                                        </View>
+                                    </View>
+                                </View>
+                            )}
 
-                                    {messagesList ? (
-                                        messagesList.length > 0 ? (
-                                            <MessageList
-                                                messagesList={messagesList}
-                                                navigation={
-                                                    this.props.navigation
-                                                }
-                                                data-test="MessageList"
-                                            />
-                                        ) : displayPrivateMessages ? (
-                                            <Text
-                                                style={{
-                                                    paddingLeft: 10,
-                                                    paddingRight: 10,
-                                                }}>
-                                                {lang.noResultsUsers['pl']}
-                                            </Text>
-                                        ) : (
-                                            <Text
-                                                style={{
-                                                    paddingLeft: 10,
-                                                    paddingRight: 10,
-                                                }}>
-                                                {lang.noResultsItems['pl']}
-                                            </Text>
-                                        )
-                                    ) : null}
-                                </ScrollView>
-                                <BottomPanel
-                                    data-test="BottomPanel"
-                                    navigation={this.props.navigation}
-                                />
-                            </React.Fragment>
-                        )}
-                    </View>
-                </SafeAreaView>
-            </React.Fragment>
-        );
-    }
-}
-Messages.contextType = GlobalContext;
+                            {messagesList ? (
+                                messagesList.length > 0 ? (
+                                    <MessageList
+                                        messagesList={messagesList}
+                                        navigation={navigation}
+                                        data-test="MessageList"
+                                    />
+                                ) : displayPrivateMessages ? (
+                                    <Text
+                                        style={{
+                                            paddingLeft: 10,
+                                            paddingRight: 10,
+                                        }}>
+                                        {lang.noResultsUsers['pl']}
+                                    </Text>
+                                ) : (
+                                    <Text
+                                        style={{
+                                            paddingLeft: 10,
+                                            paddingRight: 10,
+                                        }}>
+                                        {lang.noResultsItems['pl']}
+                                    </Text>
+                                )
+                            ) : null}
+                        </ScrollView>
+                        <BottomPanel
+                            data-test="BottomPanel"
+                            navigation={navigation}
+                        />
+                    </React.Fragment>
+                    {/* )} */}
+                </View>
+            </SafeAreaView>
+        </React.Fragment>
+    );
+};
+
 export default withNavigation(Messages);

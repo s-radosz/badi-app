@@ -89,7 +89,7 @@ const ProfileOptions = (props: any) => {
                 </View>
             </TouchableHighlight>
 
-            <TouchableHighlight
+            {/* <TouchableHighlight
                 style={styles.buttonOption}
                 onPress={() =>
                     props.navigation.navigate('UserAuctionsList', {})
@@ -110,7 +110,7 @@ const ProfileOptions = (props: any) => {
                         {lang.addedItems['pl']}
                     </Text>
                 </View>
-            </TouchableHighlight>
+            </TouchableHighlight> */}
 
             <TouchableHighlight
                 style={styles.buttonOption}

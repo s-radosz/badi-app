@@ -1,4 +1,4 @@
-import React, {Component, Suspense} from 'react';
+import React, {Component, Suspense, useEffect, useState} from 'react';
 import {View, Text, NativeModules, Image, SafeAreaView} from 'react-native';
 import axios from 'axios';
 // @ts-ignore
@@ -10,6 +10,11 @@ import {GlobalContext} from './../../Context/GlobalContext';
 import Alert from './../Alert/Alert';
 import lang from './../../assets/lang/EditProfileInfo/EditProfileInfo';
 
+import {useDispatch, useSelector} from 'react-redux';
+import {API_URL} from './../../helpers/globalVariables';
+import {setAlert} from '../../../app/store/alert/actions';
+import {setLoader} from '../../../app/store/loader/actions';
+
 const AgeDescScreen = React.lazy(() => import('./utils/AgeDescScreen'));
 const PhotoScreen = React.lazy(() => import('./utils/PhotoScreen'));
 const CoordsScreen = React.lazy(() => import('./utils/CoordsScreen'));
@@ -20,91 +25,82 @@ const ChooseHobbiesScreen = React.lazy(
 // set Google Maps Geocoding API for purposes of quota management. Its optional but recommended.
 Geocode.setApiKey('AIzaSyDfVowJ0BKBbPW_-eCzkUA-Zk55VFE16AI');
 
-interface NavigationScreenInterface {
-    navigation: {
-        navigate: any;
-        getParam: any;
-        state: any;
-    };
+// interface NavigationScreenInterface {
+//     navigation: {
+//         navigate: any;
+//         getParam: any;
+//         state: any;
+//     };
+// }
+
+// interface FillNecessaryInfoState {
+//     nickname: string;
+//     age: number;
+//     desc: string;
+//     hobbies: any;
+//     actualStep: number;
+//     photo: any;
+//     region: any;
+//     userSavedPhoto: string;
+//     locationString: string;
+// }
+
+interface IEditProfileInfoProps {
+    navigation: any;
 }
 
-interface FillNecessaryInfoState {
-    nickname: string;
-    age: number;
-    desc: string;
-    hobbies: any;
-    actualStep: number;
-    photo: any;
-    region: any;
-    userSavedPhoto: string;
-    locationString: string;
-}
+const EditProfileInfo = ({navigation}: IEditProfileInfoProps) => {
+    const dispatch = useDispatch();
+    const userData = useSelector((state: any) => state?.User?.details);
 
-class EditProfileInfo extends Component<
-    NavigationScreenInterface,
-    FillNecessaryInfoState
-> {
-    constructor(props: NavigationScreenInterface) {
-        super(props);
-        this.state = {
-            nickname: '',
-            age: 0,
-            desc: '',
-            hobbies: [],
-            actualStep: 1,
-            photo: null,
-            locationString: '',
-            userSavedPhoto: '',
-            region: {
-                latitude: 52.237049,
-                longitude: 21.017532,
-                latitudeDelta: 0.0922,
-                longitudeDelta: 0.0421,
-            },
-        };
-    }
+    const [nickname, setNickname] = useState('');
+    const [age, setAge] = useState(0);
+    const [desc, setDesc] = useState('');
+    const [hobbies, setHobbies] = useState([]);
+    const [actualStep, setActualStep] = useState(1);
+    const [photo, setPhoto] = useState(null);
+    const [locationString, setLocationString] = useState('');
+    const [userSavedPhoto, setUserSavedPhoto] = useState('');
+    const [region, setRegion] = useState({
+        latitude: 52.237049,
+        longitude: 21.017532,
+        latitudeDelta: 0.0922,
+        longitudeDelta: 0.0421,
+    });
 
-    componentDidMount = async () => {
-        if (this.context.userData) {
+    useEffect(() => {
+        if (userData) {
             //console.log(["this.context.userData", this.context.userData]);
-            this.setState({
-                nickname: this.context.userData.nickname,
-                age: this.context.userData.age,
-                desc: this.context.userData.description
-                    ? this.context.userData.description
-                    : '',
-                userSavedPhoto: this.context.userData.photo_path,
-            });
 
-            if (
-                this.context.userData.lattitude !== 0 &&
-                this.context.userData.longitude !== 0
-            ) {
-                this.setState({
-                    region: {
-                        latitude: this.context.userData.lattitude,
-                        longitude: this.context.userData.longitude,
-                        latitudeDelta: 0.0922,
-                        longitudeDelta: 0.0421,
-                    },
+            setNickname(userData?.nickname);
+            setAge(userData?.age);
+            setDesc(userData?.description);
+            setUserSavedPhoto(userData?.photo_path);
+
+            if (userData?.lattitude && userData?.longitude) {
+                setRegion({
+                    latitude: userData?.lattitude,
+                    longitude: userData?.longitude,
+                    latitudeDelta: 0.0922,
+                    longitudeDelta: 0.0421,
                 });
             }
 
-            await this.getAllHobbies();
+            getAllHobbies();
         }
         //user logged in first time
         else {
-            await this.getAllHobbies();
+            getAllHobbies();
         }
-    };
+    }, []);
 
-    cleanUserHobbies = async () => {
+    const cleanUserHobbies = async () => {
         try {
-            let API_URL = this.context.API_URL;
-            let userId = this.context.userData.id;
+            // let API_URL = this.context.API_URL;
+            let userId = userData?.id;
 
             let json = await axios
-                .post(API_URL + '/api/cleanUserHobbies', {
+                .post(API_URL + '/cleanUserHobbies', {
                     userId: userId,
                 })
                 .catch(error => {
@@ -117,34 +113,32 @@ class EditProfileInfo extends Component<
         }
     };
 
-    saveHobbies = (): void => {
+    const saveHobbies = (): void => {
         try {
-            let API_URL = this.context.API_URL;
-            let userEmailName = this.context.userData.email;
+            // let API_URL = this.context.API_URL;
+            let userEmailName = userData?.email;
 
-            this.state.hobbies.map(
-                async (hobby: {active: boolean; id: number}) => {
-                    if (hobby.active) {
-                        let json = await axios
-                            .post(API_URL + '/api/saveHobbyUser', {
-                                userEmail: userEmailName,
-                                hobby_id: hobby.id,
-                            })
-                            .catch(error => {
-                                //console.log(error.message);
-                            });
+            hobbies.map(async (hobby: {active: boolean; id: number}) => {
+                if (hobby.active) {
+                    let json = await axios
+                        .post(API_URL + '/saveHobbyUser', {
+                            userEmail: userEmailName,
+                            hobby_id: hobby.id,
+                        })
+                        .catch(error => {
+                            //console.log(error.message);
+                        });
 
-                        return json;
-                    }
-                },
-            );
+                    return json;
+                }
+            });
         } catch (error) {
             //console.log(error);
         }
     };
 
-    changeHobbyStatus = (hobbyKeyId: number): void => {
-        let newHobbies = this.state.hobbies;
+    const changeHobbyStatus = (hobbyKeyId: number): void => {
+        let newHobbies = hobbies;
 
         //Find index of specific object using findIndex method.
         let hobbyUpdateElementIndex = newHobbies.findIndex(
@@ -154,22 +148,21 @@ class EditProfileInfo extends Component<
         newHobbies[hobbyUpdateElementIndex].active =
             !newHobbies[hobbyUpdateElementIndex].active;
 
-        this.setState({hobbies: newHobbies});
+        setHobbies(newHobbies);
+        // this.setState({hobbies: newHobbies});
     };
 
-    onRegionChange = async (region: any) => {
-        await this.setState({region});
+    const onRegionChange = async (region: any) => {
+        setRegion(region);
+        // await this.setState({region});
     };
 
-    getAllHobbies = (): void => {
-        let API_URL = this.context.API_URL;
+    const getAllHobbies = (): void => {
+        // let API_URL = this.context.API_URL;
         let activeHobbies: {name: string}[] = [];
         //if user want to edit profile and have some hobbies, then we format that hobbies array and set active hobbies
-        if (
-            this.context.userData.hobbies &&
-            this.context.userData.hobbies.length > 0
-        ) {
-            this.context.userData.hobbies.map(async (hobby: any, i: number) => {
+        if (userData?.hobbies) {
+            userData?.hobbies.map(async (hobby: any, i: number) => {
                 let activeHobbyObj = {
                     name: hobby.name,
                 };
@@ -178,7 +171,7 @@ class EditProfileInfo extends Component<
         }
 
         axios
-            .get(API_URL + '/api/hobbiesList')
+            .get(API_URL + '/hobbiesList')
             .then(response => {
                 if (response.data.status === 'OK') {
                     //console.log(["response.data.result", response.data.result]);
@@ -208,9 +201,11 @@ class EditProfileInfo extends Component<
                                 };
                             }
 
-                            this.setState(prevState => ({
-                                hobbies: [...prevState.hobbies, hobbyObj],
-                            }));
+                            setHobbies([...hobbies, hobbyObj]);
+
+                            // this.setState(prevState => ({
+                            //     hobbies: [...prevState.hobbies, hobbyObj],
+                            // }));
                         },
                     );
                 }
@@ -220,12 +215,12 @@ class EditProfileInfo extends Component<
             });
     };
 
-    handleChange = (name: string, value: string) => {
-        // @ts-ignore
-        this.setState((): void => ({[name]: value}));
-    };
+    // const handleChange = (name: string, value: string) => {
+    //     // @ts-ignore
+    //     this.setState((): void => ({[name]: value}));
+    // };
 
-    handleChoosePhoto = () => {
+    const handleChoosePhoto = () => {
         ImagePicker.openPicker({
             width: 500,
             height: 500,
@@ -239,21 +234,22 @@ class EditProfileInfo extends Component<
         })
             .then((image: any) => {
                 //console.log(image);
-                this.setState({photo: image});
+                setPhoto(image);
+                // this.setState({photo: image});
             })
             .catch((e: any) => {
                 //console.log(e);
             });
     };
 
-    fileUpload = async () => {
-        if (this.state.photo !== null) {
+    const fileUpload = async () => {
+        if (photo) {
             try {
-                let API_URL = this.context.API_URL;
-                let userEmailName = this.context.userData.email;
+                // let API_URL = this.context.API_URL;
+                let userEmailName = userData?.email;
 
                 const formData = new FormData();
-                formData.append('file', this.state.photo.data);
+                formData.append('file', photo?.data);
                 formData.append('fileName', userEmailName.split('@')[0]);
                 formData.append('userEmail', userEmailName);
 
@@ -270,8 +266,8 @@ class EditProfileInfo extends Component<
         }
     };
 
-    userLocationString = async () => {
-        const {region} = this.state;
+    const userLocationString = async () => {
+        // const {region} = this.state;
 
         let locationString;
         await Geocode.fromLatLng(region.latitude, region.longitude).then(
@@ -287,11 +283,14 @@ class EditProfileInfo extends Component<
                     let city = res.results[0].address_components[3].long_name;
 
                     locationString = `${cityDistrict}, ${city}`;
-                    this.setState({locationString: locationString});
+
+                    setLocationString(locationString);
+                    // this.setState({locationString: locationString});
                 } else {
                     locationString = `${res.results[0].formatted_address}`;
 
-                    this.setState({locationString: locationString});
+                    setLocationString(locationString);
+                    // this.setState({locationString: locationString});
                 }
             },
             (error: any) => {
@@ -300,15 +299,15 @@ class EditProfileInfo extends Component<
         );
     };
 
-    saveUserData = async () => {
-        const {age, nickname, desc, region, locationString} = this.state;
+    const saveUserData = async () => {
+        // const {age, nickname, desc, region, locationString} = this.state;
 
         try {
-            let API_URL = this.context.API_URL;
-            let userEmailName = this.context.userData.email;
+            // let API_URL = this.context.API_URL;
+            let userEmailName = userData?.email;
 
             let json = await axios
-                .post(API_URL + '/api/updateUserInfo', {
+                .post(API_URL + '/updateUserInfo', {
                     userEmail: userEmailName,
                     nickname: nickname,
                     age: age,
@@ -327,36 +326,34 @@ class EditProfileInfo extends Component<
         }
     };
 
-    checkAvailableNickname = async () => {
-        const {nickname} = this.state;
+    const checkAvailableNickname = async () => {
+        // const {nickname} = this.state;
 
         try {
-            let API_URL = this.context.API_URL;
-            let userEmailName = this.context.userData.email;
+            // let API_URL = this.context.API_URL;
+            let userEmailName = userData?.email;
 
             let json = await axios
-                .post(API_URL + '/api/checkAvailableNickname', {
+                .post(API_URL + '/checkAvailableNickname', {
                     userEmail: userEmailName,
                     nickname: nickname,
                 })
                 .then(async response => {
-                    this.context.setShowLoader(true);
+                    dispatch(setLoader(true));
                     if (response.data.status === 'OK') {
-                        await this.saveData();
+                        await saveData();
 
-                        this.context.setShowLoader(false);
+                        dispatch(setLoader(false));
 
                         return true;
                     } else {
-                        await this.setState({actualStep: 1});
+                        setActualStep(1);
 
-                        this.context.setAlert(
-                            true,
-                            'danger',
-                            lang.nickExistsError['pl'],
+                        dispatch(
+                            setAlert('danger', lang.nickExistsError['pl']),
                         );
 
-                        this.context.setShowLoader(false);
+                        dispatch(setLoader(false));
 
                         return false;
                     }
@@ -371,157 +368,137 @@ class EditProfileInfo extends Component<
         }
     };
 
-    nextStep = (): void => {
-        this.setState({actualStep: this.state.actualStep + 1});
+    const nextStep = (): void => {
+        setActualStep(actualStep + 1);
+        // this.setState({actualStep: this.state.actualStep + 1});
     };
 
-    prevStep = (): void => {
-        this.setState({actualStep: this.state.actualStep - 1});
+    const prevStep = (): void => {
+        setActualStep(actualStep - 1);
+        // this.setState({actualStep: this.state.actualStep - 1});
     };
 
-    saveData = async () => {
+    const saveData = async () => {
         //first remove user kids and hobbies and save new data
-        await this.userLocationString();
-        await this.cleanUserHobbies();
-        await this.saveHobbies();
-        await this.saveUserData();
-        await this.fileUpload();
+        await userLocationString();
+        await cleanUserHobbies();
+        await saveHobbies();
+        await saveUserData();
+        await fileUpload();
 
-        await this.context.setUserFilledInfo();
-        await this.setState({actualStep: 1});
+        // await this.context.setUserFilledInfo();
+
+        setActualStep(1);
+        // await this.setState({actualStep: 1});
     };
 
-    submitData = () => {
-        this.checkAvailableNickname();
+    const submitData = () => {
+        checkAvailableNickname();
     };
 
-    render() {
-        const {
-            nickname,
-            age,
-            desc,
-            photo,
-            region,
-            hobbies,
-            actualStep,
-            userSavedPhoto,
-        } = this.state;
-        return (
-            <React.Fragment>
-                <SafeAreaView
+    return (
+        <React.Fragment>
+            <SafeAreaView
+                style={{
+                    flex: 1,
+                    backgroundColor: '#fff',
+                }}>
+                {/* {this.context.showAlert && (
+                    <Alert
+                        alertType={this.context.alertType}
+                        alertMessage={this.context.alertMessage}
+                        closeAlert={this.context.closeAlert}
+                    />
+                )} */}
+                <View
                     style={{
                         flex: 1,
-                        backgroundColor: '#fff',
-                    }}>
-                    {this.context.showAlert && (
-                        <Alert
-                            alertType={this.context.alertType}
-                            alertMessage={this.context.alertMessage}
-                            closeAlert={this.context.closeAlert}
-                        />
-                    )}
+                        flexDirection: 'column',
+                        justifyContent: 'space-between',
+                    }}
+                    data-test="FindUsers">
                     <View
-                        style={{
-                            flex: 1,
-                            flexDirection: 'column',
-                            justifyContent: 'space-between',
-                        }}
-                        data-test="FindUsers">
-                        <View
-                            data-test="editProfileInfoContainer"
-                            style={{flex: 1}}>
-                            {this.context.showLoader ? (
-                                <View
-                                    style={styles.loaderContainer}
-                                    data-test="loaderContainer">
-                                    <Image
-                                        style={{width: 100, height: 100}}
-                                        source={loaderImage}
+                        data-test="editProfileInfoContainer"
+                        style={{flex: 1}}>
+                        {/* {this.context.showLoader ? (
+                            <View
+                                style={styles.loaderContainer}
+                                data-test="loaderContainer">
+                                <Image
+                                    style={{width: 100, height: 100}}
+                                    source={loaderImage}
+                                />
+                            </View>
+                        ) : ( */}
+                        <React.Fragment>
+                            {actualStep === 1 && (
+                                <Suspense
+                                    fallback={
+                                        <Text>{lang.loading['pl']}</Text>
+                                    }>
+                                    <AgeDescScreen
+                                        handleChange={(event: any) =>
+                                            setNickname(event?.target?.value)
+                                        }
+                                        nickname={nickname}
+                                        age={age}
+                                        desc={desc}
+                                        nextStep={nextStep}
+                                        data-test="ageDescScreenContainer"
                                     />
-                                </View>
-                            ) : (
-                                <React.Fragment>
-                                    {actualStep === 1 && (
-                                        <Suspense
-                                            fallback={
-                                                <Text>
-                                                    {lang.loading['pl']}
-                                                </Text>
-                                            }>
-                                            <AgeDescScreen
-                                                handleChange={this.handleChange}
-                                                nickname={nickname}
-                                                age={age}
-                                                desc={desc}
-                                                nextStep={this.nextStep}
-                                                data-test="ageDescScreenContainer"
-                                            />
-                                        </Suspense>
-                                    )}
-                                    {actualStep === 2 && (
-                                        <Suspense
-                                            fallback={
-                                                <Text>
-                                                    {lang.loading['pl']}
-                                                </Text>
-                                            }>
-                                            <PhotoScreen
-                                                nextStep={this.nextStep}
-                                                prevStep={this.prevStep}
-                                                photo={photo}
-                                                handleChoosePhoto={
-                                                    this.handleChoosePhoto
-                                                }
-                                                API_URL={this.context.API_URL}
-                                                userSavedPhoto={userSavedPhoto}
-                                                data-test="photoScreenContainer"
-                                            />
-                                        </Suspense>
-                                    )}
-                                    {actualStep === 3 && (
-                                        <Suspense
-                                            fallback={
-                                                <Text>
-                                                    {lang.loading['pl']}
-                                                </Text>
-                                            }>
-                                            <CoordsScreen
-                                                nextStep={this.nextStep}
-                                                prevStep={this.prevStep}
-                                                onRegionChange={
-                                                    this.onRegionChange
-                                                }
-                                                region={region}
-                                                data-test="coordsScreenContainer"
-                                            />
-                                        </Suspense>
-                                    )}
-                                    {actualStep === 4 && (
-                                        <Suspense
-                                            fallback={
-                                                <Text>
-                                                    {lang.loading['pl']}
-                                                </Text>
-                                            }>
-                                            <ChooseHobbiesScreen
-                                                prevStep={this.prevStep}
-                                                submitData={this.submitData}
-                                                hobbies={hobbies}
-                                                changeHobbyStatus={
-                                                    this.changeHobbyStatus
-                                                }
-                                                data-test="chooseHobbiesScreenContainer"
-                                            />
-                                        </Suspense>
-                                    )}
-                                </React.Fragment>
+                                </Suspense>
                             )}
-                        </View>
+                            {actualStep === 2 && (
+                                <Suspense
+                                    fallback={
+                                        <Text>{lang.loading['pl']}</Text>
+                                    }>
+                                    <PhotoScreen
+                                        nextStep={nextStep}
+                                        prevStep={prevStep}
+                                        photo={photo}
+                                        handleChoosePhoto={handleChoosePhoto}
+                                        API_URL={API_URL}
+                                        userSavedPhoto={userSavedPhoto}
+                                        data-test="photoScreenContainer"
+                                    />
+                                </Suspense>
+                            )}
+                            {actualStep === 3 && (
+                                <Suspense
+                                    fallback={
+                                        <Text>{lang.loading['pl']}</Text>
+                                    }>
+                                    <CoordsScreen
+                                        nextStep={nextStep}
+                                        prevStep={prevStep}
+                                        onRegionChange={onRegionChange}
+                                        region={region}
+                                        data-test="coordsScreenContainer"
+                                    />
+                                </Suspense>
+                            )}
+                            {actualStep === 4 && (
+                                <Suspense
+                                    fallback={
+                                        <Text>{lang.loading['pl']}</Text>
+                                    }>
+                                    <ChooseHobbiesScreen
+                                        prevStep={prevStep}
+                                        submitData={submitData}
+                                        hobbies={hobbies}
+                                        changeHobbyStatus={changeHobbyStatus}
+                                        data-test="chooseHobbiesScreenContainer"
+                                    />
+                                </Suspense>
+                            )}
+                        </React.Fragment>
+                        {/* )} */}
                     </View>
-                </SafeAreaView>
-            </React.Fragment>
-        );
-    }
-}
-EditProfileInfo.contextType = GlobalContext;
+                </View>
+            </SafeAreaView>
+        </React.Fragment>
+    );
+};
+
 export default EditProfileInfo;

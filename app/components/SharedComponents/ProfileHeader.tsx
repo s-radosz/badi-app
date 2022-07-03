@@ -2,17 +2,22 @@ import React, {useContext} from 'react';
 import {Text, View, Image, TouchableOpacity} from 'react-native';
 import lang from './../../assets/lang/SharedComponents/ProfileHeader';
 import styles from './style';
-import {GlobalContext} from './../../Context/GlobalContext';
+// import {GlobalContext} from './../../Context/GlobalContext';
+
+import {setUserDetails} from '../../../app/store/user/actions';
+import {useDispatch, useSelector} from 'react-redux';
 
 const logout: any = require('./../../assets/images/logout.png');
 const bellWhite: any = require('./../../assets/images/bellWhite.png');
 
 const ProfileHeader = (props: any) => {
-    const context = useContext(GlobalContext);
+    const dispatch = useDispatch();
+    // const context = useContext(GlobalContext);
 
     const handleLogout = () => {
-        context.setUserData(null);
-        context.setUserLoggedIn(false);
+        // context.setUserData(null);
+        // context.setUserLoggedIn(false);
+        dispatch(setUserDetails(null));
         props.navigation.navigate('Welcome');
     };
 

@@ -2,7 +2,11 @@ import React, {useContext} from 'react';
 import {TouchableOpacity, View, Text, Image} from 'react-native';
 import styles from './style';
 import lang from './../../assets/lang/SharedComponents/BottomPanel';
-import {GlobalContext} from './../../Context/GlobalContext';
+// import {GlobalContext} from './../../Context/GlobalContext';
+
+import {useDispatch, useSelector} from 'react-redux';
+import {API_URL} from './../../helpers/globalVariables';
+import NavigationService from './../../routes/NavigationService';
 
 const network: any = require('./../../assets/images/network.png');
 const sell: any = require('./../../assets/images/sell.png');
@@ -12,22 +16,29 @@ const profile: any = require('./../../assets/images/profile.png');
 const dot: any = require('./../../assets/images/dot.png');
 const feedback: any = require('./../../assets/images/feedback.png');
 
-const BottomPanel = (props: any) => {
-    const context = useContext(GlobalContext);
+interface IBottomPanelProps {
+    navigation: any;
+}
+
+const BottomPanel = ({navigation}: IBottomPanelProps) => {
+    const userData = useSelector((state: any) => state?.User?.details);
+
+    // const context = useContext(GlobalContext);
     return (
         <React.Fragment>
             <View style={styles.bottomPanel}>
                 <TouchableOpacity
                     onPress={() =>
-                        context.userLoggedIn
-                            ? context.NavigationService.navigate('Start', {})
-                            : context.NavigationService.navigate('Register', {})
+                        userData
+                            ? NavigationService.navigate('Start', {})
+                            : NavigationService.navigate('Register', {})
                     }>
                     <View
                         style={
-                            context.currentNavName === lang.start['pl']
-                                ? styles.bottomPanelImageActive
-                                : styles.bottomPanelImage
+                            styles.bottomPanelImage
+                            // context.currentNavName === lang.start['pl']
+                            //     ? styles.bottomPanelImageActive
+                            //     : styles.bottomPanelImage
                         }>
                         <Image
                             style={styles.buttonImage}
@@ -37,24 +48,26 @@ const BottomPanel = (props: any) => {
                     </View>
                     <Text
                         style={
-                            context.currentNavName === lang.start['pl']
-                                ? styles.buttonTextActive
-                                : styles.buttonText
+                            styles.buttonText
+                            // context.currentNavName === lang.start['pl']
+                            //     ? styles.buttonTextActive
+                            //     : styles.buttonText
                         }>
                         {lang.start['pl']}
                     </Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                     onPress={() =>
-                        context.userLoggedIn
-                            ? context.NavigationService.navigate('Messages', {})
-                            : context.NavigationService.navigate('Register', {})
+                        userData
+                            ? NavigationService.navigate('Messages', {})
+                            : NavigationService.navigate('Register', {})
                     }>
                     <View
                         style={
-                            context.currentNavName === lang.messages['pl']
-                                ? styles.bottomPanelImageActive
-                                : styles.bottomPanelImage
+                            styles.bottomPanelImage
+                            // context.currentNavName === lang.messages['pl']
+                            //     ? styles.bottomPanelImageActive
+                            //     : styles.bottomPanelImage
                         }>
                         <Image
                             style={styles.buttonImage}
@@ -62,11 +75,11 @@ const BottomPanel = (props: any) => {
                             resizeMode="contain"
                         />
                     </View>
-                    {context.userData &&
+                    {userData &&
                         //@ts-ignore
-                        context.userData.unreadedConversationMessage &&
+                        userData.unreadedConversationMessage &&
                         //@ts-ignore
-                        context.userData.unreadedConversationMessageAmount && (
+                        userData.unreadedConversationMessageAmount && (
                             <TouchableOpacity
                                 style={
                                     styles.unreadedMessagesNotificationContainer
@@ -78,7 +91,7 @@ const BottomPanel = (props: any) => {
                                     }
                                 />
 
-                                {context.userData &&
+                                {userData &&
                                 //@ts-ignore
                                 context.userData
                                     .unreadedConversationMessageAmount < 10 ? (
@@ -86,44 +99,44 @@ const BottomPanel = (props: any) => {
                                         style={
                                             styles.unreadedMessagesNotificationDotText
                                         }>
-                                        {context.userData &&
+                                        {userData &&
                                             //@ts-ignore
-                                            context.userData
-                                                .unreadedConversationMessageAmount}
+                                            userData.unreadedConversationMessageAmount}
                                     </Text>
                                 ) : (
                                     <Text
                                         style={
                                             styles.unreadedMessagesNotificationLongDotText
                                         }>
-                                        {context.userData &&
+                                        {userData &&
                                             //@ts-ignore
-                                            context.userData
-                                                .unreadedConversationMessageAmount}
+                                            userData.unreadedConversationMessageAmount}
                                     </Text>
                                 )}
                             </TouchableOpacity>
                         )}
                     <Text
                         style={
-                            context.currentNavName === lang.messages['pl']
-                                ? styles.buttonTextActive
-                                : styles.buttonText
+                            styles.buttonText
+                            // context.currentNavName === lang.messages['pl']
+                            //     ? styles.buttonTextActive
+                            //     : styles.buttonText
                         }>
                         {lang.messages['pl']}
                     </Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                     onPress={() =>
-                        context.userLoggedIn
-                            ? context.NavigationService.navigate('Auctions', {})
-                            : context.NavigationService.navigate('Register', {})
+                        userData
+                            ? NavigationService.navigate('Auctions', {})
+                            : NavigationService.navigate('Register', {})
                     }>
                     <View
                         style={
-                            context.currentNavName === lang.addNewEvent['pl']
-                                ? styles.bottomPanelImageActive
-                                : styles.bottomPanelImage
+                            styles.bottomPanelImage
+                            // context.currentNavName === lang.addNewEvent['pl']
+                            //     ? styles.bottomPanelImageActive
+                            //     : styles.bottomPanelImage
                         }>
                         <Image
                             style={styles.buttonImage}
@@ -133,9 +146,10 @@ const BottomPanel = (props: any) => {
                     </View>
                     <Text
                         style={
-                            context.currentNavName === lang.addNewEvent['pl']
-                                ? styles.buttonTextActive
-                                : styles.buttonText
+                            styles.buttonText
+                            // context.currentNavName === lang.addNewEvent['pl']
+                            //     ? styles.buttonTextActive
+                            //     : styles.buttonText
                         }>
                         {lang.addNewEvent['pl']}
                     </Text>
@@ -143,18 +157,19 @@ const BottomPanel = (props: any) => {
 
                 <TouchableOpacity
                     onPress={() =>
-                        context.userLoggedIn
-                            ? context.NavigationService.navigate(
+                        userData
+                            ? NavigationService.navigate(
                                   'UserNotificationList',
                                   {},
                               )
-                            : context.NavigationService.navigate('Register', {})
+                            : NavigationService.navigate('Register', {})
                     }>
                     <View
                         style={
-                            context.currentNavName === lang.notifications['pl']
-                                ? styles.bottomPanelImageActive
-                                : styles.bottomPanelImage
+                            styles.bottomPanelImage
+                            // context.currentNavName === lang.notifications['pl']
+                            //     ? styles.bottomPanelImageActive
+                            //     : styles.bottomPanelImage
                         }>
                         <Image
                             style={styles.buttonImage}
@@ -164,24 +179,26 @@ const BottomPanel = (props: any) => {
                     </View>
                     <Text
                         style={
-                            context.currentNavName === lang.notifications['pl']
-                                ? styles.buttonTextActive
-                                : styles.buttonText
+                            styles.buttonText
+                            // context.currentNavName === lang.notifications['pl']
+                            //     ? styles.buttonTextActive
+                            //     : styles.buttonText
                         }>
                         {lang.notifications['pl']}
                     </Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                     onPress={() =>
-                        context.userLoggedIn
-                            ? context.NavigationService.navigate('Profile', {})
-                            : context.NavigationService.navigate('Register', {})
+                        userData
+                            ? NavigationService.navigate('Profile', {})
+                            : NavigationService.navigate('Register', {})
                     }>
                     <View
                         style={
-                            context.currentNavName === lang.profile['pl']
-                                ? styles.bottomPanelImageActive
-                                : styles.bottomPanelImage
+                            styles.bottomPanelImage
+                            // context.currentNavName === lang.profile['pl']
+                            //     ? styles.bottomPanelImageActive
+                            //     : styles.bottomPanelImage
                         }>
                         <Image
                             style={styles.buttonImage}
@@ -189,11 +206,11 @@ const BottomPanel = (props: any) => {
                             resizeMode="contain"
                         />
                     </View>
-                    {context.userData &&
+                    {userData &&
                         //@ts-ignore
-                        context.userData.unreadedNotifications &&
+                        userData.unreadedNotifications &&
                         //@ts-ignore
-                        context.userData.unreadedNotificationsAmount && (
+                        userData.unreadedNotificationsAmount && (
                             <TouchableOpacity
                                 style={
                                     styles.unreadedMessagesNotificationContainer
@@ -204,44 +221,42 @@ const BottomPanel = (props: any) => {
                                         styles.unreadedMessagesNotificationDot
                                     }
                                 />
-                                {context.userData &&
+                                {userData &&
                                 //@ts-ignore
-                                context.userData.unreadedNotificationsAmount <
-                                    10 ? (
+                                userData.unreadedNotificationsAmount < 10 ? (
                                     <Text
                                         style={
                                             styles.unreadedMessagesNotificationDotText
                                         }>
-                                        {context.userData &&
+                                        {userData &&
                                             //@ts-ignore
-                                            context.userData
-                                                .unreadedNotificationsAmount}
+                                            userData.unreadedNotificationsAmount}
                                     </Text>
                                 ) : (
                                     <Text
                                         style={
                                             styles.unreadedMessagesNotificationLongDotText
                                         }>
-                                        {context.userData &&
+                                        {userData &&
                                             //@ts-ignore
-                                            context.userData
-                                                .unreadedNotificationsAmount}
+                                            userData.unreadedNotificationsAmount}
                                     </Text>
                                 )}
                             </TouchableOpacity>
                         )}
                     <Text
                         style={
-                            context.currentNavName === lang.profile['pl']
-                                ? styles.buttonTextActive
-                                : styles.buttonText
+                            styles.buttonText
+                            // context.currentNavName === lang.profile['pl']
+                            //     ? styles.buttonTextActive
+                            //     : styles.buttonText
                         }>
                         {lang.profile['pl']}
                     </Text>
                 </TouchableOpacity>
             </View>
 
-            {context.userLoggedIn ? (
+            {userData ? (
                 <TouchableOpacity
                     style={{
                         position: 'absolute',
@@ -250,7 +265,7 @@ const BottomPanel = (props: any) => {
                         zIndex: 1,
                     }}
                     onPress={() =>
-                        context.NavigationService.navigate('FeedbackModal', {})
+                        NavigationService.navigate('FeedbackModal', {})
                     }
                     data-test="feedbackIcon">
                     <Image source={feedback} style={{width: 50, height: 50}} />

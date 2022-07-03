@@ -73,7 +73,7 @@ class PostDetails extends Component<PostDetailsProps, PostDetailsState> {
             this.context.setShowLoader(true);
 
             axios
-                .post(API_URL + '/api/getPostById', {
+                .post(API_URL + '/getPostById', {
                     postId: postId,
                 })
                 .then(async response => {
@@ -121,7 +121,7 @@ class PostDetails extends Component<PostDetailsProps, PostDetailsState> {
 
         if (userId != this.state.authorId) {
             axios
-                .post(API_URL + '/api/savePostVote', {
+                .post(API_URL + '/savePostVote', {
                     postId: postId,
                     userId: userId,
                 })
@@ -160,7 +160,7 @@ class PostDetails extends Component<PostDetailsProps, PostDetailsState> {
         let postId = this.props.navigation.state.params.postId;
 
         axios
-            .post(API_URL + '/api/getPostCommentsByPostId', {
+            .post(API_URL + '/getPostCommentsByPostId', {
                 postId: postId,
             })
             .then(response => {
@@ -206,7 +206,7 @@ class PostDetails extends Component<PostDetailsProps, PostDetailsState> {
 
             if (allowUserVote) {
                 axios
-                    .post(API_URL + '/api/saveCommentVote', {
+                    .post(API_URL + '/saveCommentVote', {
                         commentId: commentId,
                         userId: userId,
                     })
@@ -256,7 +256,7 @@ class PostDetails extends Component<PostDetailsProps, PostDetailsState> {
             );
         } else {
             axios
-                .post(API_URL + '/api/savePostComment', {
+                .post(API_URL + '/savePostComment', {
                     body: body,
                     userId: userId,
                     postId: postId,
@@ -275,7 +275,7 @@ class PostDetails extends Component<PostDetailsProps, PostDetailsState> {
                     }
                 })
                 .then(response =>
-                    axios.post(API_URL + '/api/addNotification', {
+                    axios.post(API_URL + '/addNotification', {
                         type: 'comment_for_your_forum_post',
                         message: lang.addedCommentToYourPost['pl'],
                         userId: this.state.authorId,

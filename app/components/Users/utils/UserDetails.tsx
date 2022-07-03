@@ -51,7 +51,7 @@ class UserDetails extends Component<UserDetailsProps, UserDetailsState> {
 
     getAmountOfFriends = (id: number): void => {
         axios
-            .post(this.context.API_URL + '/api/countFriends', {
+            .post(this.context.API_URL + '/countFriends', {
                 userId: id,
             })
             .then(response => {
@@ -79,7 +79,7 @@ class UserDetails extends Component<UserDetailsProps, UserDetailsState> {
         this.context.setShowLoader(true);
 
         axios
-            .post(API_URL + '/api/loadUserById', {
+            .post(API_URL + '/loadUserById', {
                 userId: userId,
                 loggedInUser: loggedInUser,
             })
@@ -105,7 +105,7 @@ class UserDetails extends Component<UserDetailsProps, UserDetailsState> {
 
         //check friendship status
         axios
-            .post(API_URL + '/api/checkFriend', {
+            .post(API_URL + '/checkFriend', {
                 senderId: loggedInUser,
                 receiverId: userId,
             })
@@ -130,7 +130,7 @@ class UserDetails extends Component<UserDetailsProps, UserDetailsState> {
         let openDetailsId = 0;
 
         axios
-            .post(API_URL + '/api/confirmFriend', {
+            .post(API_URL + '/confirmFriend', {
                 senderId: senderId,
                 receiverId: receiverId,
             })
@@ -147,7 +147,7 @@ class UserDetails extends Component<UserDetailsProps, UserDetailsState> {
                 }
             })
             .then(response =>
-                axios.post(API_URL + '/api/addNotification', {
+                axios.post(API_URL + '/addNotification', {
                     type: 'friendship_confirmation',
                     message: `${this.context.userData.name} ${lang.acceptYourInvitationSuccess['pl']}`,
                     userId: receiverId,
@@ -169,7 +169,7 @@ class UserDetails extends Component<UserDetailsProps, UserDetailsState> {
         let openDetailsId = 0;
 
         axios
-            .post(API_URL + '/api/inviteFriend', {
+            .post(API_URL + '/inviteFriend', {
                 senderId: senderId,
                 receiverId: receiverId,
             })
@@ -186,7 +186,7 @@ class UserDetails extends Component<UserDetailsProps, UserDetailsState> {
                 }
             })
             .then(response =>
-                axios.post(API_URL + '/api/addNotification', {
+                axios.post(API_URL + '/addNotification', {
                     type: 'friendship_invitation',
                     message: `${this.context.userData.name} ${lang.inviteToFriends['pl']}`,
                     userId: receiverId,

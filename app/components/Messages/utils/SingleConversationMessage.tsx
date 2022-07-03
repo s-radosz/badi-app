@@ -1,16 +1,17 @@
-import React, {Component} from 'react';
+import React, {Component, useEffect, useState} from 'react';
 import {TouchableOpacity, Text, View} from 'react-native';
 import styles from './../style';
 import moment from 'moment';
 import lang from './../../../assets/lang/Messages/utils/SingleConversationMessage';
 import {GlobalContext} from './../../../Context/GlobalContext';
 
-interface SingleConversationMessageState {
-    isCurrentUserTheSender: boolean;
-    showMessageDate: boolean;
-}
+import {useDispatch, useSelector} from 'react-redux';
+import {API_URL} from './../../../helpers/globalVariables';
+import {setAlert} from '../../../../app/store/alert/actions';
+import {setLoader} from '../../../../app/store/loader/actions';
 
-interface SingleConversationMessageProps {
+interface ISingleConversationMessageProps {
+    navigation: any;
     message: {
         sender_id: number;
         message: string;
@@ -18,62 +19,52 @@ interface SingleConversationMessageProps {
     };
 }
 
-class SingleConversationMessage extends Component<
-    SingleConversationMessageProps,
-    SingleConversationMessageState
-> {
-    constructor(props: SingleConversationMessageProps) {
-        super(props);
-        this.state = {
-            isCurrentUserTheSender: false,
-            showMessageDate: false,
-        };
-    }
+const SingleConversationMessage = ({
+    navigation,
+    message,
+}: ISingleConversationMessageProps) => {
+    const dispatch = useDispatch();
 
-    setMessageDate = (): void => {
-        this.setState({
-            showMessageDate: !this.state.showMessageDate,
-        });
+    const userData = useSelector((state: any) => state?.User?.details);
+
+    const [isCurrentUserTheSender, setIsCurrentUserTheSender] = useState(false);
+    const [showMessageDate, setShowMessageDate] = useState(false);
+
+    const setMessageDate = (): void => {
+        setShowMessageDate(!showMessageDate);
     };
 
-    componentDidMount = (): void => {
-        if (
-            this.context.userData &&
-            this.context.userData.id === this.props.message.sender_id
-        ) {
-            this.setState({isCurrentUserTheSender: true});
+    useEffect(() => {
+        if (userData && userData?.id === message.sender_id) {
+            setIsCurrentUserTheSender(true);
         }
-    };
+    }, []);
 
-    render() {
-        const {isCurrentUserTheSender, showMessageDate} = this.state;
+    const messageDate = moment(message?.created_at).format('LLL');
 
-        const messageDate = moment(this.props.message.created_at).format('LLL');
-        return (
-            <View>
-                <TouchableOpacity onPress={this.setMessageDate}>
-                    <Text
-                        style={
-                            isCurrentUserTheSender
-                                ? styles.senderBox
-                                : styles.receiverBox
-                        }>
-                        {this.props.message.message}
-                    </Text>
-                </TouchableOpacity>
-                {showMessageDate && (
-                    <Text
-                        style={
-                            isCurrentUserTheSender
-                                ? styles.messageDateSender
-                                : styles.messageDateReceiver
-                        }>
-                        {lang.createdAt['pl']} {messageDate}
-                    </Text>
-                )}
-            </View>
-        );
-    }
-}
-SingleConversationMessage.contextType = GlobalContext;
+    return (
+        <View>
+            <TouchableOpacity onPress={setMessageDate}>
+                <Text
+                    style={
+                        isCurrentUserTheSender
+                            ? styles.senderBox
+                            : styles.receiverBox
+                    }>
+                    {message.message}
+                </Text>
+            </TouchableOpacity>
+            {showMessageDate && (
+                <Text
+                    style={
+                        isCurrentUserTheSender
+                            ? styles.messageDateSender
+                            : styles.messageDateReceiver
+                    }>
+                    {lang.createdAt['pl']} {messageDate}
+                </Text>
+            )}
+        </View>
+    );
+};
 export default SingleConversationMessage;
