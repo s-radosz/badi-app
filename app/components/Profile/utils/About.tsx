@@ -10,7 +10,6 @@ import {
 } from 'react-native';
 import Alert from './../../Alert/Alert';
 import BottomPanel from './../../SharedComponents/BottomPanel';
-import {GlobalContext} from './../../../Context/GlobalContext';
 import PageHeader from './../../SharedComponents/PageHeader';
 import lang from './../../../assets/lang/Profile/utils/About';
 
@@ -37,13 +36,6 @@ const About = ({navigation}: IAboutProps) => {
                     flex: 1,
                     backgroundColor: '#fff',
                 }}>
-                {/* {context.showAlert && (
-                    <Alert
-                        alertType={context.alertType}
-                        alertMessage={context.alertMessage}
-                        closeAlert={context.closeAlert}
-                    />
-                )} */}
                 <View
                     style={{
                         flex: 1,
@@ -52,12 +44,6 @@ const About = ({navigation}: IAboutProps) => {
                     }}
                     data-test="ProfileContainer">
                     <ScrollView>
-                        {/* <PageHeader
-                            boldText={lang.myFriends['pl']}
-                            normalText={''}
-                            closeMethod={() => props.navigation.goBack(null)}
-                            closeMethodParameter={''}
-                        /> */}
                         <TopHeader
                             onClose={() => {}}
                             title={lang.aboutApp['pl']}

@@ -1,6 +1,5 @@
 import React, {Component, useEffect, useState} from 'react';
 import SingleNotification from './SingleNotification/SingleNotification';
-import {GlobalContext} from './../../../Context/GlobalContext';
 import axios from 'axios';
 import {View, SafeAreaView, ScrollView, Image} from 'react-native';
 import Alert from './../../Alert/Alert';
@@ -89,13 +88,6 @@ const UserNotificationList = ({navigation}: IUserNotificationListProps) => {
                     flex: 1,
                     backgroundColor: '#fff',
                 }}>
-                {/* {this.context.showAlert && (
-                    <Alert
-                        alertType={this.context.alertType}
-                        alertMessage={this.context.alertMessage}
-                        closeAlert={this.context.closeAlert}
-                    />
-                )} */}
                 <View
                     style={{
                         flex: 1,
@@ -103,31 +95,12 @@ const UserNotificationList = ({navigation}: IUserNotificationListProps) => {
                         justifyContent: 'space-between',
                     }}
                     data-test="ProfileContainer">
-                    {/* {this.context.showLoader ? (
-                        <View
-                            style={styles.loaderContainer}
-                            data-test="loader">
-                            <Image
-                                style={{width: 100, height: 100}}
-                                source={loaderImage}
-                            />
-                        </View>
-                    ) : ( */}
                     <React.Fragment>
                         <ScrollView>
                             <TopHeader
                                 onClose={() => {}}
                                 title={'Powiadomienia'}
                             />
-                            {/* <PageHeader
-                                    boldText={'Powiadomienia'}
-                                    normalText={''}
-                                    // closeMethod={() =>
-                                    //     this.context.NavigationService.goBack()
-                                    // }
-                                    // // closeMethod={() => this.props.navigation.goBack(null)}
-                                    // closeMethodParameter={''}
-                                /> */}
                             <View style={{padding: 10}}>
                                 {userNotificationList &&
                                     userNotificationList.map(

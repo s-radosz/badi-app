@@ -212,13 +212,6 @@ const Login = ({navigation}: ILoginProps) => {
     return (
         <React.Fragment>
             <SafeAreaView style={styles.areaContainer}>
-                {/* {context.showAlert && (
-                    <Alert
-                        alertType={context.alertType}
-                        alertMessage={context.alertMessage}
-                        closeAlert={context.closeAlert}
-                    />
-                )} */}
                 <ScrollView keyboardShouldPersistTaps={'always'}>
                     <View style={styles.container}>
                         <Text style={styles.headerText}>

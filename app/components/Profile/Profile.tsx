@@ -47,7 +47,6 @@ const Profile = ({navigation}: IFeedbackModalProps) => {
 
     const handleSetShowProfilePreview = (): void => {
         setShowProfilePreview(!showProfilePreview);
-        // this.setState({showProfilePreview: !this.state.showProfilePreview});
     };
 
     const getAmountOfFriends = (id: number): void => {
@@ -58,9 +57,6 @@ const Profile = ({navigation}: IFeedbackModalProps) => {
             .then(response => {
                 if (response.data.status === 'OK') {
                     setCountFriends(response.data.result.countFriends);
-                    // this.setState({
-                    //     countFriends: response.data.result.countFriends,
-                    // });
                 }
             })
             .catch(error => {});
@@ -73,13 +69,6 @@ const Profile = ({navigation}: IFeedbackModalProps) => {
                     flex: 1,
                     backgroundColor: '#fff',
                 }}>
-                {/* {this.context.showAlert && (
-                    <Alert
-                        alertType={this.context.alertType}
-                        alertMessage={this.context.alertMessage}
-                        closeAlert={this.context.closeAlert}
-                    />
-                )} */}
                 <View
                     style={{
                         flex: 1,
@@ -90,14 +79,6 @@ const Profile = ({navigation}: IFeedbackModalProps) => {
                     <ScrollView>
                         {/* user preview page header */}
                         {showProfilePreview && !showEditUserData && (
-                            // <PageHeader
-                            //     boldText={this.context.userData.name}
-                            //     normalText={''}
-                            //     closeMethod={this.setShowProfilePreview}
-                            //     closeMethodParameter={''}
-                            //     data-test="PageHeader"
-                            // />
-
                             <TopHeader
                                 onClose={handleSetShowProfilePreview}
                                 title={userData?.name}

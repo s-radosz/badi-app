@@ -2,24 +2,14 @@ import React, {useContext} from 'react';
 import {Text} from 'react-native';
 import ListItem from './../../Utils/ListItem';
 import moment from 'moment';
-import {GlobalContext} from './../../../Context/GlobalContext';
 import lang from './../../../assets/lang/Messages/utils/MessageList';
 
 import {API_URL} from './../../../helpers/globalVariables';
 
 const MessageList = (props: {messagesList: any; navigation: any}): any => {
-    // const context = useContext(GlobalContext);
     if (props.messagesList) {
-        //console.log(["MessageList", props]);
         return props.messagesList && props.messagesList.length > 0 ? (
             props.messagesList.map((conversation: any, i: number) => {
-                /*console.log([
-          "conversation",
-          conversation,
-          i,
-          props.messagesList[i][0]
-        ]);*/
-
                 return (
                     <ListItem
                         API_URL={API_URL}
@@ -35,15 +25,6 @@ const MessageList = (props: {messagesList: any; navigation: any}): any => {
                             ].updated_at,
                         ).format('LLL')}
                         onPress={(): void => {
-                            /*console.log([
-                "ConversationDetails",
-                props.messagesList[i][0].id,
-                props.messagesList[i][0].receiverId,
-                props.messagesList[i][0].receiverName,
-                props.messagesList[i][0].receiverEmail,
-                props.messagesList[i][0].receiverPhotoPath
-              ]);*/
-
                             props.navigation.navigate('ConversationDetails', {
                                 conversationId: props.messagesList[i][0].id,
                                 receiverId: props.messagesList[i][0].receiverId,

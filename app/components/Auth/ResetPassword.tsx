@@ -10,7 +10,6 @@ import {
     TextStyle,
 } from 'react-native';
 import axios from 'axios';
-import {GlobalContext} from './../../Context/GlobalContext';
 import ButtonComponent from './../Utils/ButtonComponent';
 import InputComponent from './../Utils/InputComponent';
 import Alert from './../Alert/Alert';
@@ -34,11 +33,9 @@ const ResetPassword = ({navigation}: IRegisterProps) => {
     const dispatch = useDispatch();
 
     const [email, setEmail] = useState('');
-    const context = useContext(GlobalContext);
 
     const resetPassword = (): void => {
         try {
-            // let API_URL = context.API_URL;
             axios
                 .post(API_URL + '/password-reset', {
                     email: email,
@@ -67,13 +64,6 @@ const ResetPassword = ({navigation}: IRegisterProps) => {
     return (
         <React.Fragment>
             <SafeAreaView style={styles.areaContainer}>
-                {/* {context.showAlert && (
-                    <Alert
-                        alertType={context.alertType}
-                        alertMessage={context.alertMessage}
-                        closeAlert={context.closeAlert}
-                    />
-                )} */}
                 <ScrollView keyboardShouldPersistTaps={'always'}>
                     <View style={styles.container}>
                         <Text style={styles.headerText}>

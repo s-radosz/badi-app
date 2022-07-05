@@ -1,13 +1,12 @@
 import React, {Component, Suspense, useEffect, useState} from 'react';
 import {View, ScrollView, SafeAreaView, Image} from 'react-native';
 import axios from 'axios';
-import styles from './../../Users/style';
+// import styles from './../../Users/style';
 import BottomPanel from './../../SharedComponents/BottomPanel';
 import Alert from './../../Alert/Alert';
 import ProfileHeader from './../../SharedComponents/ProfileHeader';
 import UserPreview from './../../SharedComponents/UserPreview';
 import PageHeader from './../../SharedComponents/PageHeader';
-import {GlobalContext} from './../../../Context/GlobalContext';
 import lang from './../../../assets/lang/Profile/utils/LoggedInUserDetails';
 
 import TopHeader from './../../Utils/TopHeader';
@@ -59,11 +58,7 @@ const LoggedInUserDetails = ({navigation}: ILoggedInUserDetailsProps) => {
             })
             .then(response => {
                 if (response.data.status === 'OK') {
-                    //console.log(["getAmountOfFriends", response.data.result]);
                     setCountFriends(response.data.result.countFriends);
-                    // this.setState({
-                    //     countFriends: response.data.result.countFriends,
-                    // });
                 }
             })
             .catch(error => {});
@@ -75,17 +70,11 @@ const LoggedInUserDetails = ({navigation}: ILoggedInUserDetailsProps) => {
 
     const setShowUserDetails = async (userId: number) => {
         //check if users are in the same conversation - start messaging
-        // let API_URL = this.context.API_URL;
-        /*let searchedUser = userId;*/
         let loggedInUser = userData.id;
 
         setUserDetailsId(0);
         setUserDetailsData([]);
-        // await this.setState({userDetailsId: 0, userDetailsData: []});
-
         dispatch(setLoader(true));
-
-        // this.context.setShowLoader(true);
 
         axios
             .post(API_URL + '/loadUserById', {
@@ -94,28 +83,14 @@ const LoggedInUserDetails = ({navigation}: ILoggedInUserDetailsProps) => {
             })
             .then(async response => {
                 if (response.data.status === 'OK') {
-                    //console.log(["setShowUserDetails", response.data.result.user]);
-                    // await this.setState({
-                    //     userDetailsId: userId,
-                    //     userDetailsData: response.data.result.user,
-                    // });
-
                     setUserDetailsId(userId);
                     setUserDetailsData(response.data.result.user);
 
                     dispatch(setLoader(false));
-                    // this.context.setShowLoader(false);
                 }
             })
             .catch(async error => {
-                // await this.context.setAlert(
-                //     true,
-                //     'danger',
-                //     lang.userDetailsError['pl'],
-                // );
                 dispatch(setAlert('danger', lang.userDetailsError['pl']));
-
-                // this.context.setShowLoader(false);
                 dispatch(setLoader(false));
             });
     };
@@ -127,13 +102,6 @@ const LoggedInUserDetails = ({navigation}: ILoggedInUserDetailsProps) => {
                     flex: 1,
                     backgroundColor: '#fff',
                 }}>
-                {/* {this.context.showAlert && (
-                    <Alert
-                        alertType={this.context.alertType}
-                        alertMessage={this.context.alertMessage}
-                        closeAlert={this.context.closeAlert}
-                    />
-                )} */}
                 <View
                     style={{
                         flex: 1,
@@ -141,30 +109,9 @@ const LoggedInUserDetails = ({navigation}: ILoggedInUserDetailsProps) => {
                         justifyContent: 'space-between',
                     }}
                     data-test="FindUsers">
-                    {/* {this.context.showLoader ? (
-                        <View
-                            style={styles.loaderContainer}
-                            data-test="loader">
-                            <Image
-                                style={{width: 100, height: 100}}
-                                source={loaderImage}
-                            />
-                        </View>
-                    ) : ( */}
                     <React.Fragment>
                         {userDetailsData && (
                             <ScrollView>
-                                {/* <PageHeader
-                                        boldText={userDetailsData.name}
-                                        normalText={''}
-                                        closeMethod={() => {
-                                            this.props.navigation.goBack(
-                                                null,
-                                            );
-                                        }}
-                                        closeMethodParameter={''}
-                                    /> */}
-
                                 <TopHeader
                                     onClose={() => {}}
                                     title={userDetailsData?.name}

@@ -89,29 +89,6 @@ const ProfileOptions = (props: any) => {
                 </View>
             </TouchableHighlight>
 
-            {/* <TouchableHighlight
-                style={styles.buttonOption}
-                onPress={() =>
-                    props.navigation.navigate('UserAuctionsList', {})
-                }
-                underlayColor={'#fff'}>
-                <View>
-                    <Image
-                        style={{
-                            width: 45,
-                            height: 45,
-                            marginLeft: 'auto',
-                            marginRight: 'auto',
-                            marginBottom: 15,
-                        }}
-                        source={strollerOrange}
-                    />
-                    <Text style={styles.optionText}>
-                        {lang.addedItems['pl']}
-                    </Text>
-                </View>
-            </TouchableHighlight> */}
-
             <TouchableHighlight
                 style={styles.buttonOption}
                 onPress={() =>

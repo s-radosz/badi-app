@@ -54,15 +54,12 @@ const FeedbackModal = ({navigation}: IFeedbackModalProps) => {
         let topic = activeTopic;
         let message = feedbackMessage;
         let userId = userData?.id;
-        // let API_URL = this.context.API_URL;
 
         if (!activeTopic || !feedbackMessage) {
-            // this.context.setAlert(true, 'danger', lang.allDataError['pl']);
             dispatch(setAlert('danger', lang.allDataError['pl']));
         }
 
         if (activeTopic && feedbackMessage && userId && API_URL) {
-            // await this.context.setShowLoader(true);
             dispatch(setLoader(true));
 
             axios
@@ -76,33 +73,16 @@ const FeedbackModal = ({navigation}: IFeedbackModalProps) => {
                         setActiveTopic('');
                         setFeedbackMessage('');
 
-                        // this.context.setAlert(
-                        //     true,
-                        //     'success',
-                        //     lang.messageSuccess['pl'],
-                        // );
-
                         dispatch(
                             setAlert('success', lang.messageSuccess['pl']),
                         );
-
-                        // this.context.setShowLoader(false);
 
                         dispatch(setLoader(false));
                         navigation.goBack(null);
                     }
                 })
                 .catch(error => {
-                    //console.log(error);
-                    // this.context.setAlert(
-                    //     true,
-                    //     'danger',
-                    //     lang.messageError['pl'],
-                    // );
-
                     dispatch(setAlert('danger', lang.messageError['pl']));
-
-                    // this.context.setShowLoader(false);
 
                     dispatch(setLoader(false));
 
@@ -118,13 +98,6 @@ const FeedbackModal = ({navigation}: IFeedbackModalProps) => {
                     flex: 1,
                     backgroundColor: '#fff',
                 }}>
-                {/* {this.context.showAlert && (
-                    <Alert
-                        alertType={this.context.alertType}
-                        alertMessage={this.context.alertMessage}
-                        closeAlert={this.context.closeAlert}
-                    />
-                )} */}
                 <View
                     style={{
                         flex: 1,
@@ -132,14 +105,6 @@ const FeedbackModal = ({navigation}: IFeedbackModalProps) => {
                         justifyContent: 'space-between',
                     }}
                     data-test="FindUsers">
-                    {/* {this.context.showLoader ? (
-                        <View style={styles.loaderContainer} data-test="loader">
-                            <Image
-                                style={{width: 100, height: 100}}
-                                source={loaderImage}
-                            />
-                        </View>
-                    ) : ( */}
                     <React.Fragment>
                         <ScrollView keyboardShouldPersistTaps={'always'}>
                             <Text style={styles.feedbackHeaderText}>
@@ -159,14 +124,8 @@ const FeedbackModal = ({navigation}: IFeedbackModalProps) => {
                                         style={styles.checkboxWrapper}
                                         key={`FeedbackModal-${index}`}>
                                         <TouchableOpacity
-                                            onPress={
-                                                () =>
-                                                    handleSetFeedbackTopic(
-                                                        index,
-                                                    )
-                                                // this.setFeedbackTopic(
-                                                //     index,
-                                                // )
+                                            onPress={() =>
+                                                handleSetFeedbackTopic(index)
                                             }
                                             style={
                                                 activeTopic == topic.text
@@ -229,25 +188,3 @@ const FeedbackModal = ({navigation}: IFeedbackModalProps) => {
 };
 
 export default withNavigation(FeedbackModal);
-
-// class FeedbackModal extends Component<FeedbackModalProps, FeedbackModalState> {
-//     constructor(props: FeedbackModalProps) {
-//         super(props);
-//         this.state = {
-//             feedbackMessage: '',
-//             feedbackTopic: [
-//                 {index: 0, text: 'App troubles'},
-//                 {index: 1, text: 'Rebuild a feature'},
-//                 {index: 2, text: 'New feature'},
-//                 {index: 3, text: 'Other'},
-//             ],
-//             activeTopic: '',
-//         };
-//     }
-
-//     render() {
-//         const {feedbackTopic, activeTopic, feedbackMessage} = this.state;
-//     }
-// }
-// FeedbackModal.contextType = GlobalContext;
-// export default withNavigation(FeedbackModal);

@@ -3,8 +3,6 @@ import {TouchableOpacity, Text, View} from 'react-native';
 import styles from './../style';
 import moment from 'moment';
 import lang from './../../../assets/lang/Messages/utils/SingleConversationMessage';
-import {GlobalContext} from './../../../Context/GlobalContext';
-
 import {useDispatch, useSelector} from 'react-redux';
 import {API_URL} from './../../../helpers/globalVariables';
 import {setAlert} from '../../../../app/store/alert/actions';

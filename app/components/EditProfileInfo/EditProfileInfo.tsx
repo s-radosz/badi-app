@@ -6,7 +6,6 @@ import Geocode from 'react-geocode';
 import styles from './style';
 const loaderImage: any = require('./../../assets/images/loader.gif');
 var ImagePicker = NativeModules.ImageCropPicker;
-import {GlobalContext} from './../../Context/GlobalContext';
 import Alert from './../Alert/Alert';
 import lang from './../../assets/lang/EditProfileInfo/EditProfileInfo';
 
@@ -24,26 +23,6 @@ const ChooseHobbiesScreen = React.lazy(
 
 // set Google Maps Geocoding API for purposes of quota management. Its optional but recommended.
 Geocode.setApiKey('AIzaSyDfVowJ0BKBbPW_-eCzkUA-Zk55VFE16AI');
-
-// interface NavigationScreenInterface {
-//     navigation: {
-//         navigate: any;
-//         getParam: any;
-//         state: any;
-//     };
-// }
-
-// interface FillNecessaryInfoState {
-//     nickname: string;
-//     age: number;
-//     desc: string;
-//     hobbies: any;
-//     actualStep: number;
-//     photo: any;
-//     region: any;
-//     userSavedPhoto: string;
-//     locationString: string;
-// }
 
 interface IEditProfileInfoProps {
     navigation: any;
@@ -403,13 +382,6 @@ const EditProfileInfo = ({navigation}: IEditProfileInfoProps) => {
                     flex: 1,
                     backgroundColor: '#fff',
                 }}>
-                {/* {this.context.showAlert && (
-                    <Alert
-                        alertType={this.context.alertType}
-                        alertMessage={this.context.alertMessage}
-                        closeAlert={this.context.closeAlert}
-                    />
-                )} */}
                 <View
                     style={{
                         flex: 1,
@@ -420,16 +392,6 @@ const EditProfileInfo = ({navigation}: IEditProfileInfoProps) => {
                     <View
                         data-test="editProfileInfoContainer"
                         style={{flex: 1}}>
-                        {/* {this.context.showLoader ? (
-                            <View
-                                style={styles.loaderContainer}
-                                data-test="loaderContainer">
-                                <Image
-                                    style={{width: 100, height: 100}}
-                                    source={loaderImage}
-                                />
-                            </View>
-                        ) : ( */}
                         <React.Fragment>
                             {actualStep === 1 && (
                                 <Suspense

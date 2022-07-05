@@ -12,7 +12,6 @@ import Alert from './../Alert/Alert';
 import BottomPanel from './../SharedComponents/BottomPanel';
 import axios from 'axios';
 import styles from './style';
-import {GlobalContext} from './../../Context/GlobalContext';
 import MessageList from './utils/MessageList';
 import {withNavigation} from 'react-navigation';
 import lang from './../../assets/lang/Messages/Messages';
@@ -117,13 +116,6 @@ const Messages = ({navigation}: IMessagesProps) => {
                     flex: 1,
                     backgroundColor: '#fff',
                 }}>
-                {/* {this.context.showAlert && (
-                    <Alert
-                        alertType={this.context.alertType}
-                        alertMessage={this.context.alertMessage}
-                        closeAlert={this.context.closeAlert}
-                    />
-                )} */}
                 <View
                     style={{
                         flex: 1,
@@ -131,39 +123,12 @@ const Messages = ({navigation}: IMessagesProps) => {
                         justifyContent: 'space-between',
                     }}
                     data-test="Messages">
-                    {/* {this.context.showLoader ? (
-                        <View
-                            style={styles.loaderContainer}
-                            data-test="loader">
-                            <Image
-                                style={{width: 100, height: 100}}
-                                source={loaderImage}
-                            />
-                        </View>
-                    ) : ( */}
                     <React.Fragment>
                         <ScrollView>
                             <TopHeader
                                 onClose={() => {}}
                                 title={lang.header['pl']}
                             />
-
-                            {/* <PageHeader
-                                    boldText={lang.header['pl']}
-                                    normalText={''}
-                                    // closeMethod={() =>
-                                    //     this.context.NavigationService.goBack()
-                                    // }
-                                    // // closeMethod={() => this.props.navigation.goBack(null)}
-                                    // closeMethodParameter={''}
-                                /> */}
-                            {/* <ImageBackground
-                source={messagesBgMin}
-                style={{ width: "100%" }}
-                data-test="ImageBackground"
-              >
-                <Text style={styles.pageTitle}>{lang.header['pl']}</Text>
-              </ImageBackground> */}
 
                             {showFilterPanel && (
                                 <View data-test="showFilterPanel">

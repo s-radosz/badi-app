@@ -7,11 +7,11 @@ import {
 
 const initialState = {
     translations: null,
-    language: '',
+    language: 'en',
     error: null,
 };
 
-const alert = (state = initialState, action) => {
+const translations = (state = initialState, action) => {
     switch (action.type) {
         case GET_TRANSLATIONS:
             state = {...state};
@@ -42,4 +42,4 @@ const alert = (state = initialState, action) => {
     return state;
 };
 
-export default alert;
+export default translations;

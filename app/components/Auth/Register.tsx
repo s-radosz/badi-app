@@ -14,7 +14,6 @@ import {
     ImageStyle,
 } from 'react-native';
 import axios from 'axios';
-import {GlobalContext} from './../../Context/GlobalContext';
 import ButtonComponent from './../Utils/ButtonComponent';
 import InputComponent from './../Utils/InputComponent';
 import Alert from './../Alert/Alert';
@@ -45,7 +44,6 @@ const Register = ({navigation}: IRegisterProps) => {
     const [password, setPassword] = useState('');
     const [passwordConf, setPasswordConf] = useState('');
     const [platform, setPlatform] = useState('');
-    const context = useContext(GlobalContext);
 
     useEffect(() => {
         if (Platform.OS === 'ios') {
@@ -162,19 +160,7 @@ const Register = ({navigation}: IRegisterProps) => {
 
     return (
         <React.Fragment>
-            {/* {context.showLoader ? (
-                <View style={styles.loaderContainer}>
-                    <Image style={styles.loaderImg} source={loaderImage} />
-                </View>
-            ) : ( */}
             <SafeAreaView style={styles.areaContainer}>
-                {/* {context.showAlert && (
-                        <Alert
-                            alertType={context.alertType}
-                            alertMessage={context.alertMessage}
-                            closeAlert={context.closeAlert}
-                        />
-                    )} */}
                 <ScrollView keyboardShouldPersistTaps={'always'}>
                     <View style={styles.container}>
                         <Text style={styles.headerText}>

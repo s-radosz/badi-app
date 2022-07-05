@@ -1,5 +1,4 @@
 import React, {Component, useEffect, useState} from 'react';
-import {GlobalContext} from './../../../Context/GlobalContext';
 import axios from 'axios';
 import {
     Text,
@@ -113,13 +112,6 @@ const UserFriendsList = ({navigation}: IUserFriendsListProps) => {
                     flex: 1,
                     backgroundColor: '#fff',
                 }}>
-                {/* {this.context.showAlert && (
-                    <Alert
-                        alertType={this.context.alertType}
-                        alertMessage={this.context.alertMessage}
-                        closeAlert={this.context.closeAlert}
-                    />
-                )} */}
                 <View
                     style={{
                         flex: 1,
@@ -127,27 +119,8 @@ const UserFriendsList = ({navigation}: IUserFriendsListProps) => {
                         justifyContent: 'space-between',
                     }}
                     data-test="ProfileContainer">
-                    {/* {this.context.showLoader ? (
-                        <View
-                            style={styles.loaderContainer}
-                            data-test="loader">
-                            <Image
-                                style={{width: 100, height: 100}}
-                                source={loaderImage}
-                            />
-                        </View>
-                    ) : ( */}
                     <React.Fragment>
                         <ScrollView>
-                            {/* <PageHeader
-                                    boldText={lang.myFriends['pl']}
-                                    normalText={''}
-                                    closeMethod={() =>
-                                        this.props.navigation.goBack(null)
-                                    }
-                                    closeMethodParameter={''}
-                                /> */}
-
                             <TopHeader
                                 onClose={() => {}}
                                 title={lang.myFriends['pl']}

@@ -15,7 +15,6 @@ import SendMessageBox from './SendMessageBox';
 import SingleConversationMessage from './SingleConversationMessage';
 import styles from './../style';
 import PageHeader from './../../SharedComponents/PageHeader';
-import {GlobalContext} from './../../../Context/GlobalContext';
 import lang from './../../../assets/lang/Messages/utils/ConversationDetails';
 
 import {useDispatch, useSelector} from 'react-redux';
@@ -94,12 +93,8 @@ const ConversationDetails = ({navigation}: IConversationDetailsProps) => {
 
     //open conversation details from list of conversations
     const openConversationDetails = (id: number) => {
-        //console.log(["openConversationDetails", id]);
         return new Promise((resolve, reject) => {
-            // let API_URL = this.context.API_URL;
             let conversation_id = id;
-
-            // this.context.setShowLoader(true);
 
             dispatch(setLoader(true));
 
@@ -109,27 +104,13 @@ const ConversationDetails = ({navigation}: IConversationDetailsProps) => {
                 })
                 .then(async response => {
                     if (response.data.status === 'OK') {
-                        /*console.log(
-              "details conv",
-              response.data.result,
-              response.data.result.conversation.product_id,
-              response.data.result.productOwnerId
-            );*/
-
                         let privateMessage = true;
                         if (
                             response.data.result.conversation.product_id &&
                             response.data.result.conversation.product_id !== 0
                         ) {
-                            /*console.log([
-                "response.data.product_id",
-                response.data.result[0].product_id
-              ]);*/
                             privateMessage = false;
                         }
-
-                        //console.log(["ConversationDetails", response.data.result]);
-
                         setOpenConversationMessages(
                             response?.data?.result?.conversation?.messages,
                         );
@@ -144,13 +125,10 @@ const ConversationDetails = ({navigation}: IConversationDetailsProps) => {
 
                         dispatch(setLoader(false));
 
-                        //console.log(["privateMessage", privateMessage]);
-
                         resolve(true);
                     }
                 })
                 .catch(async error => {
-                    //console.log(error);
                     dispatch(
                         setAlert('danger', lang.conversationDetailsError['pl']),
                     );
@@ -166,27 +144,14 @@ const ConversationDetails = ({navigation}: IConversationDetailsProps) => {
         //let userId = this.props.navigation.state.params.receiverId;
 
         return new Promise((resolve, reject) => {
-            // let API_URL = this.context.API_URL;
-
             axios
                 .post(API_URL + '/loadUserDataById', {
                     id: userId,
                 })
                 .then(response => {
                     if (response.data.status === 'OK') {
-                        /*console.log(
-              "loadUserDataById",
-              response.data,
-              response.data.result[0].name
-            );*/
-
                         let results = response.data.result[0];
 
-                        /*console.log(
-              "loadUserDataById",
-              response.data,
-              response.data.result[0].name
-            );*/
                         setReceiverName(results?.name);
                         setReceiverEmail(results?.email);
                         setReceiverPhotoPath(results?.photo_path);
@@ -209,12 +174,12 @@ const ConversationDetails = ({navigation}: IConversationDetailsProps) => {
         openConversationDetails(navigation?.state?.params?.conversationId);
         loadUserDataById(navigation?.state?.params?.receiverId);
 
-        if (userData?.id) {
-            // this.context.clearUserUnreadedMessages(
-            //     this.context.userData.id,
-            //     this.props.navigation.state.params.conversationId,
-            // );
-        }
+        // if (userData?.id) {
+        //     // this.context.clearUserUnreadedMessages(
+        //     //     this.context.userData.id,
+        //     //     this.props.navigation.state.params.conversationId,
+        //     // );
+        // }
     }, []);
 
     return (
@@ -224,13 +189,6 @@ const ConversationDetails = ({navigation}: IConversationDetailsProps) => {
                     flex: 1,
                     backgroundColor: '#fff',
                 }}>
-                {/* {this.context.showAlert && (
-                    <Alert
-                        alertType={this.context.alertType}
-                        alertMessage={this.context.alertMessage}
-                        closeAlert={this.context.closeAlert}
-                    />
-                )} */}
                 <View
                     style={{
                         flex: 1,
@@ -238,16 +196,6 @@ const ConversationDetails = ({navigation}: IConversationDetailsProps) => {
                         justifyContent: 'space-between',
                     }}
                     data-test="Messages">
-                    {/* {this.context.showLoader ? (
-                        <View
-                            style={styles.loaderContainer}
-                            data-test="loader">
-                            <Image
-                                style={{width: 100, height: 100}}
-                                source={loaderImage}
-                            />
-                        </View>
-                    ) : ( */}
                     <React.Fragment>
                         <ScrollView
                             keyboardShouldPersistTaps={'always'}

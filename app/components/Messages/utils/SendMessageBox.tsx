@@ -15,17 +15,6 @@ const SendMessageBox = (props: {
     setUserMessage: any;
     conversationId: number;
 }): any => {
-    //console.log(["SendMessageBox", props]);
-    /*console.log([
-    "SendMessageBox sendMessage",
-    props.receiverId,
-    props.receiverName,
-    props.receiverEmail,
-    props.receiverPhotoPath,
-    props.userMessage,
-    props.conversationId,
-    0
-  ]);*/
     return (
         <React.Fragment>
             <View style={styles.messageBoxContainer}>

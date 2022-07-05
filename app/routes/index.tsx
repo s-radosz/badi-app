@@ -7,22 +7,9 @@ import Register from './../components/Auth/Register';
 import ResetPassword from './../components/Auth/ResetPassword';
 import ConfirmAccount from './../components/Auth/ConfirmAccount';
 import FillNecessaryInfo from './../components/EditProfileInfo/EditProfileInfo';
-//Users
-import Users from './../components/Users/Users';
-import UserDetails from './../components/Users/utils/UserDetails';
-import UserMessageBox from './../components/Users/utils/UserMessageBox';
-//Auctions
-import Auctions from './../components/Auctions/Auctions';
-import ProductDetails from './../components/Auctions/utils/ProductDetails';
-import AddNewProductBox from './../components/Auctions/utils/AddNewProductBox';
-import ProductMessageBox from './../components/Auctions/utils/ProductMessageBox';
 //Messages
 import Messages from './../components/Messages/Messages';
 import ConversationDetails from './../components/Messages/utils/ConversationDetails';
-//Forum
-import Forum from './../components/Forum/Forum';
-import SavePost from './../components/Forum/utils/SavePost';
-import PostDetails from './../components/Forum/utils/PostDetails';
 //Profile
 import Profile from './../components/Profile/Profile';
 import UserFriendsList from './../components/Profile/utils/UserFriendsList';
@@ -32,24 +19,19 @@ import About from './../components/Profile/utils/About';
 import LoggedInUserDetails from './../components/Profile/utils/LoggedInUserDetails';
 //Feedback
 import FeedbackModal from './../components/FeedbackModal/FeedbackModal';
-
 //Start
 import Start from './../components/Start/Start';
-
 //@ts-ignore
 import {fadeIn} from 'react-navigation-transitions';
-import {GlobalContext} from './../Context/GlobalContext';
 import axios from 'axios';
 import NavigationService from './NavigationService';
 import {ifIphoneX} from 'react-native-iphone-x-helper';
-
 import {useDispatch, useSelector} from 'react-redux';
 import {setAlert} from '../../app/store/alert/actions';
 import {setUserDetails} from '../../app/store/user/actions';
-
 import Alert from './../components/Alert/Alert';
-
 import {getTranslations} from './../store/translations/actions';
+import {API_URL} from './../helpers/globalVariables';
 
 const MainStack = createSwitchNavigator(
     {
@@ -96,48 +78,6 @@ const MainStack = createSwitchNavigator(
                 header: null,
             },
         },
-        UserList: {
-            screen: Users,
-            navigationOptions: {
-                header: null,
-            },
-        },
-        UserDetails: {
-            screen: UserDetails,
-            navigationOptions: {
-                header: null,
-            },
-        },
-        UserMessageBox: {
-            screen: UserMessageBox,
-            navigationOptions: {
-                header: null,
-            },
-        },
-        Auctions: {
-            screen: Auctions,
-            navigationOptions: {
-                header: null,
-            },
-        },
-        ProductDetails: {
-            screen: ProductDetails,
-            navigationOptions: {
-                header: null,
-            },
-        },
-        AddNewProduct: {
-            screen: AddNewProductBox,
-            navigationOptions: {
-                header: null,
-            },
-        },
-        ProductMessageBox: {
-            screen: ProductMessageBox,
-            navigationOptions: {
-                header: null,
-            },
-        },
         Messages: {
             screen: Messages,
             navigationOptions: {
@@ -146,24 +86,6 @@ const MainStack = createSwitchNavigator(
         },
         ConversationDetails: {
             screen: ConversationDetails,
-            navigationOptions: {
-                header: null,
-            },
-        },
-        Forum: {
-            screen: Forum,
-            navigationOptions: {
-                header: null,
-            },
-        },
-        AddNewPost: {
-            screen: SavePost,
-            navigationOptions: {
-                header: null,
-            },
-        },
-        PostDetails: {
-            screen: PostDetails,
             navigationOptions: {
                 header: null,
             },
@@ -180,12 +102,6 @@ const MainStack = createSwitchNavigator(
                 header: null,
             },
         },
-        // UserAuctionsList: {
-        //     screen: UserAuctionsList,
-        //     navigationOptions: {
-        //         header: null,
-        //     },
-        // },
         UserNotificationList: {
             screen: UserNotificationList,
             navigationOptions: {
@@ -243,83 +159,25 @@ interface NavigationScreenInterface {
 }
 
 const App = ({navigation}: NavigationScreenInterface) => {
-    console.log(['routes index']);
-
     const userData = useSelector((state: any) => state?.User);
 
-    // const [showAlert, setShowAlert] = useState(false);
-    // const [alertMessage, setAlertMessage] = useState('');
-    // const [alertType, setAlertType] = useState('');
-    // const [userData, setUserData] = useState(null);
     const [userLoggedIn, setUserLoggedIn] = useState(false);
-    const [API_URL, setAPI_URL] = useState('http://127.0.0.1:8080');
-
-    //API_URL: "http://10.0.2.2:8000/",
-    //API_URL: "https://e-mamy.pl/",
 
     const [showLoader, setShowLoader] = useState(false);
     const [currentNavName, setCurrentNavName] = useState('USERS');
-    const [translations, setTranslations] = useState(null);
+    // const [translations, setTranslations] = useState(null);
 
     // language: "en"
-    const [language, setLanguage] = useState('pl');
+    const language = useSelector((state: any) => state?.translations?.language);
 
     const alertType = useSelector((state: any) => state?.alert);
     const alertText = useSelector((state: any) => state?.alert?.text);
 
-    // const alertType = '';
-    // const alertText = '';
-
     const dispatch = useDispatch();
-
-    // const getTranslations = () => {
-    //     return new Promise(resolve => {
-    //         axios
-    //             .get(API_URL + '/get-translations')
-    //             .then(async response => {
-    //                 console.log([
-    //                     'response',
-    //                     response.data.result.translations,
-    //                 ]);
-
-    //                 if (response.data.status === 'OK') {
-    //                     let translations = {};
-
-    //                     response.data.result.translations.map(
-    //                         (translation: any, i: number) => {
-    //                             let single = {
-    //                                 [translation.name]: {
-    //                                     en: translation.en,
-    //                                     de: translation.de,
-    //                                     fr: translation.fr,
-    //                                     es: translation.es,
-    //                                     zh: translation.zh,
-    //                                 },
-    //                             };
-    //                             translations = Object.assign(
-    //                                 translations,
-    //                                 single,
-    //                             );
-    //                         },
-    //                     );
-
-    //                     setTranslations(translations);
-
-    //                     // this.setState({translations: translations});
-    //                 }
-
-    //                 resolve(response);
-    //             })
-    //             .catch(error => {
-    //                 //console.log(["setUserFilledInfoErr1", error]);
-    //             });
-    //     });
-    // };
 
     const handleSetLanguage = (language: string) => {
         //@ts-ignore
         setLanguage(language);
-        // this.setState({language});
         setTimeout(() => {
             console.log(['language', language]);
         }, 2000);
@@ -327,9 +185,6 @@ const App = ({navigation}: NavigationScreenInterface) => {
 
     const handleSetShowLoader = (param: boolean): any => {
         setShowLoader(param);
-        // this.setState({
-        //     showLoader: param,
-        // });
     };
 
     const setUserFilledInfo = async () => {
@@ -344,16 +199,10 @@ const App = ({navigation}: NavigationScreenInterface) => {
                 if (response.data.status === 'OK') {
                     //@ts-ignore
                     await setUserData(response.data.result[0]);
-                    // this.setState({
-                    //     userData: response.data.result[0],
-                    //     //editProfileData: false
-                    // });
                     checkUserStatus();
                 }
             })
-            .catch(error => {
-                //console.log(["setUserFilledInfoErr1", error]);
-            });
+            .catch(error => {});
 
         return json;
     };
@@ -424,123 +273,34 @@ const App = ({navigation}: NavigationScreenInterface) => {
 
     const handleSetUserLoggedIn = (status: boolean) => {
         setUserLoggedIn(status);
-        // this.setState({userLoggedIn: status});
     };
-
-    // const handleSetUserData = (data: any) => {
-    //     console.log(['data', data]);
-    //     if (data) {
-    //         const userData = {
-    //             age: data.age,
-    //             conversations: data.conversations,
-    //             description: data.description,
-    //             email: data.email,
-    //             hobbies: data.hobbies,
-    //             id: data.id,
-    //             kids: data.kids,
-    //             lattitude: data.lattitude,
-    //             longitude: data.longitude,
-    //             location_string: data.location_string,
-    //             name: data.name,
-    //             notifications: data.notifications,
-    //             photo_path: data.photo_path,
-    //             unreadedConversationMessage: data.unreadedConversationMessage,
-    //             unreadedConversationMessageAmount:
-    //                 data.unreadedConversationMessageAmount,
-    //             unreadedNotifications: data.unreadedNotifications,
-    //             unreadedNotificationsAmount: data.unreadedNotificationsAmount,
-    //             user_filled_info: data.user_filled_info,
-    //             verified: data.verified,
-    //             votes: data.votes,
-    //             platform: data.platform,
-    //             nickname: data.nickname,
-    //         };
-    //         setUserData(userData);
-    //         // this.setState({userData: userData});
-
-    //         checkUserStatus();
-    //     } else {
-    //         setUserData([]);
-    //         // this.setState({userData: []});
-    //     }
-    // };
 
     const setAlert = (
         showAlert: boolean,
         alertType: string,
         alertMessage: string,
     ): any => {
-        console.log(['setAlert']);
         dispatch(setAlert(true, alertType, alertMessage));
-        // this.setState({
-        //     showAlert: showAlert,
-        //     alertType: alertType,
-        //     alertMessage: alertMessage,
-        // });
     };
 
     const closeAlert = () => {
-        console.log('closeAlert');
         dispatch(setAlert(false, null, null));
-        // this.setState({
-        //     showAlert: false,
-        //     alertType: '',
-        //     alertMessage: '',
-        // });
     };
 
     const clearUserData = (): void => {
         dispatch(setUserDetails(null));
-        // setUserData([]);
-        // this.setState({userData: []});
     };
 
-    // componentDidMount = async () => {
-    //     await this.getTranslations();
-    //     NavigationService.navigate('Welcome', {});
-    // };
-
     useEffect(() => {
-        console.log(['routes index']);
         dispatch(getTranslations());
-
-        // getTranslations();
         NavigationService.navigate('Welcome', {});
     }, []);
 
     const handleSetCurrentNavName = (name: string) => {
         setCurrentNavName(name);
-        // this.setState({currentNavName: name});
     };
 
     return (
-        // <GlobalContext.Provider
-        //     value={{
-        //         showAlert: false,
-        //         alertType: alertType,
-        //         alertMessage: '',
-        //         setAlert: setAlert,
-        //         userData: userData,
-        //         setUserData: handleSetUserData,
-        //         clearUserData: clearUserData,
-        //         setUserFilledInfo: setUserFilledInfo,
-        //         API_URL: API_URL,
-        //         clearUserUnreadedMessages: clearUserUnreadedMessages,
-        //         clearUserNotificationsStatus: clearUserNotificationsStatus,
-        //         showLoader: showLoader,
-        //         setShowLoader: handleSetShowLoader,
-        //         closeAlert: closeAlert,
-        //         //@ts-ignore
-        //         NavigationService: NavigationService,
-        //         currentNavName: currentNavName,
-        //         setCurrentNavName: handleSetCurrentNavName,
-        //         translations: translations,
-        //         language: language,
-        //         setLanguage: handleSetLanguage,
-
-        //         setUserLoggedIn: handleSetUserLoggedIn,
-        //         userLoggedIn: userLoggedIn,
-        //     }}>
         <SafeAreaView
             style={{
                 flex: 1,
@@ -549,8 +309,6 @@ const App = ({navigation}: NavigationScreenInterface) => {
                 backgroundColor: '#fff',
             }}>
             <Alert />
-
-            {/*<StatusBar backgroundColor="#f4a157" barStyle="light-content" />*/}
             <AppContainer
                 ref={navigatorRef => {
                     NavigationService.setTopLevelNavigator(navigatorRef);
@@ -562,7 +320,6 @@ const App = ({navigation}: NavigationScreenInterface) => {
                 showAlert={false}
             />
         </SafeAreaView>
-        // </GlobalContext.Provider>
     );
 };
 
