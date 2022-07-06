@@ -1,29 +1,16 @@
-import React, {Component, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import SingleNotification from './SingleNotification/SingleNotification';
 import axios from 'axios';
-import {View, SafeAreaView, ScrollView, Image} from 'react-native';
-import Alert from './../../Alert/Alert';
+import {View, SafeAreaView, ScrollView, StyleSheet} from 'react-native';
 import BottomPanel from './../../SharedComponents/BottomPanel';
-import PageHeader from './../../SharedComponents/PageHeader';
-import styles from './../style';
 import lang from './../../../assets/lang/Profile/utils/UserNotificationList';
-
 import TopHeader from './../../Utils/TopHeader';
-
 import {useDispatch, useSelector} from 'react-redux';
 import {API_URL} from './../../../helpers/globalVariables';
 import {setAlert} from '../../../../app/store/alert/actions';
 import {setLoader} from '../../../../app/store/loader/actions';
 
 const loaderImage: any = require('./../../../assets/images/loader.gif');
-
-interface UserNotificationListProps {
-    navigation: any;
-}
-
-interface UserNotificationListState {
-    userNotificationList: any;
-}
 
 interface IUserNotificationListProps {
     navigation: any;
@@ -83,25 +70,15 @@ const UserNotificationList = ({navigation}: IUserNotificationListProps) => {
 
     return (
         <React.Fragment>
-            <SafeAreaView
-                style={{
-                    flex: 1,
-                    backgroundColor: '#fff',
-                }}>
-                <View
-                    style={{
-                        flex: 1,
-                        flexDirection: 'column',
-                        justifyContent: 'space-between',
-                    }}
-                    data-test="ProfileContainer">
+            <SafeAreaView style={styles.container}>
+                <View style={styles.wrapper} data-test="ProfileContainer">
                     <React.Fragment>
                         <ScrollView>
                             <TopHeader
                                 onClose={() => {}}
                                 title={'Powiadomienia'}
                             />
-                            <View style={{padding: 10}}>
+                            <View style={styles.notificationsListContainer}>
                                 {userNotificationList &&
                                     userNotificationList.map(
                                         (notification: any, i: number) => {
@@ -121,11 +98,25 @@ const UserNotificationList = ({navigation}: IUserNotificationListProps) => {
                             navigation={navigation}
                         />
                     </React.Fragment>
-                    {/* )} */}
                 </View>
             </SafeAreaView>
         </React.Fragment>
     );
 };
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: '#fff',
+    },
+    wrapper: {
+        flex: 1,
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+    },
+    notificationsListContainer: {
+        padding: 10,
+    },
+});
 
 export default UserNotificationList;

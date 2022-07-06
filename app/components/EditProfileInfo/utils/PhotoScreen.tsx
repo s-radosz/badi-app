@@ -1,9 +1,18 @@
 import React from 'react';
-import {Text, View, Image, ImageBackground, ScrollView} from 'react-native';
-import styles from './../style';
+import {
+    Text,
+    View,
+    Image,
+    ImageBackground,
+    ScrollView,
+    StyleSheet,
+} from 'react-native';
 import ButtonComponent from './../../Utils/ButtonComponent';
 import lang from './../../../assets/lang/EditProfileInfo/utils/PhotoScreen';
-
+import {
+    darkGrayColor,
+    fontSizeBig,
+} from './../../../assets/global/globalStyles';
 const fillInfoBg: any = require('./../../../assets/images/fillInfoBgMin.jpg');
 
 const PhotoScreen = (props: {
@@ -18,7 +27,7 @@ const PhotoScreen = (props: {
     return (
         <View style={styles.sectionContainer}>
             <ScrollView>
-                <ImageBackground source={fillInfoBg} style={{width: '100%'}}>
+                <ImageBackground source={fillInfoBg} style={styles.fillImg}>
                     <Text style={styles.headerText}>{lang.header['pl']}</Text>
                 </ImageBackground>
 
@@ -53,7 +62,7 @@ const PhotoScreen = (props: {
             </ScrollView>
 
             <View style={styles.sectionBtnBackContainer}>
-                <View style={{width: '30%'}}>
+                <View style={styles.backBtn}>
                     <ButtonComponent
                         pressButtonComponent={props.prevStep}
                         buttonComponentText={lang.back['pl']}
@@ -63,7 +72,7 @@ const PhotoScreen = (props: {
                         showBackIcon={true}
                     />
                 </View>
-                <View style={{width: '71%'}}>
+                <View style={styles.nextBtn}>
                     {props.photo || props.userSavedPhoto ? (
                         <ButtonComponent
                             pressButtonComponent={props.nextStep}
@@ -79,5 +88,72 @@ const PhotoScreen = (props: {
         </View>
     );
 };
+
+const styles = StyleSheet.create({
+    fillImg: {
+        width: '100%',
+    },
+    sectionContainer: {
+        flex: 1,
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+    },
+    sectionBtnBackContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignSelf: 'flex-start',
+        marginBottom: 10,
+        marginLeft: 7,
+        marginRight: 7,
+    },
+    sectionBtnContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignSelf: 'flex-start',
+        marginBottom: 10,
+    },
+    headerText: {
+        textAlign: 'left',
+        color: '#fff',
+        fontWeight: '800',
+        fontSize: fontSizeBig,
+        paddingBottom: 30,
+        paddingTop: 30,
+        paddingLeft: 20,
+        //fontFamily: "Open Sans"
+    },
+    headerTwoText: {
+        textAlign: 'center',
+        color: darkGrayColor,
+        fontWeight: '600',
+        fontSize: 16,
+        paddingBottom: 10,
+        paddingTop: 35,
+        //fontFamily: "Open Sans"
+    },
+    fillInfoHeader: {
+        paddingTop: 20,
+        paddingLeft: 10,
+        paddingRight: 10,
+        paddingBottom: 10,
+        fontSize: 18,
+        fontWeight: '300',
+        textAlign: 'center',
+        //fontFamily: "Open Sans"
+    },
+    image: {
+        width: 200,
+        height: 200,
+        marginTop: 15,
+        marginLeft: 'auto',
+        marginRight: 'auto',
+    },
+    backBtn: {
+        width: '30%',
+    },
+    nextBtn: {
+        width: '71%',
+    },
+});
 
 export default PhotoScreen;

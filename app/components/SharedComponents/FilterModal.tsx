@@ -1,6 +1,11 @@
 import React, {useState, useEffect, useCallback} from 'react';
-import {TouchableOpacity, View, Text, ScrollView} from 'react-native';
-import styles from './style';
+import {
+    TouchableOpacity,
+    View,
+    Text,
+    ScrollView,
+    StyleSheet,
+} from 'react-native';
 import PageHeader from './PageHeader';
 import ButtonComponent from './../Utils/ButtonComponent';
 import lang from './../../assets/lang/SharedComponents/FilterModal';
@@ -88,4 +93,42 @@ const FilterModal = (props: {
         </ScrollView>
     );
 };
+
+const styles = StyleSheet.create({
+    filterModalContainer: {paddingLeft: 10, paddingRight: 10},
+    filterModalHeaderTextContainer: {
+        textAlign: 'center',
+        fontSize: 16,
+        lineHeight: 16,
+        paddingLeft: 10,
+        paddingRight: 10,
+    },
+    filterModalHeaderTextBold: {
+        fontWeight: '600',
+        color: '#424242',
+        //fontFamily: "Open Sans"
+    },
+    filterModalOptionContainer: {paddingTop: 30},
+    filterModalOptionActive: {
+        borderRadius: 6,
+        borderWidth: 1,
+        marginBottom: 5,
+        padding: 10,
+        borderColor: 'orange',
+    },
+    filterModalOptionInactive: {
+        borderRadius: 6,
+        borderWidth: 1,
+        marginBottom: 5,
+        padding: 10,
+        borderColor: '#424242',
+    },
+    activeFiltersConatiner: {
+        borderTopWidth: 1,
+        borderTopColor: '#E5E5E5',
+        marginTop: 5,
+        marginBottom: 10,
+    },
+});
+
 export default FilterModal;

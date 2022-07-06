@@ -1,13 +1,6 @@
-import React, {FC} from 'react';
+import React from 'react';
 import {SafeAreaView, StyleSheet, Dimensions, View} from 'react-native';
-import {StackScreenProps} from '@react-navigation/stack';
-// import { observer } from "mobx-react-lite"
-// import {
-//   Screen
-// } from "../../../components"
 import {Appbar} from 'react-native-paper';
-// import {NavigatorParamList} from '../../../navigators';
-// import Footer from "./../../../components/footer/footer"
 import {DatePickerModal} from 'react-native-paper-dates';
 
 interface SelectDateProps {

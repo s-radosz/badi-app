@@ -39,16 +39,11 @@ const Alert = () => {
                     }
                 }}
                 imageSrc={null}
-                imageStyle={{width: 0, height: 0, display: 'none'}}
+                imageStyle={styles.img}
                 closeInterval={1500}
-                messageStyle={{
-                    fontSize: 17,
-                    fontWeight: 'bold',
-                    textAlign: 'center',
-                    color: '#fff',
-                }}
+                messageStyle={styles.msg}
                 tapToCloseEnabled={true}
-                defaultContainer={{paddingTop: 50, paddingBottom: 20}}
+                defaultContainer={styles.defaultContainer}
                 elevation={100}
                 zIndex={100}
                 successColor={'#8BC28A'}
@@ -59,7 +54,21 @@ const Alert = () => {
 };
 
 const styles = StyleSheet.create({
-    customStyle: {},
+    img: {
+        width: 0,
+        height: 0,
+        display: 'none',
+    },
+    defaultContainer: {
+        paddingTop: 50,
+        paddingBottom: 20,
+    },
+    msg: {
+        fontSize: 17,
+        fontWeight: 'bold',
+        textAlign: 'center',
+        color: '#fff',
+    },
 });
 
 export default Alert;

@@ -1,13 +1,6 @@
-import React, {FC, useState} from 'react';
+import React, {useState} from 'react';
 import {Dimensions, SafeAreaView, StyleSheet, Text, View} from 'react-native';
-import {StackScreenProps} from '@react-navigation/stack';
-// import { observer } from "mobx-react-lite"
-// import {Screen} from '../../../components';
-import {Appbar} from 'react-native-paper';
-// import {NavigatorParamList} from '../../../navigators';
-// import Footer from './../../../components/footer/footer';
-import {TextInput, Button, Chip} from 'react-native-paper';
-
+import {Chip} from 'react-native-paper';
 import TopHeader from './../../Utils/TopHeader';
 
 interface SelectCategoryProps {

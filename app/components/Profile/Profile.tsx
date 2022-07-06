@@ -1,21 +1,14 @@
-import React, {Component, Suspense, useEffect, useState} from 'react';
-import {Text, View, SafeAreaView, ScrollView} from 'react-native';
+import React, {Suspense, useEffect, useState} from 'react';
+import {Text, View, SafeAreaView, ScrollView, StyleSheet} from 'react-native';
 import ProfileHeader from './../SharedComponents/ProfileHeader';
 import ProfileOptions from './utils/ProfileOptions';
 import axios from 'axios';
-import PageHeader from './../SharedComponents/PageHeader';
 import BottomPanel from './../SharedComponents/BottomPanel';
-// import Alert from './../../components/Alert/Alert';
-// import {GlobalContext} from './../../Context/GlobalContext';
 import {withNavigation} from 'react-navigation';
 import lang from './../../assets/lang/Profile/Profile';
-
 import TopHeader from './../Utils/TopHeader';
-
 import {useDispatch, useSelector} from 'react-redux';
 import {API_URL} from './../../helpers/globalVariables';
-import {setAlert} from '../../../app/store/alert/actions';
-import {setLoader} from '../../../app/store/loader/actions';
 
 const UserPreview = React.lazy(
     () => import('./../SharedComponents/UserPreview'),
@@ -64,18 +57,8 @@ const Profile = ({navigation}: IFeedbackModalProps) => {
 
     return (
         <React.Fragment>
-            <SafeAreaView
-                style={{
-                    flex: 1,
-                    backgroundColor: '#fff',
-                }}>
-                <View
-                    style={{
-                        flex: 1,
-                        flexDirection: 'column',
-                        justifyContent: 'space-between',
-                    }}
-                    data-test="ProfileContainer">
+            <SafeAreaView style={styles.container}>
+                <View style={styles.wrapper} data-test="ProfileContainer">
                     <ScrollView>
                         {/* user preview page header */}
                         {showProfilePreview && !showEditUserData && (
@@ -131,5 +114,17 @@ const Profile = ({navigation}: IFeedbackModalProps) => {
         </React.Fragment>
     );
 };
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: '#fff',
+    },
+    wrapper: {
+        flex: 1,
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+    },
+});
 
 export default withNavigation(Profile);

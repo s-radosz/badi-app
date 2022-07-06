@@ -1,12 +1,11 @@
 import React from 'react';
-import {Text, View, ImageBackground, ScrollView} from 'react-native';
-import styles from './../style';
+import {Text, View, ScrollView, StyleSheet} from 'react-native';
 import ButtonComponent from './../../Utils/ButtonComponent';
 import InputComponent from './../../Utils/InputComponent';
 import TextAreaComponent from './../../Utils/TextAreaComponent';
 import lang from './../../../assets/lang/EditProfileInfo/utils/AgeDescScreen';
-
 import TopHeader from './../../Utils/TopHeader';
+import {darkGrayColor} from './../../../assets/global/globalStyles';
 
 const fillInfoBg: any = require('./../../../assets/images/fillInfoBgMin.jpg');
 
@@ -20,10 +19,6 @@ const AgeDescScreen = (props: {
     return (
         <View style={styles.sectionContainer}>
             <ScrollView>
-                {/* <ImageBackground source={fillInfoBg} style={{width: '100%'}}>
-                    <Text style={styles.headerText}>{lang.header['pl']}</Text>
-                </ImageBackground> */}
-
                 <TopHeader onClose={() => {}} title={lang.header['pl']} />
 
                 <View style={styles.infoContainer}>
@@ -91,5 +86,41 @@ const AgeDescScreen = (props: {
         </View>
     );
 };
+
+const styles = StyleSheet.create({
+    sectionContainer: {
+        flex: 1,
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+    },
+    infoContainer: {
+        paddingLeft: 10,
+        paddingRight: 10,
+    },
+    fillInfoHeader: {
+        paddingTop: 20,
+        paddingLeft: 10,
+        paddingRight: 10,
+        paddingBottom: 10,
+        fontSize: 18,
+        fontWeight: '300',
+        textAlign: 'center',
+        //fontFamily: "Open Sans"
+    },
+    subText: {
+        textAlign: 'left',
+        color: darkGrayColor,
+        fontWeight: '400',
+        fontSize: 12,
+        paddingTop: 20,
+        //fontFamily: "Open Sans"
+    },
+    sectionBtnContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignSelf: 'flex-start',
+        marginBottom: 10,
+    },
+});
 
 export default AgeDescScreen;

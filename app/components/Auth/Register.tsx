@@ -1,4 +1,4 @@
-import React, {useState, useContext, useEffect} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
     Text,
     View,
@@ -16,14 +16,12 @@ import {
 import axios from 'axios';
 import ButtonComponent from './../Utils/ButtonComponent';
 import InputComponent from './../Utils/InputComponent';
-import Alert from './../Alert/Alert';
 import lang from './../../assets/lang/Auth/Register';
 import {
     customOrangeColor,
     fontSizeBig,
     loaderContainer,
 } from './../../assets/global/globalStyles';
-
 import {useDispatch} from 'react-redux';
 import {setAlert} from '../../../app/store/alert/actions';
 import {setLoader} from '../../../app/store/loader/actions';

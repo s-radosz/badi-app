@@ -5,22 +5,24 @@ import {
     Text,
     SafeAreaView,
     ScrollView,
-    Image,
+    StyleSheet,
+    Dimensions,
 } from 'react-native';
-// import Alert from './../Alert/Alert';
 import BottomPanel from './../SharedComponents/BottomPanel';
-import styles from './style';
 import ButtonComponent from './../Utils/ButtonComponent';
 import TextAreaComponent from './../Utils/TextAreaComponent';
-// import {GlobalContext} from './../../Context/GlobalContext';
 import axios from 'axios';
 import {withNavigation} from 'react-navigation';
 import lang from './../../assets/lang/FeedbackModal/FeedbackModal';
-
 import {useDispatch, useSelector} from 'react-redux';
 import {API_URL} from './../../helpers/globalVariables';
 import {setAlert} from '../../../app/store/alert/actions';
 import {setLoader} from '../../../app/store/loader/actions';
+import {
+    fontSizeBig,
+    lightBorderRadius,
+    customOrangeColor,
+} from './../../assets/global/globalStyles';
 
 const loaderImage: any = require('./../../assets/images/loader.gif');
 
@@ -93,18 +95,8 @@ const FeedbackModal = ({navigation}: IFeedbackModalProps) => {
 
     return (
         <React.Fragment>
-            <SafeAreaView
-                style={{
-                    flex: 1,
-                    backgroundColor: '#fff',
-                }}>
-                <View
-                    style={{
-                        flex: 1,
-                        flexDirection: 'column',
-                        justifyContent: 'space-between',
-                    }}
-                    data-test="FindUsers">
+            <SafeAreaView style={styles.container}>
+                <View style={styles.wrapper} data-test="FindUsers">
                     <React.Fragment>
                         <ScrollView keyboardShouldPersistTaps={'always'}>
                             <Text style={styles.feedbackHeaderText}>
@@ -148,11 +140,7 @@ const FeedbackModal = ({navigation}: IFeedbackModalProps) => {
                                 );
                             })}
 
-                            <View
-                                style={{
-                                    paddingLeft: 10,
-                                    paddingRight: 10,
-                                }}>
+                            <View style={styles.msgContainer}>
                                 <TextAreaComponent
                                     placeholder={lang.writeMessage['pl']}
                                     inputOnChange={(feedbackMessage: string) =>
@@ -180,11 +168,126 @@ const FeedbackModal = ({navigation}: IFeedbackModalProps) => {
                             navigation={navigation}
                         />
                     </React.Fragment>
-                    {/* )} */}
                 </View>
             </SafeAreaView>
         </React.Fragment>
     );
 };
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: '#fff',
+    },
+    wrapper: {
+        flex: 1,
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+    },
+    peachBtnText: {
+        color: '#fff',
+        textAlign: 'center',
+        fontSize: 16,
+        //fontFamily: "Open Sans"
+    },
+    feedbackHeaderText: {
+        textAlign: 'center',
+        color: '#424242',
+        fontWeight: '600',
+        fontSize: fontSizeBig,
+        marginTop: 30,
+        paddingBottom: 30,
+        //fontFamily: "Open Sans"
+    },
+    feedbackSubHeaderText: {
+        textAlign: 'center',
+        color: '#424242',
+        fontWeight: '300',
+        fontSize: 16,
+        paddingLeft: 10,
+        paddingRight: 10,
+        paddingBottom: 40,
+        //fontFamily: "Open Sans"
+    },
+    feedbackMessage: {
+        textAlignVertical: 'top',
+        height: 80,
+        borderWidth: 1,
+        marginLeft: 10,
+        marginRight: 10,
+        marginTop: 20,
+        borderColor: '#424242',
+        borderRadius: lightBorderRadius,
+        padding: 5,
+    },
+    feedbackBtn: {
+        height: 45,
+        width: '94%',
+        marginTop: 15,
+        marginBottom: 0,
+        marginLeft: '3%',
+        marginRight: '3%',
+        borderRadius: lightBorderRadius,
+        borderColor: customOrangeColor,
+        borderWidth: 2,
+        backgroundColor: customOrangeColor,
+        alignItems: 'center',
+        justifyContent: 'center',
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+    },
+    checkboxWrapper: {
+        flexDirection: 'row',
+        paddingLeft: 10,
+        paddingRight: 10,
+        marginBottom: 5,
+    },
+    activeCheckbox: {
+        width: 20,
+        height: 20,
+        borderWidth: 1,
+        backgroundColor: '#f7b67e',
+        borderColor: '#f7b67e',
+        borderRadius: 20,
+        marginRight: 5,
+    },
+    inActiveCheckbox: {
+        width: 20,
+        height: 20,
+        borderWidth: 1,
+        backgroundColor: 'white',
+        borderRadius: 20,
+        marginRight: 5,
+    },
+    checkboxText: {
+        marginTop: 2,
+        marginRight: 15,
+        color: '#424242',
+    },
+    checkboxTextActive: {
+        marginTop: 2,
+        marginRight: 15,
+        color: '#424242',
+        fontWeight: '600',
+    },
+    feedbackTopic: {
+        paddingLeft: 10,
+        paddingBottom: 10,
+        fontWeight: '600',
+        color: '#424242',
+    },
+    loaderContainer: {
+        alignItems: 'center',
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        justifyContent: 'center',
+        width: Dimensions.get('window').width,
+        height: Dimensions.get('window').height,
+    },
+    msgContainer: {
+        paddingLeft: 10,
+        paddingRight: 10,
+    },
+});
 
 export default withNavigation(FeedbackModal);

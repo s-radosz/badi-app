@@ -5,9 +5,10 @@ import {
     TouchableOpacity,
     TouchableHighlight,
     Image,
+    StyleSheet,
 } from 'react-native';
-import styles from './../style';
 import moment from 'moment';
+import {customOrangeColor} from './../../../assets/global/globalStyles';
 
 const SingleConversationBox = (props: {
     conversation: any;
@@ -71,4 +72,56 @@ const SingleConversationBox = (props: {
         </TouchableHighlight>
     );
 };
+
+const styles = StyleSheet.create({
+    productListSingleProductContainer: {
+        width: '100%',
+        borderWidth: 1,
+        flexWrap: 'wrap',
+        alignItems: 'center',
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        borderRadius: 6,
+        borderColor: '#424242',
+        marginBottom: 10,
+        paddingLeft: 6,
+    },
+    productListSingleProductImage: {
+        width: 50,
+        height: 50,
+        marginBottom: 10,
+        marginTop: 10,
+        paddingLeft: 10,
+        borderRadius: 25,
+    },
+    productListSingleProductTextContainer: {
+        paddingLeft: 10,
+        width: '85%',
+    },
+    conversationReceiverName: {
+        fontWeight: '600',
+        textAlign: 'left',
+        color: '#333',
+        //fontFamily: "Open Sans"
+    },
+    unreadedConversation: {
+        color: customOrangeColor,
+        textAlign: 'left',
+        fontSize: 12,
+        //fontFamily: "Open Sans"
+    },
+    readedConversation: {
+        color: '#333',
+        textAlign: 'left',
+        fontSize: 12,
+        //fontFamily: "Open Sans"
+    },
+    lastMessageDate: {
+        textAlign: 'left',
+        color: '#333',
+        fontSize: 10,
+        marginTop: 5,
+    },
+});
+
 export default SingleConversationBox;

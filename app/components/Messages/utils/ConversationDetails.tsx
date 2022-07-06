@@ -1,4 +1,4 @@
-import React, {Component, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
     Text,
     View,
@@ -7,21 +7,19 @@ import {
     ScrollView,
     TouchableHighlight,
     SafeAreaView,
+    StyleSheet,
 } from 'react-native';
 import axios from 'axios';
-import Alert from './../../Alert/Alert';
 import BottomPanel from './../../SharedComponents/BottomPanel';
 import SendMessageBox from './SendMessageBox';
 import SingleConversationMessage from './SingleConversationMessage';
-import styles from './../style';
 import PageHeader from './../../SharedComponents/PageHeader';
 import lang from './../../../assets/lang/Messages/utils/ConversationDetails';
-
 import {useDispatch, useSelector} from 'react-redux';
 import {setAlert} from '../../../../app/store/alert/actions';
-import {setUserDetails} from '../../../../app/store/user/actions';
 import {API_URL} from './../../../helpers/globalVariables';
 import {setLoader} from '../../../../app/store/loader/actions';
+import {customOrangeColor} from './../../../assets/global/globalStyles';
 
 const loaderImage: any = require('./../../../assets/images/loader.gif');
 
@@ -184,18 +182,8 @@ const ConversationDetails = ({navigation}: IConversationDetailsProps) => {
 
     return (
         <React.Fragment>
-            <SafeAreaView
-                style={{
-                    flex: 1,
-                    backgroundColor: '#fff',
-                }}>
-                <View
-                    style={{
-                        flex: 1,
-                        flexDirection: 'column',
-                        justifyContent: 'space-between',
-                    }}
-                    data-test="Messages">
+            <SafeAreaView style={styles.container}>
+                <View style={styles.wrapper} data-test="Messages">
                     <React.Fragment>
                         <ScrollView
                             keyboardShouldPersistTaps={'always'}
@@ -314,11 +302,51 @@ const ConversationDetails = ({navigation}: IConversationDetailsProps) => {
                             navigation={navigation}
                         />
                     </React.Fragment>
-                    {/* )} */}
                 </View>
             </SafeAreaView>
         </React.Fragment>
     );
 };
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: '#fff',
+    },
+    wrapper: {
+        flex: 1,
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+    },
+    viewContainer: {
+        width: '100%',
+    },
+    messageDetailsContainer: {
+        position: 'relative',
+        flexWrap: 'wrap',
+        alignItems: 'flex-start',
+        flexDirection: 'row',
+        paddingBottom: 10,
+        borderBottomColor: '#E5E5E5',
+        borderBottomWidth: 1,
+        marginBottom: 5,
+    },
+    conversationDetailsReceiverImage: {
+        width: 50,
+        height: 50,
+        marginTop: 10,
+        marginLeft: 10,
+        marginRight: 10,
+        borderRadius: 25,
+    },
+    conversationDetailsReceiverName: {
+        marginTop: 15,
+    },
+    conversationDetailsSeeMore: {
+        fontWeight: '600',
+        color: customOrangeColor,
+        //fontFamily: "Open Sans"
+    },
+});
 
 export default ConversationDetails;

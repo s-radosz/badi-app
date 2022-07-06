@@ -1,9 +1,8 @@
-import React, {useContext} from 'react';
-import {Text} from 'react-native';
+import React from 'react';
+import {Text, StyleSheet} from 'react-native';
 import ListItem from './../../Utils/ListItem';
 import moment from 'moment';
 import lang from './../../../assets/lang/Messages/utils/MessageList';
-
 import {API_URL} from './../../../helpers/globalVariables';
 
 const MessageList = (props: {messagesList: any; navigation: any}): any => {
@@ -37,9 +36,17 @@ const MessageList = (props: {messagesList: any; navigation: any}): any => {
                 );
             })
         ) : (
-            <Text style={{paddingLeft: 10}}>{lang.noResults['pl']}</Text>
+            <Text style={styles.noResultsContainer}>
+                {lang.noResults['pl']}
+            </Text>
         );
     }
 };
+
+const styles = StyleSheet.create({
+    noResultsContainer: {
+        paddingLeft: 10,
+    },
+});
 
 export default React.memo(MessageList);

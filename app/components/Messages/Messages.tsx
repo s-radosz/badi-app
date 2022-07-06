@@ -1,30 +1,23 @@
-import React, {Component, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
     TouchableOpacity,
     Text,
-    ImageBackground,
     View,
-    Image,
     SafeAreaView,
     ScrollView,
+    StyleSheet,
 } from 'react-native';
-import Alert from './../Alert/Alert';
 import BottomPanel from './../SharedComponents/BottomPanel';
 import axios from 'axios';
-import styles from './style';
 import MessageList from './utils/MessageList';
 import {withNavigation} from 'react-navigation';
 import lang from './../../assets/lang/Messages/Messages';
-
-import PageHeader from './../SharedComponents/PageHeader';
-
 import TopHeader from './../Utils/TopHeader';
-
 import {useDispatch, useSelector} from 'react-redux';
 import {API_URL} from './../../helpers/globalVariables';
 import {setAlert} from '../../../app/store/alert/actions';
 import {setLoader} from '../../../app/store/loader/actions';
-
+import {customOrangeColor} from './../../assets/global/globalStyles';
 const messagesBgMin: any = require('./../../assets/images/messagesBgMin.jpg');
 const loaderImage: any = require('./../../assets/images/loader.gif');
 
@@ -111,18 +104,8 @@ const Messages = ({navigation}: IMessagesProps) => {
 
     return (
         <React.Fragment>
-            <SafeAreaView
-                style={{
-                    flex: 1,
-                    backgroundColor: '#fff',
-                }}>
-                <View
-                    style={{
-                        flex: 1,
-                        flexDirection: 'column',
-                        justifyContent: 'space-between',
-                    }}
-                    data-test="Messages">
+            <SafeAreaView style={styles.container}>
+                <View style={styles.wrapper} data-test="Messages">
                     <React.Fragment>
                         <ScrollView>
                             <TopHeader
@@ -187,19 +170,11 @@ const Messages = ({navigation}: IMessagesProps) => {
                                         data-test="MessageList"
                                     />
                                 ) : displayPrivateMessages ? (
-                                    <Text
-                                        style={{
-                                            paddingLeft: 10,
-                                            paddingRight: 10,
-                                        }}>
+                                    <Text style={styles.noResultsContainer}>
                                         {lang.noResultsUsers['pl']}
                                     </Text>
                                 ) : (
-                                    <Text
-                                        style={{
-                                            paddingLeft: 10,
-                                            paddingRight: 10,
-                                        }}>
+                                    <Text style={styles.noResultsContainer}>
                                         {lang.noResultsItems['pl']}
                                     </Text>
                                 )
@@ -210,11 +185,62 @@ const Messages = ({navigation}: IMessagesProps) => {
                             navigation={navigation}
                         />
                     </React.Fragment>
-                    {/* )} */}
                 </View>
             </SafeAreaView>
         </React.Fragment>
     );
 };
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: '#fff',
+    },
+    wrapper: {
+        flex: 1,
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+    },
+
+    filterBtnContainer: {
+        position: 'relative',
+        flexWrap: 'wrap',
+        alignItems: 'flex-start',
+        flexDirection: 'row',
+        borderBottomColor: '#E5E5E5',
+        borderBottomWidth: 1,
+        marginBottom: 10,
+    },
+    singleButtonCol2Container: {
+        width: '46%',
+        marginLeft: '2%',
+        marginRight: '2%',
+        marginTop: '3%',
+    },
+    filterBtnActive: {
+        borderBottomColor: customOrangeColor,
+        borderBottomWidth: 3,
+        paddingBottom: 20,
+    },
+    filterBtn: {
+        paddingBottom: 20,
+    },
+    filterBtnTextActive: {
+        color: '#333',
+        textAlign: 'center',
+        paddingTop: 7,
+        //fontFamily: "Open Sans"
+    },
+    filterBtnText: {
+        color: '#9F9F9F',
+        textAlign: 'center',
+        paddingTop: 7,
+        //fontFamily: "Open Sans"
+    },
+    noResultsContainer: {
+        paddingLeft: 10,
+        paddingRight: 10,
+    },
+});
 
 export default withNavigation(Messages);

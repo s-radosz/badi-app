@@ -1,18 +1,22 @@
-import React, {Component, Suspense, useEffect, useState} from 'react';
-import {View, Text, NativeModules, Image, SafeAreaView} from 'react-native';
+import React, {Suspense, useEffect, useState} from 'react';
+import {
+    View,
+    Text,
+    NativeModules,
+    StyleSheet,
+    SafeAreaView,
+} from 'react-native';
 import axios from 'axios';
 // @ts-ignore
 import Geocode from 'react-geocode';
-import styles from './style';
-const loaderImage: any = require('./../../assets/images/loader.gif');
-var ImagePicker = NativeModules.ImageCropPicker;
-import Alert from './../Alert/Alert';
 import lang from './../../assets/lang/EditProfileInfo/EditProfileInfo';
-
 import {useDispatch, useSelector} from 'react-redux';
 import {API_URL} from './../../helpers/globalVariables';
 import {setAlert} from '../../../app/store/alert/actions';
 import {setLoader} from '../../../app/store/loader/actions';
+
+const loaderImage: any = require('./../../assets/images/loader.gif');
+var ImagePicker = NativeModules.ImageCropPicker;
 
 const AgeDescScreen = React.lazy(() => import('./utils/AgeDescScreen'));
 const PhotoScreen = React.lazy(() => import('./utils/PhotoScreen'));
@@ -377,18 +381,8 @@ const EditProfileInfo = ({navigation}: IEditProfileInfoProps) => {
 
     return (
         <React.Fragment>
-            <SafeAreaView
-                style={{
-                    flex: 1,
-                    backgroundColor: '#fff',
-                }}>
-                <View
-                    style={{
-                        flex: 1,
-                        flexDirection: 'column',
-                        justifyContent: 'space-between',
-                    }}
-                    data-test="FindUsers">
+            <SafeAreaView style={styles.container}>
+                <View style={styles.wrapper} data-test="FindUsers">
                     <View
                         data-test="editProfileInfoContainer"
                         style={{flex: 1}}>
@@ -462,5 +456,17 @@ const EditProfileInfo = ({navigation}: IEditProfileInfoProps) => {
         </React.Fragment>
     );
 };
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: '#fff',
+    },
+    wrapper: {
+        flex: 1,
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+    },
+});
 
 export default EditProfileInfo;

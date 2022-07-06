@@ -1,22 +1,16 @@
-import React, {useContext} from 'react';
-import {Text, View, Image, TouchableOpacity} from 'react-native';
+import React from 'react';
+import {Text, View, Image, TouchableOpacity, StyleSheet} from 'react-native';
 import lang from './../../assets/lang/SharedComponents/ProfileHeader';
-import styles from './style';
-// import {GlobalContext} from './../../Context/GlobalContext';
-
 import {setUserDetails} from '../../../app/store/user/actions';
-import {useDispatch, useSelector} from 'react-redux';
+import {useDispatch} from 'react-redux';
 
 const logout: any = require('./../../assets/images/logout.png');
 const bellWhite: any = require('./../../assets/images/bellWhite.png');
 
 const ProfileHeader = (props: any) => {
     const dispatch = useDispatch();
-    // const context = useContext(GlobalContext);
 
     const handleLogout = () => {
-        // context.setUserData(null);
-        // context.setUserLoggedIn(false);
         dispatch(setUserDetails(null));
         props.navigation.navigate('Welcome');
     };
@@ -119,5 +113,87 @@ const ProfileHeader = (props: any) => {
         </React.Fragment>
     );
 };
+
+const styles = StyleSheet.create({
+    topBtnContainer: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        justifyContent: 'space-between',
+        alignSelf: 'stretch',
+        backgroundColor: '#ffd2ad',
+        paddingTop: 20,
+        paddingBottom: 10,
+    },
+    logoutContainer: {
+        //width: 80,
+        /*flexDirection: "column",
+    justifyContent: "flex-end",
+    alignSelf: "center",*/
+        marginRight: 0,
+        marginLeft: 0,
+    },
+    logoutImage: {
+        height: 30,
+        marginLeft: 'auto',
+        marginRight: 'auto',
+    },
+    logoutText: {
+        color: '#fff',
+        fontWeight: '600',
+        fontSize: 10,
+        marginTop: 5,
+        //fontFamily: "Open Sans"
+    },
+
+    profileHeaderContainer: {
+        backgroundColor: '#ffd2ad',
+        paddingTop: 20,
+        paddingBottom: 20,
+    },
+    profileHeaderImage: {
+        width: 80,
+        height: 80,
+        marginBottom: 20,
+        borderRadius: 40,
+        marginLeft: 'auto',
+        marginRight: 'auto',
+    },
+    profileHeaderName: {
+        color: '#fff',
+        textAlign: 'center',
+        fontWeight: '600',
+        fontSize: 24,
+        //fontFamily: "Open Sans"
+    },
+    profileHeaderLocation: {
+        color: '#fff',
+        textAlign: 'center',
+        fontSize: 18,
+        paddingBottom: 30,
+        //fontFamily: "Open Sans"
+    },
+    profileHeaderInfoContainer: {
+        flexWrap: 'wrap',
+        alignItems: 'flex-start',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        marginLeft: 'auto',
+        marginRight: 'auto',
+        width: '100%',
+    },
+    profileHeaderSingleInfoContainerMainText: {
+        color: '#fff',
+        textAlign: 'center',
+        fontWeight: '600',
+        fontSize: 20,
+        //fontFamily: "Open Sans"
+    },
+    profileHeaderSingleInfoContainerSubText: {
+        color: '#fff',
+        textAlign: 'center',
+        fontSize: 16,
+        //fontFamily: "Open Sans"
+    },
+});
 
 export default ProfileHeader;

@@ -1,6 +1,5 @@
 import React from 'react';
-import {Text, View, TouchableHighlight, Image} from 'react-native';
-import styles from './../style';
+import {Text, View, TouchableHighlight, Image, StyleSheet} from 'react-native';
 import lang from './../../../assets/lang/Profile/utils/ProfileOptions';
 
 const woman: any = require('./../../../assets/images/woman.png');
@@ -12,16 +11,7 @@ const info: any = require('./../../../assets/images/info.png');
 
 const ProfileOptions = (props: any) => {
     return (
-        <View
-            style={{
-                flexWrap: 'wrap',
-                alignItems: 'flex-start',
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                paddingLeft: 10,
-                paddingRight: 10,
-                paddingBottom: 15,
-            }}>
+        <View style={styles.container}>
             <TouchableHighlight
                 style={styles.buttonOption}
                 onPress={() =>
@@ -30,16 +20,7 @@ const ProfileOptions = (props: any) => {
                 }
                 underlayColor={'#fff'}>
                 <View>
-                    <Image
-                        style={{
-                            width: 45,
-                            height: 45,
-                            marginLeft: 'auto',
-                            marginRight: 'auto',
-                            marginBottom: 15,
-                        }}
-                        source={woman}
-                    />
+                    <Image style={styles.img} source={woman} />
                     <Text style={styles.optionText}>{lang.preview['pl']}</Text>
                 </View>
             </TouchableHighlight>
@@ -54,16 +35,7 @@ const ProfileOptions = (props: any) => {
                 }}
                 underlayColor={'#fff'}>
                 <View>
-                    <Image
-                        style={{
-                            width: 45,
-                            height: 45,
-                            marginLeft: 'auto',
-                            marginRight: 'auto',
-                            marginBottom: 15,
-                        }}
-                        source={edit}
-                    />
+                    <Image style={styles.img} source={edit} />
                     <Text style={styles.optionText}>{lang.editData['pl']}</Text>
                 </View>
             </TouchableHighlight>
@@ -73,16 +45,7 @@ const ProfileOptions = (props: any) => {
                 onPress={() => props.navigation.navigate('UserFriendsList', {})}
                 underlayColor={'#fff'}>
                 <View>
-                    <Image
-                        style={{
-                            width: 45,
-                            height: 45,
-                            marginLeft: 'auto',
-                            marginRight: 'auto',
-                            marginBottom: 15,
-                        }}
-                        source={highFive}
-                    />
+                    <Image style={styles.img} source={highFive} />
                     <Text style={styles.optionText}>
                         {lang.myFriends['pl']}
                     </Text>
@@ -96,16 +59,7 @@ const ProfileOptions = (props: any) => {
                 }
                 underlayColor={'#fff'}>
                 <View>
-                    <Image
-                        style={{
-                            width: 45,
-                            height: 45,
-                            marginLeft: 'auto',
-                            marginRight: 'auto',
-                            marginBottom: 15,
-                        }}
-                        source={bell}
-                    />
+                    <Image style={styles.img} source={bell} />
                     <Text style={styles.optionText}>
                         {lang.notifications['pl']}
                     </Text>
@@ -117,16 +71,7 @@ const ProfileOptions = (props: any) => {
                 onPress={() => props.navigation.navigate('About', {})}
                 underlayColor={'#fff'}>
                 <View>
-                    <Image
-                        style={{
-                            width: 45,
-                            height: 45,
-                            marginLeft: 'auto',
-                            marginRight: 'auto',
-                            marginBottom: 15,
-                        }}
-                        source={info}
-                    />
+                    <Image style={styles.img} source={info} />
                     <Text style={styles.optionText}>
                         {lang.aboutTheApp['pl']}
                     </Text>
@@ -135,5 +80,41 @@ const ProfileOptions = (props: any) => {
         </View>
     );
 };
+
+const styles = StyleSheet.create({
+    container: {
+        flexWrap: 'wrap',
+        alignItems: 'flex-start',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        paddingLeft: 10,
+        paddingRight: 10,
+        paddingBottom: 15,
+    },
+    img: {
+        width: 45,
+        height: 45,
+        marginLeft: 'auto',
+        marginRight: 'auto',
+        marginBottom: 15,
+    },
+    buttonOption: {
+        width: '48%',
+        marginTop: 15,
+        paddingTop: 15,
+        paddingBottom: 15,
+        marginBottom: 0,
+        borderRadius: 6,
+        borderColor: '#8c8c8c',
+        borderWidth: 2,
+    },
+    optionText: {
+        fontSize: 12,
+        textAlign: 'center',
+        lineHeight: 16,
+        color: '#424242',
+        //fontFamily: "Open Sans"
+    },
+});
 
 export default ProfileOptions;

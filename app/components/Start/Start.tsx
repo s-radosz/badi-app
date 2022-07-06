@@ -1,25 +1,13 @@
-import React, {FC, useState, useContext, useEffect} from 'react';
+import React, {useState, useEffect} from 'react';
 import {SafeAreaView, Dimensions, StyleSheet, View} from 'react-native';
-import {StackScreenProps} from '@react-navigation/stack';
-// import { observer } from "mobx-react-lite"
-// import {
-//   Screen,
-// } from "../../components"
-import {Button} from 'react-native-paper';
-// import { NavigatorParamList } from "../../navigators"
-// import Footer from "./../../components/footer/footer"
 import MainScreenHeader from './MainScreenHeader/MainScreenHeader';
 import MapView from 'react-native-maps';
 import SelectCategory from './SelectCategory/SelectCategory';
 import SelectDate from './SelectDate/SelectDate';
 import BottomPanel from './../SharedComponents/BottomPanel';
-// import {GlobalContext} from './../../Context/GlobalContext';
 import {withNavigation} from 'react-navigation';
-import Alert from './../Alert/Alert';
 import ButtonComponent from './../Utils/ButtonComponent';
-import {useDispatch, useSelector} from 'react-redux';
-
-// import {checkUserLoggedIn} from './../../helpers/globalMethods';
+import {useSelector} from 'react-redux';
 
 interface MainScreenProps {
     navigation: any;
@@ -77,26 +65,9 @@ const Start = ({navigation}: MainScreenProps) => {
                 />
             ) : null}
 
-            {/* <SafeAreaView testID="MainScreen" style={styles.container}> */}
-
-            <SafeAreaView
-                style={{
-                    flex: 1,
-                    backgroundColor: '#fff',
-                }}>
-                {/* {context.showAlert && (
-                    <Alert
-                        alertType={context.alertType}
-                        alertMessage={context.alertMessage}
-                        closeAlert={context.closeAlert}
-                    />
-                )} */}
+            <SafeAreaView style={styles.container}>
                 <View
-                    style={{
-                        flex: 1,
-                        flexDirection: 'column',
-                        justifyContent: 'space-between',
-                    }}
+                    style={styles.wrapper}
                     // data-test="FindUsers"
                 >
                     <MainScreenHeader
@@ -108,10 +79,6 @@ const Start = ({navigation}: MainScreenProps) => {
                         selectedCategoryName={selectedCategoryName}
                         selectedDateRange={`Od: ${selectedDateRangeFrom}\nDo: ${selectedDateRangeTo}`}
                     />
-                    {/* <Screen 
-                        style={styles.wrapper} 
-                        // preset="scroll"
-                    > */}
                     <MapView
                         initialRegion={{
                             latitude: 50.9333296,
@@ -119,24 +86,9 @@ const Start = ({navigation}: MainScreenProps) => {
                             latitudeDelta: 0.0922,
                             longitudeDelta: 0.0421,
                         }}
-                        style={{
-                            width: Dimensions.get('window').width,
-                            height: Dimensions.get('window').height - 210,
-                            // position: 'absolute',
-                            // left: 0,
-                            // top: 0,
-                        }}
+                        style={styles.map}
                     />
-                    <View
-                        style={{
-                            position: 'absolute',
-                            bottom: 60,
-                            zIndex: 1,
-                            elevation: 1,
-                            flexDirection: 'row',
-                            justifyContent: 'center',
-                            width: Dimensions.get('screen').width,
-                        }}>
+                    <View style={styles.bottomBtnContainer}>
                         {!userToken ? (
                             <ButtonComponent
                                 pressButtonComponent={() =>
@@ -149,23 +101,13 @@ const Start = ({navigation}: MainScreenProps) => {
                                 showBackIcon={false}
                             />
                         ) : null}
-                        {/* <Button
-                            icon="camera"
-                            mode="contained"
-                            onPress={() => navigation?.navigate('Login')}>
-                            login
-                        </Button> */}
                     </View>
-
-                    {/* </Screen> */}
 
                     <BottomPanel
                         data-test="BottomPanel"
                         navigation={navigation}
                     />
                 </View>
-
-                {/* <Footer navigate={(path: any) => navigation.navigate(path)} route="main"/> */}
             </SafeAreaView>
         </>
     );
@@ -180,5 +122,21 @@ const styles = StyleSheet.create({
     },
     wrapper: {
         backgroundColor: '#fff',
+    },
+    map: {
+        width: Dimensions.get('window').width,
+        height: Dimensions.get('window').height - 210,
+        // position: 'absolute',
+        // left: 0,
+        // top: 0,
+    },
+    bottomBtnContainer: {
+        position: 'absolute',
+        bottom: 60,
+        zIndex: 1,
+        elevation: 1,
+        flexDirection: 'row',
+        justifyContent: 'center',
+        width: Dimensions.get('screen').width,
     },
 });

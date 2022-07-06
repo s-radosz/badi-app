@@ -1,4 +1,4 @@
-import React, {useState, useContext} from 'react';
+import React, {useState} from 'react';
 import {
     Text,
     View,
@@ -10,21 +10,17 @@ import {
     TextStyle,
 } from 'react-native';
 import axios from 'axios';
-// import {GlobalContext} from './../../Context/GlobalContext';
 import ButtonComponent from './../Utils/ButtonComponent';
 import InputComponent from './../Utils/InputComponent';
-// import Alert from './../Alert/Alert';
 import lang from './../../assets/lang/Auth/Login';
 import {
     customOrangeColor,
     fontSizeBig,
 } from './../../assets/global/globalStyles';
-
 import {useDispatch} from 'react-redux';
 import {setAlert} from '../../../app/store/alert/actions';
 import {setUserDetails} from '../../../app/store/user/actions';
 import {API_URL} from './../../helpers/globalVariables';
-
 import NavigationService from './../../routes/NavigationService';
 
 interface ILoginProps {
@@ -285,6 +281,7 @@ const Login = ({navigation}: ILoginProps) => {
         </React.Fragment>
     );
 };
+
 interface Style {
     areaContainer: ViewStyle;
     container: ViewStyle;

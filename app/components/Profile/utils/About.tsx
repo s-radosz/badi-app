@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React from 'react';
 import {
     Text,
     View,
@@ -7,15 +7,12 @@ import {
     Linking,
     Image,
     SafeAreaView,
+    StyleSheet,
 } from 'react-native';
-import Alert from './../../Alert/Alert';
 import BottomPanel from './../../SharedComponents/BottomPanel';
-import PageHeader from './../../SharedComponents/PageHeader';
 import lang from './../../../assets/lang/Profile/utils/About';
-
 import TopHeader from './../../Utils/TopHeader';
-
-import {useDispatch, useSelector} from 'react-redux';
+import {useSelector} from 'react-redux';
 
 const fb: any = require('./../../../assets/images/fb.png');
 const ig: any = require('./../../../assets/images/ig.png');
@@ -31,81 +28,37 @@ const About = ({navigation}: IAboutProps) => {
 
     return (
         <React.Fragment>
-            <SafeAreaView
-                style={{
-                    flex: 1,
-                    backgroundColor: '#fff',
-                }}>
-                <View
-                    style={{
-                        flex: 1,
-                        flexDirection: 'column',
-                        justifyContent: 'space-between',
-                    }}
-                    data-test="ProfileContainer">
+            <SafeAreaView style={styles.container}>
+                <View style={styles.wrapper} data-test="ProfileContainer">
                     <ScrollView>
                         <TopHeader
                             onClose={() => {}}
                             title={lang.aboutApp['pl']}
                         />
 
-                        <View
-                            style={{
-                                paddingLeft: 10,
-                                paddingRight: 10,
-                                paddingBottom: 20,
-                                paddingTop: 20,
-                            }}>
+                        <View style={styles.aboutContainer}>
                             <View>
-                                <Text
-                                    style={{
-                                        fontWeight: '600',
-                                        //fontFamily: "Open Sans",
-                                        fontSize: 16,
-                                        marginBottom: 5,
-                                    }}>
+                                <Text style={styles.appName}>
                                     {lang.appName['pl']}
                                 </Text>
-                                <Text
-                                    style={{
-                                        //fontFamily: "Open Sans",
-                                        fontSize: 14,
-                                        marginBottom: 30,
-                                    }}>
+                                <Text style={styles.appDesc}>
                                     {lang.appDesc['pl']}
                                 </Text>
                             </View>
                             <View>
                                 <Text
-                                    style={{
-                                        //fontFamily: "Open Sans",
-                                        fontSize: 14,
-                                        marginBottom: 30,
-                                    }}
+                                    style={styles.feedback}
                                     onPress={() =>
                                         navigation.navigate('FeedbackModal', {})
                                     }>
                                     {lang.haveQuestion['pl']}{' '}
-                                    <Text
-                                        style={{
-                                            fontWeight: '600',
-                                            color: '#000',
-                                        }}>
+                                    <Text style={styles.writeToUs}>
                                         {lang.writeToUs['pl']}
                                     </Text>
                                 </Text>
                             </View>
-                            <View
-                                style={{
-                                    flexWrap: 'wrap',
-                                    alignItems: 'flex-start',
-                                    flexDirection: 'row',
-                                }}>
-                                <Text
-                                    style={{
-                                        //fontFamily: "Open Sans",
-                                        fontSize: 14,
-                                    }}>
+                            <View style={styles.websiteContainer}>
+                                <Text style={styles.visitWebsite}>
                                     {lang.visitWebsite['pl']}
                                 </Text>
                                 <TouchableHighlight
@@ -113,13 +66,7 @@ const About = ({navigation}: IAboutProps) => {
                                         Linking.openURL('https://juff-app.pl/');
                                     }}
                                     underlayColor={'#fff'}>
-                                    <Text
-                                        style={{
-                                            //fontFamily: "Open Sans",
-                                            fontSize: 14,
-                                            fontWeight: '600',
-                                            color: '#000',
-                                        }}>
+                                    <Text style={styles.websiteAddress}>
                                         {lang.websiteAddress['pl']}
                                     </Text>
                                 </TouchableHighlight>
@@ -139,28 +86,14 @@ const About = ({navigation}: IAboutProps) => {
                                               );
                                     }}
                                     underlayColor={'#fff'}>
-                                    <Text
-                                        style={{
-                                            paddingTop: 30,
-                                            paddingBottom: 30,
-                                            //fontFamily: "Open Sans",
-                                            fontSize: 14,
-                                            fontWeight: '600',
-                                            color: '#000',
-                                        }}>
+                                    <Text style={styles.voteApp}>
                                         {lang.voteApp['pl']}
                                     </Text>
                                 </TouchableHighlight>
                             </View>
                             <View>
                                 <Text>{lang.socialText['pl']}</Text>
-                                <View
-                                    style={{
-                                        flexWrap: 'wrap',
-                                        alignItems: 'center',
-                                        flexDirection: 'row',
-                                        marginTop: 10,
-                                    }}>
+                                <View style={styles.socialContainer}>
                                     <TouchableHighlight
                                         onPress={() => {
                                             Linking.openURL(
@@ -169,11 +102,7 @@ const About = ({navigation}: IAboutProps) => {
                                         }}
                                         underlayColor={'#fff'}>
                                         <Image
-                                            style={{
-                                                width: 40,
-                                                height: 40,
-                                                marginRight: 5,
-                                            }}
+                                            style={styles.socialImg}
                                             source={fb}
                                         />
                                     </TouchableHighlight>
@@ -185,11 +114,7 @@ const About = ({navigation}: IAboutProps) => {
                                         }}
                                         underlayColor={'#fff'}>
                                         <Image
-                                            style={{
-                                                width: 40,
-                                                height: 40,
-                                                marginLeft: 5,
-                                            }}
+                                            style={styles.socialImg}
                                             source={ig}
                                         />
                                     </TouchableHighlight>
@@ -206,4 +131,77 @@ const About = ({navigation}: IAboutProps) => {
         </React.Fragment>
     );
 };
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: '#fff',
+    },
+    wrapper: {
+        flex: 1,
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+    },
+    aboutContainer: {
+        paddingLeft: 10,
+        paddingRight: 10,
+        paddingBottom: 20,
+        paddingTop: 20,
+    },
+    appName: {
+        fontWeight: '600',
+        //fontFamily: "Open Sans",
+        fontSize: 16,
+        marginBottom: 5,
+    },
+    appDesc: {
+        //fontFamily: "Open Sans",
+        fontSize: 14,
+        marginBottom: 30,
+    },
+    feedback: {
+        //fontFamily: "Open Sans",
+        fontSize: 14,
+        marginBottom: 30,
+    },
+    writeToUs: {
+        fontWeight: '600',
+        color: '#000',
+    },
+    websiteContainer: {
+        flexWrap: 'wrap',
+        alignItems: 'flex-start',
+        flexDirection: 'row',
+    },
+    visitWebsite: {
+        //fontFamily: "Open Sans",
+        fontSize: 14,
+    },
+    websiteAddress: {
+        //fontFamily: "Open Sans",
+        fontSize: 14,
+        fontWeight: '600',
+        color: '#000',
+    },
+    voteApp: {
+        paddingTop: 30,
+        paddingBottom: 30,
+        //fontFamily: "Open Sans",
+        fontSize: 14,
+        fontWeight: '600',
+        color: '#000',
+    },
+    socialContainer: {
+        flexWrap: 'wrap',
+        alignItems: 'center',
+        flexDirection: 'row',
+        marginTop: 10,
+    },
+    socialImg: {
+        width: 40,
+        height: 40,
+        marginRight: 5,
+    },
+});
+
 export default About;

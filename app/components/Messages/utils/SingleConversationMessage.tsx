@@ -1,12 +1,9 @@
-import React, {Component, useEffect, useState} from 'react';
-import {TouchableOpacity, Text, View} from 'react-native';
-import styles from './../style';
+import React, {useEffect, useState} from 'react';
+import {TouchableOpacity, Text, View, StyleSheet} from 'react-native';
 import moment from 'moment';
 import lang from './../../../assets/lang/Messages/utils/SingleConversationMessage';
 import {useDispatch, useSelector} from 'react-redux';
-import {API_URL} from './../../../helpers/globalVariables';
-import {setAlert} from '../../../../app/store/alert/actions';
-import {setLoader} from '../../../../app/store/loader/actions';
+import {customOrangeColor} from './../../../assets/global/globalStyles';
 
 interface ISingleConversationMessageProps {
     navigation: any;
@@ -65,4 +62,48 @@ const SingleConversationMessage = ({
         </View>
     );
 };
+
+const styles = StyleSheet.create({
+    senderBox: {
+        width: '80%',
+        textAlign: 'right',
+        alignSelf: 'flex-end',
+        backgroundColor: '#ededed',
+        fontSize: 12,
+        padding: 5,
+        marginRight: 10,
+        marginTop: 5,
+        marginBottom: 5,
+        borderRadius: 6,
+    },
+    receiverBox: {
+        width: '80%',
+        backgroundColor: customOrangeColor,
+        fontSize: 12,
+        padding: 5,
+        marginLeft: 10,
+        marginTop: 5,
+        marginBottom: 5,
+        borderRadius: 6,
+        color: '#fff',
+        //fontFamily: "Open Sans"
+    },
+    messageDateSender: {
+        width: '80%',
+        textAlign: 'right',
+        alignSelf: 'flex-end',
+        fontSize: 8,
+        marginRight: 10,
+        //fontFamily: "Open Sans"
+    },
+    messageDateReceiver: {
+        width: '80%',
+        textAlign: 'left',
+        alignSelf: 'flex-start',
+        fontSize: 8,
+        marginLeft: 10,
+        //fontFamily: "Open Sans"
+    },
+});
+
 export default SingleConversationMessage;

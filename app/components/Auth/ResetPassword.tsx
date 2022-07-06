@@ -1,4 +1,4 @@
-import React, {useState, useContext} from 'react';
+import React, {useState} from 'react';
 import {
     Text,
     View,
@@ -12,17 +12,13 @@ import {
 import axios from 'axios';
 import ButtonComponent from './../Utils/ButtonComponent';
 import InputComponent from './../Utils/InputComponent';
-import Alert from './../Alert/Alert';
 import lang from './../../assets/lang/Auth/ResetPassword';
 import {
     customOrangeColor,
     fontSizeBig,
 } from './../../assets/global/globalStyles';
-
 import {useDispatch} from 'react-redux';
 import {setAlert} from '../../../app/store/alert/actions';
-import {setLoader} from '../../../app/store/loader/actions';
-import {setUserDetails} from '../../../app/store/user/actions';
 import {API_URL} from './../../helpers/globalVariables';
 
 interface IRegisterProps {

@@ -1,12 +1,5 @@
-import React, {useState, useContext, useEffect} from 'react';
-import {
-    View,
-    Image,
-    TouchableHighlight,
-    StyleSheet,
-    ViewStyle,
-    Text,
-} from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {View, Image, StyleSheet} from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {useDispatch, useSelector} from 'react-redux';

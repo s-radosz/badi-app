@@ -1,7 +1,7 @@
-import React, {useContext} from 'react';
+import React from 'react';
 import ListItem from './../../../Utils/ListItem';
 import {API_URL} from './../../../../helpers/globalVariables';
-import {useDispatch, useSelector} from 'react-redux';
+import {useSelector} from 'react-redux';
 
 const UserFriendsListRenderList = (props: any) => {
     const userData = useSelector((state: any) => state?.User?.details);

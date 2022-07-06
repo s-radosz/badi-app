@@ -1,4 +1,4 @@
-import React, {Component, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import axios from 'axios';
 import {
     Text,
@@ -6,21 +6,21 @@ import {
     TouchableOpacity,
     SafeAreaView,
     ScrollView,
-    Image,
+    StyleSheet,
 } from 'react-native';
-import Alert from './../../Alert/Alert';
 import BottomPanel from './../../SharedComponents/BottomPanel';
-import PageHeader from './../../SharedComponents/PageHeader';
 import UserFriendsListRenderList from './UserFriendsListRenderList/UserFriendsListRenderList';
-import styles from './../style';
 import lang from './../../../assets/lang/Profile/utils/UserFriendsList';
-
 import TopHeader from './../../Utils/TopHeader';
-
 import {useDispatch, useSelector} from 'react-redux';
 import {API_URL} from './../../../helpers/globalVariables';
 import {setAlert} from '../../../../app/store/alert/actions';
 import {setLoader} from '../../../../app/store/loader/actions';
+import {
+    singleButtonCol2Container,
+    filterBtnActive,
+    filterBtn,
+} from './../../../assets/global/globalStyles';
 
 const loaderImage: any = require('./../../../assets/images/loader.gif');
 
@@ -107,18 +107,8 @@ const UserFriendsList = ({navigation}: IUserFriendsListProps) => {
 
     return (
         <React.Fragment>
-            <SafeAreaView
-                style={{
-                    flex: 1,
-                    backgroundColor: '#fff',
-                }}>
-                <View
-                    style={{
-                        flex: 1,
-                        flexDirection: 'column',
-                        justifyContent: 'space-between',
-                    }}
-                    data-test="ProfileContainer">
+            <SafeAreaView style={styles.container}>
+                <View style={styles.wrapper} data-test="ProfileContainer">
                     <React.Fragment>
                         <ScrollView>
                             <TopHeader
@@ -173,11 +163,7 @@ const UserFriendsList = ({navigation}: IUserFriendsListProps) => {
                                 </View>
                             </View>
 
-                            <View
-                                style={{
-                                    paddingTop: 10,
-                                    paddingBottom: 10,
-                                }}>
+                            <View style={styles.listContainer}>
                                 {showUserFriendsList &&
                                     !showPendingUserFriendsList && (
                                         <UserFriendsListRenderList
@@ -207,5 +193,45 @@ const UserFriendsList = ({navigation}: IUserFriendsListProps) => {
         </React.Fragment>
     );
 };
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: '#fff',
+    },
+    wrapper: {
+        flex: 1,
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+    },
+    listContainer: {
+        paddingTop: 10,
+        paddingBottom: 10,
+    },
+    filterBtnContainer: {
+        position: 'relative',
+        flexWrap: 'wrap',
+        alignItems: 'flex-start',
+        flexDirection: 'row',
+        borderBottomColor: '#E5E5E5',
+        borderBottomWidth: 1,
+        marginBottom: 10,
+    },
+    singleButtonCol2Container: singleButtonCol2Container,
+    filterBtnActive: filterBtnActive,
+    filterBtn: filterBtn,
+    filterBtnTextActive: {
+        color: '#333',
+        textAlign: 'center',
+        paddingTop: 7,
+        //fontFamily: "Open Sans"
+    },
+    filterBtnText: {
+        color: '#9F9F9F',
+        textAlign: 'center',
+        paddingTop: 7,
+        //fontFamily: "Open Sans"
+    },
+});
 
 export default UserFriendsList;

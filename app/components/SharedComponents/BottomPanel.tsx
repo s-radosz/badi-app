@@ -1,12 +1,12 @@
-import React, {useContext} from 'react';
-import {TouchableOpacity, View, Text, Image} from 'react-native';
-import styles from './style';
+import React from 'react';
+import {TouchableOpacity, View, Text, Image, StyleSheet} from 'react-native';
 import lang from './../../assets/lang/SharedComponents/BottomPanel';
-// import {GlobalContext} from './../../Context/GlobalContext';
-
-import {useDispatch, useSelector} from 'react-redux';
-import {API_URL} from './../../helpers/globalVariables';
+import {useSelector} from 'react-redux';
 import NavigationService from './../../routes/NavigationService';
+import {
+    customOrangeColor,
+    darkGrayColor,
+} from './../../assets/global/globalStyles';
 
 const network: any = require('./../../assets/images/network.png');
 const sell: any = require('./../../assets/images/sell.png');
@@ -274,5 +274,65 @@ const BottomPanel = ({navigation}: IBottomPanelProps) => {
         </React.Fragment>
     );
 };
+
+const styles = StyleSheet.create({
+    bottomPanel: {
+        paddingTop: 10,
+        paddingBottom: 10,
+        borderTopWidth: 2,
+        borderTopColor: '#8c8c8c',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignSelf: 'flex-start',
+        width: '100%',
+        backgroundColor: '#fff',
+    },
+    bottomPanelImageActive: {
+        opacity: 1,
+    },
+    bottomPanelImage: {
+        opacity: 0.7,
+    },
+    buttonImage: {
+        height: 25,
+        marginBottom: 5,
+    },
+    buttonTextActive: {
+        fontSize: 10,
+        textAlign: 'center',
+        color: customOrangeColor,
+        fontWeight: '600',
+        //fontFamily: "Open Sans"
+    },
+    buttonText: {
+        fontSize: 10,
+        color: '#424242',
+        textAlign: 'center',
+        fontWeight: '600',
+        //fontFamily: "Open Sans"
+    },
+    unreadedMessagesNotificationContainer: {
+        position: 'absolute',
+        right: 0,
+        top: -10,
+    },
+    unreadedMessagesNotificationDot: {width: 20, height: 20},
+    unreadedMessagesNotificationDotText: {
+        position: 'absolute',
+        color: darkGrayColor,
+        fontSize: 14,
+        fontWeight: '600',
+        left: 6,
+        top: 0,
+        //fontFamily: "Open Sans"
+    },
+    unreadedMessagesNotificationLongDotText: {
+        position: 'absolute',
+        color: darkGrayColor,
+        left: 5,
+        fontSize: 10,
+        top: 5,
+    },
+});
 
 export default BottomPanel;
