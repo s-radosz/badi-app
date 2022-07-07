@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import PageHeader from './PageHeader';
 import ButtonComponent from './../Utils/ButtonComponent';
-import lang from './../../assets/lang/SharedComponents/FilterModal';
+import lang from './../../lang/SharedComponents/FilterModal';
 
 const FilterModal = (props: {
     filterModalName: string;

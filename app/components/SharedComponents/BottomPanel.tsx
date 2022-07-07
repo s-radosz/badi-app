@@ -1,6 +1,6 @@
 import React from 'react';
 import {TouchableOpacity, View, Text, Image, StyleSheet} from 'react-native';
-import lang from './../../assets/lang/SharedComponents/BottomPanel';
+import lang from './../../lang/SharedComponents/BottomPanel';
 import {useSelector} from 'react-redux';
 import NavigationService from './../../routes/NavigationService';
 import {

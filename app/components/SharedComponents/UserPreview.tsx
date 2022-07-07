@@ -1,6 +1,6 @@
 import React from 'react';
 import {Text, View, Image, StyleSheet} from 'react-native';
-import lang from './../../assets/lang/SharedComponents/UserPreview';
+import lang from './../../lang/SharedComponents/UserPreview';
 
 const bike: any = require('./../../assets/images/bike.png');
 const dotEmpty: any = require('./../../assets/images/dotEmpty.png');

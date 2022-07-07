@@ -1,6 +1,6 @@
 import React from 'react';
 import {Text, View, TouchableHighlight, Image, StyleSheet} from 'react-native';
-import lang from './../../assets/lang/SharedComponents/ActiveFilters';
+import lang from './../../lang/SharedComponents/ActiveFilters';
 import {customOrangeColor} from './../../assets/global/globalStyles';
 
 const trash: any = require('./../../assets/images/trash.png');

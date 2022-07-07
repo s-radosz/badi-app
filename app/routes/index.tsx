@@ -1,26 +1,26 @@
 import {createAppContainer, createSwitchNavigator} from 'react-navigation';
 import React, {useState, useEffect} from 'react';
-import {SafeAreaView, Text, View} from 'react-native';
-import Welcome from '../components/Welcome/Welcome';
-import Login from './../components/Auth/Login';
-import Register from './../components/Auth/Register';
-import ResetPassword from './../components/Auth/ResetPassword';
-import ConfirmAccount from './../components/Auth/ConfirmAccount';
-import FillNecessaryInfo from './../components/EditProfileInfo/EditProfileInfo';
+import {SafeAreaView, StyleSheet} from 'react-native';
+import Welcome from '../screens/Welcome/Welcome';
+import Login from './../screens/Auth/Login';
+import Register from './../screens/Auth/Register';
+import ResetPassword from './../screens/Auth/ResetPassword';
+import ConfirmAccount from './../screens/Auth/ConfirmAccount';
+import FillNecessaryInfo from './../screens/EditProfileInfo/EditProfileInfo';
 //Messages
-import Messages from './../components/Messages/Messages';
-import ConversationDetails from './../components/Messages/utils/ConversationDetails';
+import Messages from './../screens/Messages/Messages';
+import ConversationDetails from './../screens/Messages/utils/ConversationDetails';
 //Profile
-import Profile from './../components/Profile/Profile';
-import UserFriendsList from './../components/Profile/utils/UserFriendsList';
+import Profile from './../screens/Profile/Profile';
+import UserFriendsList from './../screens/Profile/utils/UserFriendsList';
 // import UserAuctionsList from './../components/Profile/utils/UserAuctionsList';
-import UserNotificationList from './../components/Profile/utils/UserNotificationList';
-import About from './../components/Profile/utils/About';
-import LoggedInUserDetails from './../components/Profile/utils/LoggedInUserDetails';
+import UserNotificationList from './../screens/Profile/utils/UserNotificationList';
+import About from './../screens/Profile/utils/About';
+import LoggedInUserDetails from './../screens/Profile/utils/LoggedInUserDetails';
 //Feedback
-import FeedbackModal from './../components/FeedbackModal/FeedbackModal';
+import FeedbackModal from './../screens/FeedbackModal/FeedbackModal';
 //Start
-import Start from './../components/Start/Start';
+import Start from './../screens/Start/Start';
 //@ts-ignore
 import {fadeIn} from 'react-navigation-transitions';
 import axios from 'axios';
@@ -301,13 +301,7 @@ const App = ({navigation}: NavigationScreenInterface) => {
     };
 
     return (
-        <SafeAreaView
-            style={{
-                flex: 1,
-                //color on top
-                // backgroundColor: "#5e88fc"
-                backgroundColor: '#fff',
-            }}>
+        <SafeAreaView style={styles.container}>
             <Alert />
             <AppContainer
                 ref={navigatorRef => {
@@ -322,5 +316,14 @@ const App = ({navigation}: NavigationScreenInterface) => {
         </SafeAreaView>
     );
 };
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        //color on top
+        // backgroundColor: "#5e88fc"
+        backgroundColor: '#fff',
+    },
+});
 
 export default App;

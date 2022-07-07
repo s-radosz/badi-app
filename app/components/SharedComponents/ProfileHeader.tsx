@@ -1,6 +1,6 @@
 import React from 'react';
 import {Text, View, Image, TouchableOpacity, StyleSheet} from 'react-native';
-import lang from './../../assets/lang/SharedComponents/ProfileHeader';
+import lang from './../../lang/SharedComponents/ProfileHeader';
 import {setUserDetails} from '../../../app/store/user/actions';
 import {useDispatch} from 'react-redux';
 

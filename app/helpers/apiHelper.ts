@@ -1,8 +1,7 @@
 import axios from 'axios';
-
+import {API_URL} from './globalVariables';
 //apply base url for axios
 // const REACT_APP_APP_URL = process.env.REACT_APP_APP_URL;
-const API_URL = 'http://127.0.0.1:8080/api';
 
 const axiosApi = axios.create({
     baseURL: API_URL,
