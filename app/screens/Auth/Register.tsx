@@ -22,7 +22,7 @@ import {
     fontSizeBig,
     loaderContainer,
 } from './../../assets/global/globalStyles';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {setAlert} from '../../../app/store/alert/actions';
 import {setLoader} from '../../../app/store/loader/actions';
 import {setUserDetails} from '../../../app/store/user/actions';
@@ -36,6 +36,9 @@ interface IRegisterProps {
 
 const Register = ({navigation}: IRegisterProps) => {
     const dispatch = useDispatch();
+    const activeLanguage = useSelector(
+        (state: any) => state?.Translations?.language,
+    );
 
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
@@ -59,18 +62,20 @@ const Register = ({navigation}: IRegisterProps) => {
 
     const registerUser = async () => {
         if (!name || !email || !password || !passwordConf) {
-            dispatch(setAlert('danger', lang.allFieldsError['pl']));
+            dispatch(setAlert('danger', lang.allFieldsError[activeLanguage]));
         } else if (password !== passwordConf) {
             dispatch(
                 setAlert(
                     'danger',
-                    lang.passwordAndConfirmationNotMatchedError['pl'],
+                    lang.passwordAndConfirmationNotMatchedError[activeLanguage],
                 ),
             );
         } else if (password == passwordConf && password.length < 6) {
-            dispatch(setAlert('danger', lang.passwordLengthError['pl']));
+            dispatch(
+                setAlert('danger', lang.passwordLengthError[activeLanguage]),
+            );
         } else if (!validateEmail(email)) {
-            dispatch(setAlert('danger', lang.emailError['pl']));
+            dispatch(setAlert('danger', lang.emailError[activeLanguage]));
         } else if (
             password === passwordConf &&
             name &&
@@ -98,7 +103,7 @@ const Register = ({navigation}: IRegisterProps) => {
                             dispatch(
                                 setAlert(
                                     'danger',
-                                    lang.accountExistsError['pl'],
+                                    lang.accountExistsError[activeLanguage],
                                 ),
                             );
 
@@ -122,7 +127,7 @@ const Register = ({navigation}: IRegisterProps) => {
                                             setAlert(
                                                 'success',
                                                 lang.confirmAccountSuccess[
-                                                    'pl'
+                                                    activeLanguage
                                                 ],
                                             ),
                                         );
@@ -150,7 +155,7 @@ const Register = ({navigation}: IRegisterProps) => {
             dispatch(
                 setAlert(
                     'danger',
-                    lang.passwordAndConfirmationNotMatchedError['pl'],
+                    lang.passwordAndConfirmationNotMatchedError[activeLanguage],
                 ),
             );
         }
@@ -162,25 +167,25 @@ const Register = ({navigation}: IRegisterProps) => {
                 <ScrollView keyboardShouldPersistTaps={'always'}>
                     <View style={styles.container}>
                         <Text style={styles.headerText}>
-                            {lang.header['pl']}
+                            {lang.header[activeLanguage]}
                         </Text>
 
                         <InputComponent
-                            placeholder={lang.name['pl']}
+                            placeholder={lang.name[activeLanguage]}
                             inputOnChange={(name: string) => setName(name)}
                             value={name}
                             secureTextEntry={false}
                             maxLength={100}
                         />
                         <InputComponent
-                            placeholder={lang.email['pl']}
+                            placeholder={lang.email[activeLanguage]}
                             inputOnChange={(email: string) => setEmail(email)}
                             value={email}
                             secureTextEntry={false}
                             maxLength={100}
                         />
                         <InputComponent
-                            placeholder={lang.password['pl']}
+                            placeholder={lang.password[activeLanguage]}
                             inputOnChange={(password: string) =>
                                 setPassword(password)
                             }
@@ -189,7 +194,9 @@ const Register = ({navigation}: IRegisterProps) => {
                             maxLength={100}
                         />
                         <InputComponent
-                            placeholder={lang.passwordConfirmation['pl']}
+                            placeholder={
+                                lang.passwordConfirmation[activeLanguage]
+                            }
                             inputOnChange={(passwordConf: string) =>
                                 setPasswordConf(passwordConf)
                             }
@@ -203,13 +210,13 @@ const Register = ({navigation}: IRegisterProps) => {
                             }}
                             underlayColor={'#fff'}>
                             <Text style={styles.termsBtn}>
-                                {lang.registerAcceptTerms['pl']}
+                                {lang.registerAcceptTerms[activeLanguage]}
                             </Text>
                         </TouchableHighlight>
 
                         <ButtonComponent
                             pressButtonComponent={registerUser}
-                            buttonComponentText={lang.register['pl']}
+                            buttonComponentText={lang.register[activeLanguage]}
                             fullWidth={false}
                             underlayColor="#dd904d"
                             whiteBg={false}
@@ -218,13 +225,13 @@ const Register = ({navigation}: IRegisterProps) => {
 
                         <View style={styles.subBtnSection}>
                             <Text style={styles.subBtnSectionAsk}>
-                                {lang.haveAccount['pl']}
+                                {lang.haveAccount[activeLanguage]}
                             </Text>
                             <TouchableHighlight
                                 onPress={() => navigation.navigate('Login')}
                                 underlayColor={'#fff'}>
                                 <Text style={styles.registerBtn}>
-                                    {lang.login['pl']}
+                                    {lang.login[activeLanguage]}
                                 </Text>
                             </TouchableHighlight>
                         </View>

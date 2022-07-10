@@ -34,6 +34,9 @@ const FeedbackModal = ({navigation}: IFeedbackModalProps) => {
     const dispatch = useDispatch();
 
     const userData = useSelector((state: any) => state?.User?.details);
+    const activeLanguage = useSelector(
+        (state: any) => state?.Translations?.language,
+    );
 
     const [feedbackMessage, setFeedbackMessage] = useState('');
     const [feedbackTopic, setFeedbackTopic] = useState([
@@ -58,7 +61,7 @@ const FeedbackModal = ({navigation}: IFeedbackModalProps) => {
         let userId = userData?.id;
 
         if (!activeTopic || !feedbackMessage) {
-            dispatch(setAlert('danger', lang.allDataError['pl']));
+            dispatch(setAlert('danger', lang.allDataError[activeLanguage]));
         }
 
         if (activeTopic && feedbackMessage && userId && API_URL) {
@@ -76,7 +79,10 @@ const FeedbackModal = ({navigation}: IFeedbackModalProps) => {
                         setFeedbackMessage('');
 
                         dispatch(
-                            setAlert('success', lang.messageSuccess['pl']),
+                            setAlert(
+                                'success',
+                                lang.messageSuccess[activeLanguage],
+                            ),
                         );
 
                         dispatch(setLoader(false));
@@ -84,7 +90,9 @@ const FeedbackModal = ({navigation}: IFeedbackModalProps) => {
                     }
                 })
                 .catch(error => {
-                    dispatch(setAlert('danger', lang.messageError['pl']));
+                    dispatch(
+                        setAlert('danger', lang.messageError[activeLanguage]),
+                    );
 
                     dispatch(setLoader(false));
 
@@ -100,14 +108,14 @@ const FeedbackModal = ({navigation}: IFeedbackModalProps) => {
                     <React.Fragment>
                         <ScrollView keyboardShouldPersistTaps={'always'}>
                             <Text style={styles.feedbackHeaderText}>
-                                {lang.header['pl']}
+                                {lang.header[activeLanguage]}
                             </Text>
                             <Text style={styles.feedbackSubHeaderText}>
-                                {lang.feedbackText['pl']}
+                                {lang.feedbackText[activeLanguage]}
                             </Text>
 
                             <Text style={styles.feedbackTopic}>
-                                {lang.messageSubject['pl']}
+                                {lang.messageSubject[activeLanguage]}
                             </Text>
 
                             {feedbackTopic.map((topic: any, index: number) => {
@@ -142,7 +150,9 @@ const FeedbackModal = ({navigation}: IFeedbackModalProps) => {
 
                             <View style={styles.msgContainer}>
                                 <TextAreaComponent
-                                    placeholder={lang.writeMessage['pl']}
+                                    placeholder={
+                                        lang.writeMessage[activeLanguage]
+                                    }
                                     inputOnChange={(feedbackMessage: string) =>
                                         setFeedbackMessage(feedbackMessage)
                                     }
@@ -155,7 +165,7 @@ const FeedbackModal = ({navigation}: IFeedbackModalProps) => {
 
                             <ButtonComponent
                                 pressButtonComponent={sendFeedback}
-                                buttonComponentText={lang.send['pl']}
+                                buttonComponentText={lang.send[activeLanguage]}
                                 fullWidth={true}
                                 underlayColor="#dd904d"
                                 whiteBg={false}

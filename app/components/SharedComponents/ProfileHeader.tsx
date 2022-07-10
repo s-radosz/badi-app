@@ -2,13 +2,17 @@ import React from 'react';
 import {Text, View, Image, TouchableOpacity, StyleSheet} from 'react-native';
 import lang from './../../lang/SharedComponents/ProfileHeader';
 import {setUserDetails} from '../../../app/store/user/actions';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 
 const logout: any = require('./../../assets/images/logout.png');
 const bellWhite: any = require('./../../assets/images/bellWhite.png');
 
 const ProfileHeader = (props: any) => {
     const dispatch = useDispatch();
+
+    const activeLanguage = useSelector(
+        (state: any) => state?.Translations?.language,
+    );
 
     const handleLogout = () => {
         dispatch(setUserDetails(null));
@@ -27,19 +31,14 @@ const ProfileHeader = (props: any) => {
                                 {},
                             )
                         }>
-                        <View
-                            style={{
-                                flex: 1,
-                                justifyContent: 'center',
-                                alignItems: 'center',
-                            }}>
+                        <View style={styles.imgContainer}>
                             <Image
                                 source={bellWhite}
                                 style={styles.logoutImage}
                                 resizeMode="contain"
                             />
                             <Text style={styles.logoutText}>
-                                {lang.notifications['pl']}
+                                {lang.notifications[activeLanguage]}
                             </Text>
                         </View>
                     </TouchableOpacity>
@@ -48,19 +47,14 @@ const ProfileHeader = (props: any) => {
                     <TouchableOpacity
                         style={styles.logoutContainer}
                         onPress={handleLogout}>
-                        <View
-                            style={{
-                                flex: 1,
-                                justifyContent: 'center',
-                                alignItems: 'center',
-                            }}>
+                        <View style={styles.imgContainer}>
                             <Image
                                 source={logout}
                                 style={styles.logoutImage}
                                 resizeMode="contain"
                             />
                             <Text style={styles.logoutText}>
-                                {lang.loggedOut['pl']}
+                                {lang.loggedOut[activeLanguage]}
                             </Text>
                         </View>
                     </TouchableOpacity>
@@ -80,7 +74,7 @@ const ProfileHeader = (props: any) => {
                     {props.locationString}
                 </Text>
                 <View style={styles.profileHeaderInfoContainer}>
-                    <View style={{width: '50%'}}>
+                    <View style={styles.profileHeaderInfoWrapper}>
                         <Text
                             style={
                                 styles.profileHeaderSingleInfoContainerMainText
@@ -91,10 +85,10 @@ const ProfileHeader = (props: any) => {
                             style={
                                 styles.profileHeaderSingleInfoContainerSubText
                             }>
-                            {lang.yearsOld['pl']}
+                            {lang.yearsOld[activeLanguage]}
                         </Text>
                     </View>
-                    <View style={{width: '50%'}}>
+                    <View style={styles.profileHeaderInfoWrapper}>
                         <Text
                             style={
                                 styles.profileHeaderSingleInfoContainerMainText
@@ -105,7 +99,7 @@ const ProfileHeader = (props: any) => {
                             style={
                                 styles.profileHeaderSingleInfoContainerSubText
                             }>
-                            {lang.friends['pl']}
+                            {lang.friends[activeLanguage]}
                         </Text>
                     </View>
                 </View>
@@ -193,6 +187,14 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         fontSize: 16,
         //fontFamily: "Open Sans"
+    },
+    imgContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    profileHeaderInfoWrapper: {
+        width: '50%',
     },
 });
 

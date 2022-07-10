@@ -13,26 +13,33 @@ import {
     customOrangeColor,
     fontSizeBig,
 } from './../../assets/global/globalStyles';
+import {useSelector} from 'react-redux';
 
 interface IConfirmAccountProps {
     navigation: any;
 }
 
 const ConfirmAccount = ({navigation}: IConfirmAccountProps) => {
+    const activeLanguage = useSelector(
+        (state: any) => state?.Translations?.language,
+    );
+
     return (
         <React.Fragment>
             <SafeAreaView style={styles.areaContainer}>
                 <View style={styles.container}>
-                    <Text style={styles.headerText}>{lang.header['pl']}</Text>
+                    <Text style={styles.headerText}>
+                        {lang.header[activeLanguage]}
+                    </Text>
 
                     <Text style={styles.descriptionText}>
-                        {lang.description['pl']}
+                        {lang.description[activeLanguage]}
                     </Text>
                     <TouchableHighlight
                         onPress={() => navigation.navigate('Login')}
                         underlayColor={'#fff'}>
                         <Text style={styles.registerBtn}>
-                            {lang.login['pl']}
+                            {lang.login[activeLanguage]}
                         </Text>
                     </TouchableHighlight>
                 </View>

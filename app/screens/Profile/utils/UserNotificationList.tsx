@@ -20,6 +20,9 @@ const UserNotificationList = ({navigation}: IUserNotificationListProps) => {
     const dispatch = useDispatch();
 
     const userData = useSelector((state: any) => state?.User?.details);
+    const activeLanguage = useSelector(
+        (state: any) => state?.Translations?.language,
+    );
 
     const [userNotificationList, setUserNotificationList] = useState([]);
 
@@ -45,7 +48,10 @@ const UserNotificationList = ({navigation}: IUserNotificationListProps) => {
                 })
                 .catch(async error => {
                     dispatch(
-                        setAlert('danger', lang.notificationListError['pl']),
+                        setAlert(
+                            'danger',
+                            lang.notificationListError[activeLanguage],
+                        ),
                     );
 
                     dispatch(setLoader(false));
@@ -76,7 +82,7 @@ const UserNotificationList = ({navigation}: IUserNotificationListProps) => {
                         <ScrollView>
                             <TopHeader
                                 onClose={() => {}}
-                                title={'Powiadomienia'}
+                                title={lang.notificationTitle[activeLanguage]}
                             />
                             <View style={styles.notificationsListContainer}>
                                 {userNotificationList &&

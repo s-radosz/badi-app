@@ -17,7 +17,7 @@ import {
     customOrangeColor,
     fontSizeBig,
 } from './../../assets/global/globalStyles';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {setAlert} from '../../../app/store/alert/actions';
 import {API_URL} from './../../helpers/globalVariables';
 
@@ -27,6 +27,9 @@ interface IRegisterProps {
 
 const ResetPassword = ({navigation}: IRegisterProps) => {
     const dispatch = useDispatch();
+    const activeLanguage = useSelector(
+        (state: any) => state?.Translations?.language,
+    );
 
     const [email, setEmail] = useState('');
 
@@ -40,20 +43,28 @@ const ResetPassword = ({navigation}: IRegisterProps) => {
                     if (response.data.status === 'OK') {
                         setEmail('');
                         dispatch(
-                            setAlert('success', lang.chackEmailSuccess['pl']),
+                            setAlert(
+                                'success',
+                                lang.chackEmailSuccess[activeLanguage],
+                            ),
                         );
                     } else {
                         setEmail('');
-                        dispatch(setAlert('danger', lang.resetError['pl']));
+                        dispatch(
+                            setAlert('danger', lang.resetError[activeLanguage]),
+                        );
                     }
                 })
                 .catch(error => {
                     dispatch(
-                        setAlert('danger', lang.checkCredentialsError['pl']),
+                        setAlert(
+                            'danger',
+                            lang.checkCredentialsError[activeLanguage],
+                        ),
                     );
                 });
         } catch (e) {
-            dispatch(setAlert('danger', lang.resetError['pl']));
+            dispatch(setAlert('danger', lang.resetError[activeLanguage]));
         }
     };
 
@@ -63,11 +74,11 @@ const ResetPassword = ({navigation}: IRegisterProps) => {
                 <ScrollView keyboardShouldPersistTaps={'always'}>
                     <View style={styles.container}>
                         <Text style={styles.headerText}>
-                            {lang.header['pl']}
+                            {lang.header[activeLanguage]}
                         </Text>
 
                         <InputComponent
-                            placeholder={lang.email['pl']}
+                            placeholder={lang.email[activeLanguage]}
                             inputOnChange={(email: string) => setEmail(email)}
                             value={email}
                             secureTextEntry={false}
@@ -76,7 +87,7 @@ const ResetPassword = ({navigation}: IRegisterProps) => {
 
                         <ButtonComponent
                             pressButtonComponent={resetPassword}
-                            buttonComponentText={lang.header['pl']}
+                            buttonComponentText={lang.header[activeLanguage]}
                             fullWidth={false}
                             underlayColor="#dd904d"
                             whiteBg={false}
@@ -85,13 +96,13 @@ const ResetPassword = ({navigation}: IRegisterProps) => {
 
                         <View style={styles.subBtnSection}>
                             <Text style={styles.subBtnSectionAsk}>
-                                {lang.hasAccount['pl']}
+                                {lang.hasAccount[activeLanguage]}
                             </Text>
                             <TouchableHighlight
                                 onPress={() => navigation.navigate('Login')}
                                 underlayColor={'#fff'}>
                                 <Text style={styles.registerBtn}>
-                                    {lang.login['pl']}
+                                    {lang.login[activeLanguage]}
                                 </Text>
                             </TouchableHighlight>
                         </View>

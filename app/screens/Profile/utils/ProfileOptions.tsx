@@ -1,6 +1,7 @@
 import React from 'react';
 import {Text, View, TouchableHighlight, Image, StyleSheet} from 'react-native';
 import lang from './../../../lang/Profile/utils/ProfileOptions';
+import {useSelector} from 'react-redux';
 
 const woman: any = require('./../../../assets/images/woman.png');
 const edit: any = require('./../../../assets/images/edit.png');
@@ -10,6 +11,10 @@ const bell: any = require('./../../../assets/images/bell.png');
 const info: any = require('./../../../assets/images/info.png');
 
 const ProfileOptions = (props: any) => {
+    const activeLanguage = useSelector(
+        (state: any) => state?.Translations?.language,
+    );
+
     return (
         <View style={styles.container}>
             <TouchableHighlight
@@ -21,7 +26,9 @@ const ProfileOptions = (props: any) => {
                 underlayColor={'#fff'}>
                 <View>
                     <Image style={styles.img} source={woman} />
-                    <Text style={styles.optionText}>{lang.preview['pl']}</Text>
+                    <Text style={styles.optionText}>
+                        {lang.preview[activeLanguage]}
+                    </Text>
                 </View>
             </TouchableHighlight>
 
@@ -36,7 +43,9 @@ const ProfileOptions = (props: any) => {
                 underlayColor={'#fff'}>
                 <View>
                     <Image style={styles.img} source={edit} />
-                    <Text style={styles.optionText}>{lang.editData['pl']}</Text>
+                    <Text style={styles.optionText}>
+                        {lang.editData[activeLanguage]}
+                    </Text>
                 </View>
             </TouchableHighlight>
 
@@ -47,7 +56,7 @@ const ProfileOptions = (props: any) => {
                 <View>
                     <Image style={styles.img} source={highFive} />
                     <Text style={styles.optionText}>
-                        {lang.myFriends['pl']}
+                        {lang.myFriends[activeLanguage]}
                     </Text>
                 </View>
             </TouchableHighlight>
@@ -61,7 +70,7 @@ const ProfileOptions = (props: any) => {
                 <View>
                     <Image style={styles.img} source={bell} />
                     <Text style={styles.optionText}>
-                        {lang.notifications['pl']}
+                        {lang.notifications[activeLanguage]}
                     </Text>
                 </View>
             </TouchableHighlight>
@@ -73,7 +82,7 @@ const ProfileOptions = (props: any) => {
                 <View>
                     <Image style={styles.img} source={info} />
                     <Text style={styles.optionText}>
-                        {lang.aboutTheApp['pl']}
+                        {lang.aboutTheApp[activeLanguage]}
                     </Text>
                 </View>
             </TouchableHighlight>

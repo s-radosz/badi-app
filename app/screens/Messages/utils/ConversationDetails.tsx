@@ -31,6 +31,9 @@ const ConversationDetails = ({navigation}: IConversationDetailsProps) => {
     const dispatch = useDispatch();
 
     const userData = useSelector((state: any) => state?.User?.details);
+    const activeLanguage = useSelector(
+        (state: any) => state?.Translations?.language,
+    );
 
     const [openConversationMessages, setOpenConversationMessages] = useState(
         [],
@@ -77,14 +80,19 @@ const ConversationDetails = ({navigation}: IConversationDetailsProps) => {
                 .then(response =>
                     axios.post(API_URL + '/addNotification', {
                         type: 'sended_message',
-                        message: `${lang.newMessageNotification['pl']} ${userData?.name}`,
+                        message: `${lang.newMessageNotification[activeLanguage]} ${userData?.name}`,
                         userId: receiver_id,
                         senderId: userData?.id,
                         openDetailsId: openDetailsId,
                     }),
                 )
                 .catch(error => {
-                    dispatch(setAlert('danger', lang.messageSavingError['pl']));
+                    dispatch(
+                        setAlert(
+                            'danger',
+                            lang.messageSavingError[activeLanguage],
+                        ),
+                    );
                 });
         }
     };
@@ -128,7 +136,10 @@ const ConversationDetails = ({navigation}: IConversationDetailsProps) => {
                 })
                 .catch(async error => {
                     dispatch(
-                        setAlert('danger', lang.conversationDetailsError['pl']),
+                        setAlert(
+                            'danger',
+                            lang.conversationDetailsError[activeLanguage],
+                        ),
                     );
 
                     dispatch(setLoader(false));
@@ -216,7 +227,7 @@ const ConversationDetails = ({navigation}: IConversationDetailsProps) => {
                                         style={
                                             styles.conversationDetailsReceiverName
                                         }>
-                                        {lang.conversationWith['pl']}{' '}
+                                        {lang.conversationWith[activeLanguage]}{' '}
                                         {receiverName}
                                     </Text>
                                     {privateConversation && (
@@ -237,7 +248,11 @@ const ConversationDetails = ({navigation}: IConversationDetailsProps) => {
                                                 style={
                                                     styles.conversationDetailsSeeMore
                                                 }>
-                                                {lang.seeProfile['pl']}
+                                                {
+                                                    lang.seeProfile[
+                                                        activeLanguage
+                                                    ]
+                                                }
                                             </Text>
                                         </TouchableHighlight>
                                     )}
@@ -262,7 +277,11 @@ const ConversationDetails = ({navigation}: IConversationDetailsProps) => {
                                                     style={
                                                         styles.conversationDetailsSeeMore
                                                     }>
-                                                    {lang.seeItemDetails['pl']}
+                                                    {
+                                                        lang.seeItemDetails[
+                                                            activeLanguage
+                                                        ]
+                                                    }
                                                 </Text>
                                             </TouchableHighlight>
                                         )}

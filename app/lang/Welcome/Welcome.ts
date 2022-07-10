@@ -1,24 +1,23 @@
 const lang = {
     firstSlide: {
-        pl: 'People like you \n in your neighborhood',
+        en: 'Find friends to play with',
+        pl: 'Znajdź znajomych do wspólnej rozrywki',
     },
     secondSlide: {
-        pl: 'Meet new friends \n with similar interests',
+        en: 'Meet people like you',
+        pl: 'Osoby o poddobnym hobby',
     },
     thirdSlide: {
-        pl: 'Take part in discussions \n with your community',
-    },
-    fourthSlide: {
-        pl: 'Give away unecessary items \n to your neighbors',
-    },
-    fifthSlide: {
-        pl: "Juff-app - it's just \n for fun!",
+        en: 'Join community of positive people',
+        pl: 'Dołącz do społeczności',
     },
     login: {
+        en: 'Sign In',
         pl: 'Logowanie',
     },
     register: {
-        pl: 'Rejestracja',
+        en: "Don't have an account? Sign Up",
+        pl: 'Nie masz konta? Zarejestruj się',
     },
 };
 

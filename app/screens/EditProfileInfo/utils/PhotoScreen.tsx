@@ -13,6 +13,7 @@ import {
     darkGrayColor,
     fontSizeBig,
 } from './../../../assets/global/globalStyles';
+import {useSelector} from 'react-redux';
 const fillInfoBg: any = require('./../../../assets/images/fillInfoBgMin.jpg');
 
 const PhotoScreen = (props: {
@@ -23,16 +24,21 @@ const PhotoScreen = (props: {
     userSavedPhoto: string;
     API_URL: string;
 }): any => {
-    //console.log(["PhotoScreen", props]);
+    const activeLanguage = useSelector(
+        (state: any) => state?.Translations?.language,
+    );
+
     return (
         <View style={styles.sectionContainer}>
             <ScrollView>
                 <ImageBackground source={fillInfoBg} style={styles.fillImg}>
-                    <Text style={styles.headerText}>{lang.header['pl']}</Text>
+                    <Text style={styles.headerText}>
+                        {lang.header[activeLanguage]}
+                    </Text>
                 </ImageBackground>
 
                 <Text style={styles.fillInfoHeader}>
-                    {lang.photoText['pl']}
+                    {lang.photoText[activeLanguage]}
                 </Text>
 
                 {props.photo ? (
@@ -52,7 +58,7 @@ const PhotoScreen = (props: {
                 <View style={{marginTop: 10}}>
                     <ButtonComponent
                         pressButtonComponent={props.handleChoosePhoto}
-                        buttonComponentText={lang.choose['pl']}
+                        buttonComponentText={lang.choose[activeLanguage]}
                         fullWidth={true}
                         underlayColor="#dd904d"
                         whiteBg={false}
@@ -65,7 +71,7 @@ const PhotoScreen = (props: {
                 <View style={styles.backBtn}>
                     <ButtonComponent
                         pressButtonComponent={props.prevStep}
-                        buttonComponentText={lang.back['pl']}
+                        buttonComponentText={lang.back[activeLanguage]}
                         fullWidth={false}
                         underlayColor="#dd904d"
                         whiteBg={true}
@@ -76,7 +82,7 @@ const PhotoScreen = (props: {
                     {props.photo || props.userSavedPhoto ? (
                         <ButtonComponent
                             pressButtonComponent={props.nextStep}
-                            buttonComponentText={lang.next['pl']}
+                            buttonComponentText={lang.next[activeLanguage]}
                             fullWidth={true}
                             underlayColor="#dd904d"
                             whiteBg={false}

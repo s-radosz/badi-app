@@ -29,6 +29,9 @@ const Messages = ({navigation}: IMessagesProps) => {
     const dispatch = useDispatch();
 
     const userData = useSelector((state: any) => state?.User?.details);
+    const activeLanguage = useSelector(
+        (state: any) => state?.Translations?.language,
+    );
 
     const [messagesList, setMessagesList] = useState([]);
     const [showFilterPanel, setShowFilterPanel] = useState(false);
@@ -61,7 +64,10 @@ const Messages = ({navigation}: IMessagesProps) => {
             })
             .catch(async error => {
                 dispatch(
-                    setAlert('danger', lang.conversationDetailsError['pl']),
+                    setAlert(
+                        'danger',
+                        lang.conversationDetailsError[activeLanguage],
+                    ),
                 );
 
                 dispatch(setLoader(false));
@@ -89,7 +95,10 @@ const Messages = ({navigation}: IMessagesProps) => {
             })
             .catch(async error => {
                 dispatch(
-                    setAlert('danger', lang.conversationDetailsError['pl']),
+                    setAlert(
+                        'danger',
+                        lang.conversationDetailsError[activeLanguage],
+                    ),
                 );
 
                 dispatch(setLoader(false));
@@ -110,7 +119,7 @@ const Messages = ({navigation}: IMessagesProps) => {
                         <ScrollView>
                             <TopHeader
                                 onClose={() => {}}
-                                title={lang.header['pl']}
+                                title={lang.header[activeLanguage]}
                             />
 
                             {showFilterPanel && (
@@ -133,7 +142,11 @@ const Messages = ({navigation}: IMessagesProps) => {
                                                             ? styles.filterBtnTextActive
                                                             : styles.filterBtnText
                                                     }>
-                                                    {lang.privateMessages['pl']}
+                                                    {
+                                                        lang.privateMessages[
+                                                            activeLanguage
+                                                        ]
+                                                    }
                                                 </Text>
                                             </TouchableOpacity>
                                         </View>
@@ -154,7 +167,11 @@ const Messages = ({navigation}: IMessagesProps) => {
                                                             ? styles.filterBtnTextActive
                                                             : styles.filterBtnText
                                                     }>
-                                                    {lang.itemsMessages['pl']}
+                                                    {
+                                                        lang.itemsMessages[
+                                                            activeLanguage
+                                                        ]
+                                                    }
                                                 </Text>
                                             </TouchableOpacity>
                                         </View>
@@ -171,11 +188,11 @@ const Messages = ({navigation}: IMessagesProps) => {
                                     />
                                 ) : displayPrivateMessages ? (
                                     <Text style={styles.noResultsContainer}>
-                                        {lang.noResultsUsers['pl']}
+                                        {lang.noResultsUsers[activeLanguage]}
                                     </Text>
                                 ) : (
                                     <Text style={styles.noResultsContainer}>
-                                        {lang.noResultsItems['pl']}
+                                        {lang.noResultsItems[activeLanguage]}
                                     </Text>
                                 )
                             ) : null}

@@ -21,6 +21,9 @@ const SingleConversationMessage = ({
     const dispatch = useDispatch();
 
     const userData = useSelector((state: any) => state?.User?.details);
+    const activeLanguage = useSelector(
+        (state: any) => state?.Translations?.language,
+    );
 
     const [isCurrentUserTheSender, setIsCurrentUserTheSender] = useState(false);
     const [showMessageDate, setShowMessageDate] = useState(false);
@@ -56,7 +59,7 @@ const SingleConversationMessage = ({
                             ? styles.messageDateSender
                             : styles.messageDateReceiver
                     }>
-                    {lang.createdAt['pl']} {messageDate}
+                    {lang.createdAt[activeLanguage]} {messageDate}
                 </Text>
             )}
         </View>

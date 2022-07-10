@@ -22,8 +22,10 @@ interface IBottomPanelProps {
 
 const BottomPanel = ({navigation}: IBottomPanelProps) => {
     const userData = useSelector((state: any) => state?.User?.details);
+    const activeLanguage = useSelector(
+        (state: any) => state?.Translations?.language,
+    );
 
-    // const context = useContext(GlobalContext);
     return (
         <React.Fragment>
             <View style={styles.bottomPanel}>
@@ -53,7 +55,7 @@ const BottomPanel = ({navigation}: IBottomPanelProps) => {
                             //     ? styles.buttonTextActive
                             //     : styles.buttonText
                         }>
-                        {lang.start['pl']}
+                        {lang.start[activeLanguage]}
                     </Text>
                 </TouchableOpacity>
                 <TouchableOpacity
@@ -122,7 +124,7 @@ const BottomPanel = ({navigation}: IBottomPanelProps) => {
                             //     ? styles.buttonTextActive
                             //     : styles.buttonText
                         }>
-                        {lang.messages['pl']}
+                        {lang.messages[activeLanguage]}
                     </Text>
                 </TouchableOpacity>
                 <TouchableOpacity
@@ -151,7 +153,7 @@ const BottomPanel = ({navigation}: IBottomPanelProps) => {
                             //     ? styles.buttonTextActive
                             //     : styles.buttonText
                         }>
-                        {lang.addNewEvent['pl']}
+                        {lang.addNewEvent[activeLanguage]}
                     </Text>
                 </TouchableOpacity>
 
@@ -184,7 +186,7 @@ const BottomPanel = ({navigation}: IBottomPanelProps) => {
                             //     ? styles.buttonTextActive
                             //     : styles.buttonText
                         }>
-                        {lang.notifications['pl']}
+                        {lang.notifications[activeLanguage]}
                     </Text>
                 </TouchableOpacity>
                 <TouchableOpacity
@@ -251,24 +253,19 @@ const BottomPanel = ({navigation}: IBottomPanelProps) => {
                             //     ? styles.buttonTextActive
                             //     : styles.buttonText
                         }>
-                        {lang.profile['pl']}
+                        {lang.profile[activeLanguage]}
                     </Text>
                 </TouchableOpacity>
             </View>
 
             {userData ? (
                 <TouchableOpacity
-                    style={{
-                        position: 'absolute',
-                        right: 10,
-                        bottom: 75,
-                        zIndex: 1,
-                    }}
+                    style={styles.feedbackBtn}
                     onPress={() =>
                         NavigationService.navigate('FeedbackModal', {})
                     }
                     data-test="feedbackIcon">
-                    <Image source={feedback} style={{width: 50, height: 50}} />
+                    <Image source={feedback} style={styles.feedbackImg} />
                 </TouchableOpacity>
             ) : null}
         </React.Fragment>
@@ -332,6 +329,16 @@ const styles = StyleSheet.create({
         left: 5,
         fontSize: 10,
         top: 5,
+    },
+    feedbackBtn: {
+        position: 'absolute',
+        right: 10,
+        bottom: 75,
+        zIndex: 1,
+    },
+    feedbackImg: {
+        width: 50,
+        height: 50,
     },
 });
 

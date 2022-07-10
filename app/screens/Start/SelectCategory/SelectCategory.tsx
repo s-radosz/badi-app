@@ -2,6 +2,8 @@ import React, {useState} from 'react';
 import {Dimensions, SafeAreaView, StyleSheet, Text, View} from 'react-native';
 import {Chip} from 'react-native-paper';
 import TopHeader from './../../../components/Utils/TopHeader';
+import lang from './../../../lang/Start/SelectCategory/SelectCategory';
+import {useSelector} from 'react-redux';
 
 interface SelectCategoryProps {
     onClose: () => void;
@@ -10,45 +12,89 @@ interface SelectCategoryProps {
 }
 
 const SelectCategory = (props: SelectCategoryProps) => {
-    const [hobbiesTeams, setHobbiesTeams] = useState([
-        {
-            id: 1,
-            name: 'Piłka nożna',
-            selected: false,
-        },
-        {
-            id: 2,
-            name: 'Koszykówka',
-            selected: false,
-        },
-        {
-            id: 3,
-            name: 'Siatkówka',
-            selected: false,
-        },
-        {
-            id: 4,
-            name: 'Piłka ręczna',
-            selected: false,
-        },
-    ]);
-    const [hobbiesIndividual, setHobbiesIndividual] = useState([
-        {
-            id: 5,
-            name: 'Tennis',
-            selected: false,
-        },
-        {
-            id: 6,
-            name: 'Siłownia',
-            selected: false,
-        },
-        {
-            id: 7,
-            name: 'Squash',
-            selected: false,
-        },
-    ]);
+    const activeLanguage = useSelector(
+        (state: any) => state?.Translations?.language,
+    );
+
+    const [hobbiesTeams, setHobbiesTeams] = useState(
+        activeLanguage === 'pl'
+            ? [
+                  {
+                      id: 1,
+                      name: 'Piłka nożna',
+                      selected: false,
+                  },
+                  {
+                      id: 2,
+                      name: 'Koszykówka',
+                      selected: false,
+                  },
+                  {
+                      id: 3,
+                      name: 'Siatkówka',
+                      selected: false,
+                  },
+                  {
+                      id: 4,
+                      name: 'Piłka ręczna',
+                      selected: false,
+                  },
+              ]
+            : [
+                  {
+                      id: 1,
+                      name: 'Football',
+                      selected: false,
+                  },
+                  {
+                      id: 2,
+                      name: 'Basketball',
+                      selected: false,
+                  },
+                  {
+                      id: 3,
+                      name: 'Volleyball',
+                      selected: false,
+                  },
+              ],
+    );
+    const [hobbiesIndividual, setHobbiesIndividual] = useState(
+        activeLanguage === 'pl'
+            ? [
+                  {
+                      id: 5,
+                      name: 'Tennis',
+                      selected: false,
+                  },
+                  {
+                      id: 6,
+                      name: 'Siłownia',
+                      selected: false,
+                  },
+                  {
+                      id: 7,
+                      name: 'Squash',
+                      selected: false,
+                  },
+              ]
+            : [
+                  {
+                      id: 5,
+                      name: 'Tennis',
+                      selected: false,
+                  },
+                  {
+                      id: 6,
+                      name: 'Gym',
+                      selected: false,
+                  },
+                  {
+                      id: 7,
+                      name: 'Squash',
+                      selected: false,
+                  },
+              ],
+    );
     const [hobbiesEsport, setHobbiesEsport] = useState([
         {
             id: 8,
@@ -61,33 +107,41 @@ const SelectCategory = (props: SelectCategoryProps) => {
             selected: false,
         },
     ]);
-    const [hobbiesRest, setHobbiesRest] = useState([
-        {
-            id: 10,
-            name: 'Jazda na motocyklu',
-            selected: false,
-        },
-        {
-            id: 11,
-            name: 'Wędkarstwo',
-            selected: false,
-        },
-    ]);
+    const [hobbiesRest, setHobbiesRest] = useState(
+        activeLanguage === 'pl'
+            ? [
+                  {
+                      id: 10,
+                      name: 'Jazda na motocyklu',
+                      selected: false,
+                  },
+                  {
+                      id: 11,
+                      name: 'Wędkarstwo',
+                      selected: false,
+                  },
+              ]
+            : [
+                  {
+                      id: 10,
+                      name: 'Motocycles',
+                      selected: false,
+                  },
+              ],
+    );
 
     return (
         <SafeAreaView testID="MainScreen" style={styles.container}>
-            <TopHeader onClose={props?.onClose} title={'Wybierz Kategorię'} />
+            <TopHeader
+                onClose={props?.onClose}
+                title={lang.title[activeLanguage]}
+            />
 
-            {/* <Appbar style={styles.topBar}>
-                <Appbar.Header style={styles.topBarBack}>
-                    <Appbar.BackAction onPress={props?.onClose} />
-                </Appbar.Header>
-                <Appbar.Content title="Wybierz Kategorię" />
-            </Appbar> */}
-            {/* <Screen style={styles.wrapper} preset="scroll"> */}
             <View>
                 <View style={styles.singleListContainer}>
-                    <Text style={styles.hobbyText}>Sporty drużynowe</Text>
+                    <Text style={styles.hobbyText}>
+                        {lang.teamSports[activeLanguage]}
+                    </Text>
 
                     <View style={styles.chipContainer}>
                         {hobbiesTeams?.map((hobby, i) => {
@@ -110,7 +164,9 @@ const SelectCategory = (props: SelectCategoryProps) => {
                 </View>
 
                 <View style={styles.singleListContainer}>
-                    <Text style={styles.hobbyText}>Sporty indywidualne</Text>
+                    <Text style={styles.hobbyText}>
+                        {lang.individualSports[activeLanguage]}
+                    </Text>
 
                     <View style={styles.chipContainer}>
                         {hobbiesIndividual?.map((hobby, i) => {
@@ -133,7 +189,9 @@ const SelectCategory = (props: SelectCategoryProps) => {
                 </View>
 
                 <View style={styles.singleListContainer}>
-                    <Text style={styles.hobbyText}>E-sport</Text>
+                    <Text style={styles.hobbyText}>
+                        {lang.esport[activeLanguage]}
+                    </Text>
 
                     <View style={styles.chipContainer}>
                         {hobbiesEsport?.map((hobby, i) => {
@@ -156,7 +214,9 @@ const SelectCategory = (props: SelectCategoryProps) => {
                 </View>
 
                 <View style={styles.singleListContainer}>
-                    <Text style={styles.hobbyText}>Pozostałe</Text>
+                    <Text style={styles.hobbyText}>
+                        {lang.other[activeLanguage]}
+                    </Text>
 
                     <View style={styles.chipContainer}>
                         {hobbiesRest?.map((hobby, i) => {
@@ -178,8 +238,6 @@ const SelectCategory = (props: SelectCategoryProps) => {
                     </View>
                 </View>
             </View>
-            {/* </Screen> */}
-            {/* <Footer navigate={(path: any) => props?.navigation?.navigate(path)} route="main"/> */}
         </SafeAreaView>
     );
 };

@@ -11,6 +11,7 @@ import MapView, {Marker, PROVIDER_GOOGLE} from 'react-native-maps';
 import ButtonComponent from './../../../components/Utils/ButtonComponent';
 import lang from './../../../lang/EditProfileInfo/utils/CoordsScreen';
 import {fontSizeBig} from './../../../assets/global/globalStyles';
+import {useSelector} from 'react-redux';
 const fillInfoBg: any = require('./../../../assets/images/fillInfoBgMin.jpg');
 
 const mapStyle = [
@@ -62,15 +63,21 @@ const CoordsScreen = ({
     nextStep,
     prevStep,
 }: CoordsProps) => {
+    const activeLanguage = useSelector(
+        (state: any) => state?.Translations?.language,
+    );
+
     return (
         <View style={styles.sectionContainer}>
             <ScrollView>
                 <ImageBackground source={fillInfoBg} style={styles.fillImg}>
-                    <Text style={styles.headerText}>{lang.header['pl']}</Text>
+                    <Text style={styles.headerText}>
+                        {lang.header[activeLanguage]}
+                    </Text>
                 </ImageBackground>
 
                 <Text style={styles.fillInfoHeader}>
-                    {lang.cordsText['pl']}
+                    {lang.cordsText[activeLanguage]}
                 </Text>
 
                 <MapView
@@ -88,7 +95,7 @@ const CoordsScreen = ({
                 <View style={styles.backBtn}>
                     <ButtonComponent
                         pressButtonComponent={prevStep}
-                        buttonComponentText={lang.back['pl']}
+                        buttonComponentText={lang.back[activeLanguage]}
                         fullWidth={false}
                         underlayColor="#dd904d"
                         whiteBg={true}
@@ -98,7 +105,7 @@ const CoordsScreen = ({
                 <View style={styles.nextBtn}>
                     <ButtonComponent
                         pressButtonComponent={nextStep}
-                        buttonComponentText={lang.next['pl']}
+                        buttonComponentText={lang.next[activeLanguage]}
                         fullWidth={true}
                         underlayColor="#dd904d"
                         whiteBg={false}

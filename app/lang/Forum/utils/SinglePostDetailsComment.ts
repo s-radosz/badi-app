@@ -1,7 +1,7 @@
-const lang = {
-    seeProfile: {
-        pl: 'Zobacz profil',
-    },
-};
+// const lang = {
+//     seeProfile: {
+//         pl: 'Zobacz profil',
+//     },
+// };
 
-export default lang;
+// export default lang;

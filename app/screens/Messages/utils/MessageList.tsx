@@ -4,8 +4,13 @@ import ListItem from './../../../components/Utils/ListItem';
 import moment from 'moment';
 import lang from './../../../lang/Messages/utils/MessageList';
 import {API_URL} from './../../../helpers/globalVariables';
+import {useSelector} from 'react-redux';
 
 const MessageList = (props: {messagesList: any; navigation: any}): any => {
+    const activeLanguage = useSelector(
+        (state: any) => state?.Translations?.language,
+    );
+
     if (props.messagesList) {
         return props.messagesList && props.messagesList.length > 0 ? (
             props.messagesList.map((conversation: any, i: number) => {
@@ -37,7 +42,7 @@ const MessageList = (props: {messagesList: any; navigation: any}): any => {
             })
         ) : (
             <Text style={styles.noResultsContainer}>
-                {lang.noResults['pl']}
+                {lang.noResults[activeLanguage]}
             </Text>
         );
     }

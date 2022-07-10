@@ -1,6 +1,8 @@
 import React from 'react';
 import {TouchableOpacity, View, Dimensions, StyleSheet} from 'react-native';
 import {Text, IconButton} from 'react-native-paper';
+import lang from './../../../lang/Start/MainScreenHeader/MainScreenHeader';
+import {useSelector} from 'react-redux';
 
 interface MainScreenHeaderProps {
     navigation: any;
@@ -10,68 +12,54 @@ interface MainScreenHeaderProps {
     selectedDateRange: string;
 }
 
-const MainScreenHeader =
-    // : FC<StackScreenProps<NavigatorParamList, "main">> =
-    (props: MainScreenHeaderProps) => {
-        return (
-            <View style={styles.container}>
-                <View style={styles.wrapper}>
-                    {/* <TouchableOpacity 
-                    onPress={() => {}}
-                    style={styles.btnContainer}
-                >
-                    <Text style={[
-                    ]}>LOGO</Text>
-                </TouchableOpacity> */}
+const MainScreenHeader = (props: MainScreenHeaderProps) => {
+    const activeLanguage = useSelector(
+        (state: any) => state?.Translations?.language,
+    );
 
-                    <TouchableOpacity
-                        onPress={() => props?.setSelectCategory(true)}
-                        style={styles.btnContainer}>
-                        <View>
-                            <Text style={[styles.btnText]}>Kategoria</Text>
-                            <Text style={[styles.subBtnText]}>
-                                {props?.selectedCategoryName}
-                            </Text>
-                        </View>
-                    </TouchableOpacity>
+    return (
+        <View style={styles.container}>
+            <View style={styles.wrapper}>
+                <TouchableOpacity
+                    onPress={() => props?.setSelectCategory(true)}
+                    style={styles.btnContainer}>
+                    <View>
+                        <Text style={[styles.btnText]}>
+                            {lang.category[activeLanguage]}
+                        </Text>
+                        <Text style={[styles.subBtnText]}>
+                            {props?.selectedCategoryName}
+                        </Text>
+                    </View>
+                </TouchableOpacity>
 
-                    <TouchableOpacity
-                        onPress={() => props?.setSelectDate(true)}
-                        style={styles.btnContainer}>
-                        <View>
-                            <Text style={[styles.btnText]}>Data</Text>
-                            <Text style={[styles.subBtnText]}>
-                                {props?.selectedDateRange}
-                            </Text>
-                        </View>
-                    </TouchableOpacity>
-                    {/* 
-                <TouchableOpacity 
-                    onPress={() => {}}
-                    style={styles.btnContainer}
-                >
-                    <Text style={[
-                        styles.btnText
-                    ]}>Poziom</Text>
-                     <Text style={[
-                        styles.subBtnText
-                    ]}>Początkujący</Text>
-                </TouchableOpacity> */}
+                <TouchableOpacity
+                    onPress={() => props?.setSelectDate(true)}
+                    style={styles.btnContainer}>
+                    <View>
+                        <Text style={[styles.btnText]}>
+                            {lang.date[activeLanguage]}
+                        </Text>
+                        <Text style={[styles.subBtnText]}>
+                            {props?.selectedDateRange}
+                        </Text>
+                    </View>
+                </TouchableOpacity>
 
-                    <TouchableOpacity
-                        onPress={() => props?.navigation.navigate('add')}
-                        style={styles.btnContainer}>
-                        <IconButton
-                            icon="plus-circle"
-                            color={'#000'}
-                            size={50}
-                            style={styles.btnIcon}
-                        />
-                    </TouchableOpacity>
-                </View>
+                <TouchableOpacity
+                    onPress={() => props?.navigation.navigate('add')}
+                    style={styles.btnContainer}>
+                    <IconButton
+                        icon="plus-circle"
+                        color={'#000'}
+                        size={50}
+                        style={styles.btnIcon}
+                    />
+                </TouchableOpacity>
             </View>
-        );
-    };
+        </View>
+    );
+};
 
 const styles = StyleSheet.create({
     container: {

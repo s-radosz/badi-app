@@ -3,6 +3,7 @@ import {View, StyleSheet} from 'react-native';
 import ButtonComponent from './../../../components/Utils/ButtonComponent';
 import InputComponent from './../../../components/Utils/InputComponent';
 import lang from './../../../lang/Messages/utils/SendMessageBox';
+import {useSelector} from 'react-redux';
 
 const SendMessageBox = (props: {
     sendMessage: any;
@@ -14,11 +15,15 @@ const SendMessageBox = (props: {
     setUserMessage: any;
     conversationId: number;
 }): any => {
+    const activeLanguage = useSelector(
+        (state: any) => state?.Translations?.language,
+    );
+
     return (
         <React.Fragment>
             <View style={styles.messageBoxContainer}>
                 <InputComponent
-                    placeholder={lang.message['pl']}
+                    placeholder={lang.message[activeLanguage]}
                     inputOnChange={(message: string) =>
                         props.setUserMessage(message)
                     }
@@ -39,7 +44,7 @@ const SendMessageBox = (props: {
                         );
                         await props.setUserMessage('');
                     }}
-                    buttonComponentText={lang.sendMessage['pl']}
+                    buttonComponentText={lang.sendMessage[activeLanguage]}
                     fullWidth={true}
                     underlayColor="#dd904d"
                     whiteBg={false}

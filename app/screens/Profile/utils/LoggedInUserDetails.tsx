@@ -21,6 +21,9 @@ const LoggedInUserDetails = ({navigation}: ILoggedInUserDetailsProps) => {
     const dispatch = useDispatch();
 
     const userData = useSelector((state: any) => state?.User?.details);
+    const activeLanguage = useSelector(
+        (state: any) => state?.Translations?.language,
+    );
 
     const [showUserMessageBox, setShowUserMessageBox] = useState(false);
     const [locationDetails, setLocationDetails] = useState(null);
@@ -73,7 +76,9 @@ const LoggedInUserDetails = ({navigation}: ILoggedInUserDetailsProps) => {
                 }
             })
             .catch(async error => {
-                dispatch(setAlert('danger', lang.userDetailsError['pl']));
+                dispatch(
+                    setAlert('danger', lang.userDetailsError[activeLanguage]),
+                );
                 dispatch(setLoader(false));
             });
     };

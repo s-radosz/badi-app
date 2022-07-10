@@ -35,6 +35,9 @@ interface IEditProfileInfoProps {
 const EditProfileInfo = ({navigation}: IEditProfileInfoProps) => {
     const dispatch = useDispatch();
     const userData = useSelector((state: any) => state?.User?.details);
+    const activeLanguage = useSelector(
+        (state: any) => state?.Translations?.language,
+    );
 
     const [nickname, setNickname] = useState('');
     const [age, setAge] = useState(0);
@@ -333,7 +336,10 @@ const EditProfileInfo = ({navigation}: IEditProfileInfoProps) => {
                         setActualStep(1);
 
                         dispatch(
-                            setAlert('danger', lang.nickExistsError['pl']),
+                            setAlert(
+                                'danger',
+                                lang.nickExistsError[activeLanguage],
+                            ),
                         );
 
                         dispatch(setLoader(false));
@@ -390,7 +396,9 @@ const EditProfileInfo = ({navigation}: IEditProfileInfoProps) => {
                             {actualStep === 1 && (
                                 <Suspense
                                     fallback={
-                                        <Text>{lang.loading['pl']}</Text>
+                                        <Text>
+                                            {lang.loading[activeLanguage]}
+                                        </Text>
                                     }>
                                     <AgeDescScreen
                                         handleChange={(event: any) =>
@@ -407,7 +415,9 @@ const EditProfileInfo = ({navigation}: IEditProfileInfoProps) => {
                             {actualStep === 2 && (
                                 <Suspense
                                     fallback={
-                                        <Text>{lang.loading['pl']}</Text>
+                                        <Text>
+                                            {lang.loading[activeLanguage]}
+                                        </Text>
                                     }>
                                     <PhotoScreen
                                         nextStep={nextStep}
@@ -423,7 +433,9 @@ const EditProfileInfo = ({navigation}: IEditProfileInfoProps) => {
                             {actualStep === 3 && (
                                 <Suspense
                                     fallback={
-                                        <Text>{lang.loading['pl']}</Text>
+                                        <Text>
+                                            {lang.loading[activeLanguage]}
+                                        </Text>
                                     }>
                                     <CoordsScreen
                                         nextStep={nextStep}
@@ -437,7 +449,9 @@ const EditProfileInfo = ({navigation}: IEditProfileInfoProps) => {
                             {actualStep === 4 && (
                                 <Suspense
                                     fallback={
-                                        <Text>{lang.loading['pl']}</Text>
+                                        <Text>
+                                            {lang.loading[activeLanguage]}
+                                        </Text>
                                     }>
                                     <ChooseHobbiesScreen
                                         prevStep={prevStep}
@@ -449,7 +463,6 @@ const EditProfileInfo = ({navigation}: IEditProfileInfoProps) => {
                                 </Suspense>
                             )}
                         </React.Fragment>
-                        {/* )} */}
                     </View>
                 </View>
             </SafeAreaView>

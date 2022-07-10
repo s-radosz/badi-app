@@ -15,6 +15,7 @@ import {
     customOrangeColor,
     darkGrayColor,
 } from './../../../assets/global/globalStyles';
+import {useSelector} from 'react-redux';
 
 const fillInfoBg: any = require('./../../../assets/images/fillInfoBgMin.jpg');
 const gymOrange: any = require('./../../../assets/images/editProfile/gymOrange.png');
@@ -42,15 +43,20 @@ const ChooseHobbiesScreen = (props: {
     submitData: any;
     prevStep: any;
 }): any => {
-    //console.log(["props.hobbies", props.hobbies]);
+    const activeLanguage = useSelector(
+        (state: any) => state?.Translations?.language,
+    );
+
     return (
         <View style={styles.sectionContainer}>
             <ScrollView>
                 <ImageBackground source={fillInfoBg} style={styles.fillImg}>
-                    <Text style={styles.headerText}>{lang.header['pl']}</Text>
+                    <Text style={styles.headerText}>
+                        {lang.header[activeLanguage]}
+                    </Text>
                 </ImageBackground>
                 <Text style={styles.fillInfoHeader}>
-                    {lang.hobbyText['pl']}
+                    {lang.hobbyText[activeLanguage]}
                 </Text>
                 <View style={styles.hobbiesContainer}>
                     {props.hobbies &&
@@ -378,7 +384,7 @@ const ChooseHobbiesScreen = (props: {
                 <View style={{width: '30%'}}>
                     <ButtonComponent
                         pressButtonComponent={props.prevStep}
-                        buttonComponentText={lang.back['pl']}
+                        buttonComponentText={lang.back[activeLanguage]}
                         fullWidth={false}
                         underlayColor="#dd904d"
                         whiteBg={true}
@@ -388,7 +394,7 @@ const ChooseHobbiesScreen = (props: {
                 <View style={{width: '71%'}}>
                     <ButtonComponent
                         pressButtonComponent={props.submitData}
-                        buttonComponentText={lang.save['pl']}
+                        buttonComponentText={lang.save[activeLanguage]}
                         fullWidth={true}
                         underlayColor="#dd904d"
                         whiteBg={false}

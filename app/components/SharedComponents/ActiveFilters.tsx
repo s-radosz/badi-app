@@ -2,64 +2,81 @@ import React from 'react';
 import {Text, View, TouchableHighlight, Image, StyleSheet} from 'react-native';
 import lang from './../../lang/SharedComponents/ActiveFilters';
 import {customOrangeColor} from './../../assets/global/globalStyles';
+import {useDispatch, useSelector} from 'react-redux';
 
 const trash: any = require('./../../assets/images/trash.png');
 
-const ActiveFilters = (props: any) => (
-    <View>
-        {props.filterDistance || props.filterHobbyName
-            ? !props.showFilterModal && (
-                  <Text style={styles.activeFiltersText}>
-                      {lang.activeFilters['pl']}
-                  </Text>
-              )
-            : null}
+const ActiveFilters = (props: any) => {
+    const activeLanguage = useSelector(
+        (state: any) => state?.Translations?.language,
+    );
 
-        <View style={styles.activeFiltersConatiner}>
-            {props.filterDistance && !props.showFilterModal ? (
-                <View style={styles.removeFilterBtnContainer}>
-                    <Text style={styles.removeFilterText}>
-                        {lang.distance['pl']} - {props.filterDistance}
-                    </Text>
-                    <TouchableHighlight
-                        style={styles.removeFilterBtn}
-                        onPress={() => props.removeFilter(lang.distance['pl'])}
-                        underlayColor={'#dd904d'}>
-                        <Image source={trash} style={styles.img} />
-                    </TouchableHighlight>
-                </View>
-            ) : null}
+    return (
+        <View>
+            {props.filterDistance || props.filterHobbyName
+                ? !props.showFilterModal && (
+                      <Text style={styles.activeFiltersText}>
+                          {lang.activeFilters[activeLanguage]}
+                      </Text>
+                  )
+                : null}
 
-            {props.filterHobbyName && !props.showFilterModal ? (
-                <View style={styles.removeFilterBtnContainer}>
-                    <Text style={styles.removeFilterText}>
-                        {lang.hobby['pl']} - {props.filterHobbyName}
-                    </Text>
-                    <TouchableHighlight
-                        style={styles.removeFilterBtn}
-                        onPress={() => props.removeFilter(lang.hobby['pl'])}
-                        underlayColor={'#dd904d'}>
-                        <Image source={trash} style={styles.img} />
-                    </TouchableHighlight>
-                </View>
-            ) : null}
+            <View style={styles.activeFiltersConatiner}>
+                {props.filterDistance && !props.showFilterModal ? (
+                    <View style={styles.removeFilterBtnContainer}>
+                        <Text style={styles.removeFilterText}>
+                            {lang.distance[activeLanguage]} -{' '}
+                            {props.filterDistance}
+                        </Text>
+                        <TouchableHighlight
+                            style={styles.removeFilterBtn}
+                            onPress={() =>
+                                props.removeFilter(
+                                    lang.distance[activeLanguage],
+                                )
+                            }
+                            underlayColor={'#dd904d'}>
+                            <Image source={trash} style={styles.img} />
+                        </TouchableHighlight>
+                    </View>
+                ) : null}
 
-            {props.filterStatus && !props.showFilterModal ? (
-                <View style={styles.removeFilterBtnContainer}>
-                    <Text style={styles.removeFilterText}>
-                        {lang.status['pl']} - {props.filterStatus}
-                    </Text>
-                    <TouchableHighlight
-                        style={styles.removeFilterBtn}
-                        onPress={() => props.removeFilter(lang.status['pl'])}
-                        underlayColor={'#dd904d'}>
-                        <Image source={trash} style={styles.img} />
-                    </TouchableHighlight>
-                </View>
-            ) : null}
+                {props.filterHobbyName && !props.showFilterModal ? (
+                    <View style={styles.removeFilterBtnContainer}>
+                        <Text style={styles.removeFilterText}>
+                            {lang.hobby[activeLanguage]} -{' '}
+                            {props.filterHobbyName}
+                        </Text>
+                        <TouchableHighlight
+                            style={styles.removeFilterBtn}
+                            onPress={() =>
+                                props.removeFilter(lang.hobby[activeLanguage])
+                            }
+                            underlayColor={'#dd904d'}>
+                            <Image source={trash} style={styles.img} />
+                        </TouchableHighlight>
+                    </View>
+                ) : null}
+
+                {props.filterStatus && !props.showFilterModal ? (
+                    <View style={styles.removeFilterBtnContainer}>
+                        <Text style={styles.removeFilterText}>
+                            {lang.status[activeLanguage]} - {props.filterStatus}
+                        </Text>
+                        <TouchableHighlight
+                            style={styles.removeFilterBtn}
+                            onPress={() =>
+                                props.removeFilter(lang.status[activeLanguage])
+                            }
+                            underlayColor={'#dd904d'}>
+                            <Image source={trash} style={styles.img} />
+                        </TouchableHighlight>
+                    </View>
+                ) : null}
+            </View>
         </View>
-    </View>
-);
+    );
+};
 
 const styles = StyleSheet.create({
     activeFiltersText: {

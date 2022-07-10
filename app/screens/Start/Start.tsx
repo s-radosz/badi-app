@@ -8,6 +8,7 @@ import BottomPanel from './../../components/SharedComponents/BottomPanel';
 import {withNavigation} from 'react-navigation';
 import ButtonComponent from './../../components/Utils/ButtonComponent';
 import {useSelector} from 'react-redux';
+import lang from './../../lang/Start/Start';
 
 interface MainScreenProps {
     navigation: any;
@@ -15,15 +16,17 @@ interface MainScreenProps {
 
 const Start = ({navigation}: MainScreenProps) => {
     const userToken = useSelector((state: any) => state?.User?.details?.token);
-
-    // const context = useContext(GlobalContext);
+    const activeLanguage = useSelector(
+        (state: any) => state?.Translations?.language,
+    );
 
     const [showSelectCategory, setSelectCategory] = useState(false);
     const [showSelectDate, setSelectDate] = useState(false);
 
     const [selectedCategoryId, setSelectedCategoryId] = useState(1);
-    const [selectedCategoryName, setSelectedCategoryName] =
-        useState('Piłka nożna');
+    const [selectedCategoryName, setSelectedCategoryName] = useState(
+        activeLanguage === 'pl' ? 'Piłka nozna' : 'Football',
+    );
 
     const [selectedDateRangeFrom, setSelectedDateRangeFrom] = useState(
         new Date().toISOString().slice(0, 10),
@@ -40,11 +43,11 @@ const Start = ({navigation}: MainScreenProps) => {
         setSelectCategory(false);
     };
 
-    useEffect(() => {
-        if (userToken) {
-            console.log(['userToken', userToken]);
-        }
-    }, [userToken]);
+    // useEffect(() => {
+    //     if (userToken) {
+    //         console.log(['userToken', userToken]);
+    //     }
+    // }, [userToken]);
 
     return (
         <>
@@ -77,15 +80,24 @@ const Start = ({navigation}: MainScreenProps) => {
                         }
                         setSelectDate={(value: boolean) => setSelectDate(value)}
                         selectedCategoryName={selectedCategoryName}
-                        selectedDateRange={`Od: ${selectedDateRangeFrom}\nDo: ${selectedDateRangeTo}`}
+                        selectedDateRange={`${lang.from[activeLanguage]}: ${selectedDateRangeFrom}\n${lang.to[activeLanguage]}: ${selectedDateRangeTo}`}
                     />
                     <MapView
-                        initialRegion={{
-                            latitude: 50.9333296,
-                            longitude: 21.3999984,
-                            latitudeDelta: 0.0922,
-                            longitudeDelta: 0.0421,
-                        }}
+                        initialRegion={
+                            lang.from[activeLanguage] === 'pl'
+                                ? {
+                                      latitude: 50.9333296,
+                                      longitude: 21.3999984,
+                                      latitudeDelta: 0.0922,
+                                      longitudeDelta: 0.0421,
+                                  }
+                                : {
+                                      latitude: 51.509865,
+                                      longitude: -0.118092,
+                                      latitudeDelta: 0.0922,
+                                      longitudeDelta: 0.0421,
+                                  }
+                        }
                         style={styles.map}
                     />
                     <View style={styles.bottomBtnContainer}>
@@ -94,7 +106,9 @@ const Start = ({navigation}: MainScreenProps) => {
                                 pressButtonComponent={() =>
                                     navigation?.navigate('Register')
                                 }
-                                buttonComponentText={'Załóz konto'}
+                                buttonComponentText={
+                                    lang.register[activeLanguage]
+                                }
                                 fullWidth={false}
                                 underlayColor="#dd904d"
                                 whiteBg={false}

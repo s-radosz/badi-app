@@ -1,14 +1,18 @@
 const lang = {
     notifications: {
+        en: 'Notifications',
         pl: 'Powiadomienia',
     },
     loggedOut: {
+        en: 'Logout',
         pl: 'Wyloguj',
     },
     yearsOld: {
-        pl: '',
+        en: 'years old',
+        pl: 'lat',
     },
     friends: {
+        en: 'friends',
         pl: 'znajomi',
     },
 };

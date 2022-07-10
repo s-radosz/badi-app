@@ -9,6 +9,7 @@ import {
 import PageHeader from './PageHeader';
 import ButtonComponent from './../Utils/ButtonComponent';
 import lang from './../../lang/SharedComponents/FilterModal';
+import {useSelector} from 'react-redux';
 
 const FilterModal = (props: {
     filterModalName: string;
@@ -16,6 +17,10 @@ const FilterModal = (props: {
     closeFilter: any;
     filterResults: any;
 }) => {
+    const activeLanguage = useSelector(
+        (state: any) => state?.Translations?.language,
+    );
+
     const [userSelectData, setUserSelectData] = useState(false);
     const [selectedResultName, setSelectedResultName] = useState('');
     const [selectedResultValue, setSelectedResultValue] = useState('');
@@ -28,15 +33,15 @@ const FilterModal = (props: {
 
         //console.log(props.filterOptions);
 
-        if (filterModalName === lang.distance['pl']) {
+        if (filterModalName === lang.distance[activeLanguage]) {
             setSelectedData(props.filterOptions.distance);
-            setSelectedResultName(lang.distance['pl']);
-        } else if (filterModalName === lang.hobby['pl']) {
+            setSelectedResultName(lang.distance[activeLanguage]);
+        } else if (filterModalName === lang.hobby[activeLanguage]) {
             setSelectedData(props.filterOptions.hobby);
-            setSelectedResultName(lang.hobby['pl']);
-        } else if (filterModalName === lang.status['pl']) {
+            setSelectedResultName(lang.hobby[activeLanguage]);
+        } else if (filterModalName === lang.status[activeLanguage]) {
             setSelectedData(props.filterOptions.status);
-            setSelectedResultName(lang.status['pl']);
+            setSelectedResultName(lang.status[activeLanguage]);
         }
     }, []);
 
@@ -52,7 +57,7 @@ const FilterModal = (props: {
     return (
         <ScrollView>
             <PageHeader
-                boldText={lang.filterResults['pl']}
+                boldText={lang.filterResults[activeLanguage]}
                 normalText={`${props.filterModalName} - ${selectedResultValue}`}
                 closeMethod={props.closeFilter}
                 closeMethodParameter={''}
@@ -84,7 +89,7 @@ const FilterModal = (props: {
                 pressButtonComponent={() =>
                     props.filterResults(selectedResultName, selectedResultValue)
                 }
-                buttonComponentText={lang.filterResults['pl']}
+                buttonComponentText={lang.filterResults[activeLanguage]}
                 fullWidth={true}
                 underlayColor="#dd904d"
                 whiteBg={false}

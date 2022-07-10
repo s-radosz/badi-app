@@ -42,25 +42,19 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
-        // backgroundColor: 'red',
-        // width: '100%',
         marginLeft: 40,
     },
     pageHeaderContainer: {
         flexDirection: 'row',
-        // justifyContent: 'space-between',
         justifyContent: 'center',
         alignSelf: 'center',
         width: '100%',
         padding: 10,
         borderBottomWidth: 1,
         borderBottomColor: '#E5E5E5',
-        // backgroundColor: 'red',
     },
     pageHeaderImage: {width: 40, height: 40},
-    buttonCloseModal: {
-        //width: "20%"
-    },
+    buttonCloseModal: {},
     filterModalHeaderTextContainer: {
         textAlign: 'center',
         fontSize: 16,

@@ -22,6 +22,9 @@ const Profile = ({navigation}: IFeedbackModalProps) => {
     const dispatch = useDispatch();
 
     const userData = useSelector((state: any) => state?.User?.details);
+    const activeLanguage = useSelector(
+        (state: any) => state?.Translations?.language,
+    );
 
     const [locationDetails, setLocationDetails] = useState({
         cityDistrict: '',
@@ -96,7 +99,9 @@ const Profile = ({navigation}: IFeedbackModalProps) => {
                         )}
                         {showProfilePreview && !showEditUserData && (
                             <Suspense
-                                fallback={<Text>{lang.loading['pl']}</Text>}>
+                                fallback={
+                                    <Text>{lang.loading[activeLanguage]}</Text>
+                                }>
                                 <UserPreview
                                     description={userData?.description}
                                     hobbies={userData?.hobbies}

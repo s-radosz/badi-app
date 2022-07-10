@@ -1,48 +1,58 @@
 import React from 'react';
 import {Text, View, Image, StyleSheet} from 'react-native';
 import lang from './../../lang/SharedComponents/UserPreview';
+import {useSelector} from 'react-redux';
 
 const bike: any = require('./../../assets/images/bike.png');
 const dotEmpty: any = require('./../../assets/images/dotEmpty.png');
 
-const UserPreview = (props: any) => (
-    <View>
-        {props.description && (
-            <Text style={styles.userPreviewSectionDescContainer}>
-                {props.description}
-            </Text>
-        )}
-        {props.hobbies && props.hobbies.length > 0 && (
-            <View style={styles.userPreviewSectionHobbyContainer}>
-                <View style={styles.userPreviewSectionHeaderContainer}>
-                    <Image
-                        style={styles.userPreviewSectionHeaderImage}
-                        source={bike}
-                    />
-                    <Text style={styles.userPreviewSectionHeaderText}>
-                        {lang.hobby['pl']}
-                    </Text>
+const UserPreview = (props: any) => {
+    const activeLanguage = useSelector(
+        (state: any) => state?.Translations?.language,
+    );
+
+    return (
+        <View>
+            {props.description && (
+                <Text style={styles.userPreviewSectionDescContainer}>
+                    {props.description}
+                </Text>
+            )}
+            {props.hobbies && props.hobbies.length > 0 && (
+                <View style={styles.userPreviewSectionHobbyContainer}>
+                    <View style={styles.userPreviewSectionHeaderContainer}>
+                        <Image
+                            style={styles.userPreviewSectionHeaderImage}
+                            source={bike}
+                        />
+                        <Text style={styles.userPreviewSectionHeaderText}>
+                            {lang.hobby[activeLanguage]}
+                        </Text>
+                    </View>
+                    {props.hobbies &&
+                        props.hobbies.map((hobby: any, i: number) => {
+                            return (
+                                <View
+                                    style={styles.userPreviewListItemContainer}
+                                    key={`hobbies-${i}`}>
+                                    <Image
+                                        style={styles.userPreviewListItemImage}
+                                        source={dotEmpty}
+                                    />
+                                    <Text
+                                        style={
+                                            styles.userPreviewSectionListText
+                                        }>
+                                        {hobby.name}
+                                    </Text>
+                                </View>
+                            );
+                        })}
                 </View>
-                {props.hobbies &&
-                    props.hobbies.map((hobby: any, i: number) => {
-                        return (
-                            <View
-                                style={styles.userPreviewListItemContainer}
-                                key={`hobbies-${i}`}>
-                                <Image
-                                    style={styles.userPreviewListItemImage}
-                                    source={dotEmpty}
-                                />
-                                <Text style={styles.userPreviewSectionListText}>
-                                    {hobby.name}
-                                </Text>
-                            </View>
-                        );
-                    })}
-            </View>
-        )}
-    </View>
-);
+            )}
+        </View>
+    );
+};
 
 const styles = StyleSheet.create({
     userPreviewSectionContainer: {

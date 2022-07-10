@@ -17,7 +17,7 @@ import {
     customOrangeColor,
     fontSizeBig,
 } from './../../assets/global/globalStyles';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {setAlert} from '../../../app/store/alert/actions';
 import {setUserDetails} from '../../../app/store/user/actions';
 import {API_URL} from './../../helpers/globalVariables';
@@ -29,6 +29,9 @@ interface ILoginProps {
 
 const Login = ({navigation}: ILoginProps) => {
     const dispatch = useDispatch();
+    const activeLanguage = useSelector(
+        (state: any) => state?.Translations?.language,
+    );
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -37,11 +40,13 @@ const Login = ({navigation}: ILoginProps) => {
     const loginUser = (): void => {
         //console.log([email, password]);
         if (email && !password) {
-            dispatch(setAlert('danger', lang.passwordError['pl']));
+            dispatch(setAlert('danger', lang.passwordError[activeLanguage]));
         } else if (!email && password) {
-            dispatch(setAlert('danger', lang.emailError['pl']));
+            dispatch(setAlert('danger', lang.emailError[activeLanguage]));
         } else if (!email && !password) {
-            dispatch(setAlert('danger', lang.emailPasswordError['pl']));
+            dispatch(
+                setAlert('danger', lang.emailPasswordError[activeLanguage]),
+            );
         } else if (email && password) {
             console.log(['API_URL', API_URL, API_URL + '/login']);
             try {
@@ -100,7 +105,7 @@ const Login = ({navigation}: ILoginProps) => {
                                     dispatch(
                                         setAlert(
                                             'danger',
-                                            lang.loginError['pl'],
+                                            lang.loginError[activeLanguage],
                                         ),
                                     );
                                 });
@@ -109,7 +114,9 @@ const Login = ({navigation}: ILoginProps) => {
                         }
                     })
                     .catch(error => {
-                        dispatch(setAlert('danger', lang.loginError['pl']));
+                        dispatch(
+                            setAlert('danger', lang.loginError[activeLanguage]),
+                        );
                         // context.setAlert(true, 'danger', lang.loginError['pl']);
                     });
             } catch (e) {
@@ -188,7 +195,10 @@ const Login = ({navigation}: ILoginProps) => {
                                 // );
 
                                 dispatch(
-                                    setAlert('danger', lang.loginError['pl']),
+                                    setAlert(
+                                        'danger',
+                                        lang.loginError[activeLanguage],
+                                    ),
                                 );
                             });
                     } else {
@@ -198,7 +208,9 @@ const Login = ({navigation}: ILoginProps) => {
                 .catch(error => {
                     console.log(['error', error]);
                     // context.setAlert(true, 'danger', lang.loginError['pl']);
-                    dispatch(setAlert('danger', lang.loginError['pl']));
+                    dispatch(
+                        setAlert('danger', lang.loginError[activeLanguage]),
+                    );
                 });
         } catch (e) {
             //console.log(e);
@@ -211,11 +223,11 @@ const Login = ({navigation}: ILoginProps) => {
                 <ScrollView keyboardShouldPersistTaps={'always'}>
                     <View style={styles.container}>
                         <Text style={styles.headerText}>
-                            {lang.header['pl']}
+                            {lang.header[activeLanguage]}
                         </Text>
 
                         <InputComponent
-                            placeholder={lang.email['pl']}
+                            placeholder={lang.email[activeLanguage]}
                             inputOnChange={(email: string) => setEmail(email)}
                             value={email}
                             secureTextEntry={false}
@@ -223,7 +235,7 @@ const Login = ({navigation}: ILoginProps) => {
                         />
 
                         <InputComponent
-                            placeholder={lang.password['pl']}
+                            placeholder={lang.password[activeLanguage]}
                             inputOnChange={(password: string) =>
                                 setPassword(password)
                             }
@@ -234,7 +246,7 @@ const Login = ({navigation}: ILoginProps) => {
 
                         <ButtonComponent
                             pressButtonComponent={loginUser}
-                            buttonComponentText={lang.login['pl']}
+                            buttonComponentText={lang.login[activeLanguage]}
                             fullWidth={false}
                             underlayColor="#dd904d"
                             whiteBg={false}
@@ -252,13 +264,13 @@ const Login = ({navigation}: ILoginProps) => {
 
                         <View style={styles.subBtnSection}>
                             <Text style={styles.subBtnSectionAsk}>
-                                {lang.notHaveAccount['pl']}
+                                {lang.notHaveAccount[activeLanguage]}
                             </Text>
                             <TouchableHighlight
                                 onPress={() => navigation.navigate('Register')}
                                 underlayColor={'#fff'}>
                                 <Text style={styles.registerBtn}>
-                                    {lang.register['pl']}
+                                    {lang.register[activeLanguage]}
                                 </Text>
                             </TouchableHighlight>
                         </View>
@@ -268,12 +280,12 @@ const Login = ({navigation}: ILoginProps) => {
                             onPress={() =>
                                 navigation.navigate('ResetPassword')
                             }>
-                            {lang.resetPassword['pl']}
+                            {lang.resetPassword[activeLanguage]}
                         </Text>
                         <Text
                             style={styles.resetPasswordBtn}
                             onPress={() => navigation.navigate('Start')}>
-                            {lang.skip['pl']}
+                            {lang.skip[activeLanguage]}
                         </Text>
                     </View>
                 </ScrollView>

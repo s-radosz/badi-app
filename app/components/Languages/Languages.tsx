@@ -7,10 +7,10 @@ import {setLanguage} from './../../store/translations/actions';
 
 const enFlag: any = require('./../../assets/images/en-flag.png');
 const plFlag: any = require('./../../assets/images/pl-flag.png');
-const deFlag: any = require('./../../assets/images/de-flag.jpg');
-const frFlag: any = require('./../../assets/images/fr-flag.png');
-const esFlag: any = require('./../../assets/images/es-flag.png');
-const zhFlag: any = require('./../../assets/images/zh-flag.png');
+// const deFlag: any = require('./../../assets/images/de-flag.jpg');
+// const frFlag: any = require('./../../assets/images/fr-flag.png');
+// const esFlag: any = require('./../../assets/images/es-flag.png');
+// const zhFlag: any = require('./../../assets/images/zh-flag.png');
 
 const Languages = (props: any) => {
     const dispatch = useDispatch();
@@ -33,22 +33,22 @@ const Languages = (props: any) => {
             icon: plFlag,
             text: 'pl',
         },
-        {
-            icon: deFlag,
-            text: 'de',
-        },
-        {
-            icon: frFlag,
-            text: 'fr',
-        },
-        {
-            icon: esFlag,
-            text: 'es',
-        },
-        {
-            icon: zhFlag,
-            text: 'zh',
-        },
+        // {
+        //     icon: deFlag,
+        //     text: 'de',
+        // },
+        // {
+        //     icon: frFlag,
+        //     text: 'fr',
+        // },
+        // {
+        //     icon: esFlag,
+        //     text: 'es',
+        // },
+        // {
+        //     icon: zhFlag,
+        //     text: 'zh',
+        // },
     ];
 
     return (

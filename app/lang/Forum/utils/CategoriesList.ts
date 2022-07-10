@@ -1,7 +1,7 @@
-const lang = {
-    categories: {
-        pl: 'Kategorie: ',
-    },
-};
+// const lang = {
+//     categories: {
+//         pl: 'Kategorie: ',
+//     },
+// };
 
-export default lang;
+// export default lang;

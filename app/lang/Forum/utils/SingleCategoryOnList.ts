@@ -1,7 +1,7 @@
-const lang = {
-    posts: {
-        pl: 'posty',
-    },
-};
+// const lang = {
+//     posts: {
+//         pl: 'posty',
+//     },
+// };
 
-export default lang;
+// export default lang;

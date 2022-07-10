@@ -2,6 +2,8 @@ import React from 'react';
 import {SafeAreaView, StyleSheet, Dimensions, View} from 'react-native';
 import {Appbar} from 'react-native-paper';
 import {DatePickerModal} from 'react-native-paper-dates';
+import lang from './../../../lang/Start/SelectDate/SelectDate';
+import {useSelector} from 'react-redux';
 
 interface SelectDateProps {
     onClose: () => void;
@@ -11,6 +13,10 @@ interface SelectDateProps {
 }
 
 const SelectDate = (props: SelectDateProps) => {
+    const activeLanguage = useSelector(
+        (state: any) => state?.Translations?.language,
+    );
+
     const [range, setRange] = React.useState<{
         startDate: Date | undefined;
         endDate: Date | undefined;
@@ -38,12 +44,11 @@ const SelectDate = (props: SelectDateProps) => {
                 <Appbar.Header style={styles.topBarBack}>
                     <Appbar.BackAction onPress={props?.onClose} />
                 </Appbar.Header>
-                <Appbar.Content title="Wybierz Datę" />
+                <Appbar.Content title={lang.title[activeLanguage]} />
             </Appbar>
-            {/* <Screen style={styles.wrapper} preset="scroll"> */}
             <View>
                 <DatePickerModal
-                    locale="pl"
+                    locale={lang.title[activeLanguage] === 'pl' ? 'pl' : 'en'}
                     mode="range"
                     startDate={range.startDate}
                     endDate={range.endDate}
@@ -51,20 +56,8 @@ const SelectDate = (props: SelectDateProps) => {
                     onDismiss={props?.onClose}
                     date={new Date()}
                     onConfirm={onConfirm}
-                    // validRange={{
-                    //   startDate: new Date(2021, 1, 2),  // optional
-                    //   endDate: new Date(), // optional
-                    //   disabledDates: [new Date()] // optional
-                    // }}
-                    // onChange={} // same props as onConfirm but triggered without confirmed by user
-                    // saveLabel="Save" // optional
-                    // uppercase={false} // optional, default is true
-                    // label="Select date" // optional
-                    // animationType="slide" // optional, default is 'slide' on ios/android and 'none' on web
                 />
             </View>
-            {/* </Screen> */}
-            {/* <Footer navigate={(path: any) => props?.navigation?.navigate(path)} route="main"/> */}
         </SafeAreaView>
     );
 };
@@ -79,10 +72,6 @@ const styles = StyleSheet.create({
     },
     wrapper: {},
     topBar: {
-        // position: 'absolute',
-        // left: 0,
-        // right: 0,
-        // top: 0,
         backgroundColor: '#fff',
     },
     topBarBack: {

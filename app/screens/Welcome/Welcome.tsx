@@ -19,6 +19,8 @@ import {
     fontSizeBig,
     peachBtnText,
 } from '../../assets/global/globalStyles';
+import lang from './../../lang/Welcome/Welcome';
+import {useSelector} from 'react-redux';
 
 const fullWidth = Dimensions.get('window').width;
 const fullHeight = Dimensions.get('window').height;
@@ -29,30 +31,28 @@ const support: any = require('./../../assets/images/support.png');
 const like: any = require('./../../assets/images/like.png');
 
 const Welcome = (props: any) => {
+    const activeLanguage = useSelector(
+        (state: any) => state?.Translations?.language,
+    );
+
     const slides = [
         {
             key: 'slide1',
             title: 'slide1',
-            text: 'slide1',
+            text: lang.firstSlide[activeLanguage],
             image: logo,
         },
         {
             key: 'slide2',
             title: 'slide1',
-            text: 'slide2',
+            text: lang.secondSlide[activeLanguage],
             image: friends,
         },
         {
             key: 'slide3',
             title: 'slide1',
-            text: 'slide3',
+            text: lang.thirdSlide[activeLanguage],
             image: support,
-        },
-        {
-            key: 'slide4',
-            title: 'slide1',
-            text: 'slide4',
-            image: like,
         },
     ];
 
@@ -88,12 +88,12 @@ const Welcome = (props: any) => {
                         />
                     </View>
 
-                    <View style={{marginTop: 50, alignItems: 'center'}}>
+                    <View style={styles.btnContainer}>
                         <ButtonComponent
                             pressButtonComponent={() =>
                                 navigation.navigate('Login')
                             }
-                            buttonComponentText={'Logowanie'}
+                            buttonComponentText={lang.login[activeLanguage]}
                             fullWidth={false}
                             underlayColor="#000"
                             whiteBg={false}
@@ -104,7 +104,7 @@ const Welcome = (props: any) => {
                             onPress={() => navigation.navigate('Register')}
                             underlayColor={'#fff'}>
                             <Text style={styles.subBtn}>
-                                Nie masz konta? Zarejestruj się
+                                {lang.register[activeLanguage]}
                             </Text>
                         </TouchableHighlight>
                     </View>
@@ -128,6 +128,7 @@ interface Style {
     peachBtnText: any;
     sliderImg: ViewStyle;
     areaContainer: ViewStyle;
+    btnContainer: ViewStyle;
 }
 
 const styles = StyleSheet.create<Style>({
@@ -180,6 +181,10 @@ const styles = StyleSheet.create<Style>({
     areaContainer: {
         flex: 1,
         backgroundColor: '#fff',
+    },
+    btnContainer: {
+        marginTop: 50,
+        alignItems: 'center',
     },
 });
 

@@ -32,6 +32,9 @@ const UserFriendsList = ({navigation}: IUserFriendsListProps) => {
     const dispatch = useDispatch();
 
     const userData = useSelector((state: any) => state?.User?.details);
+    const activeLanguage = useSelector(
+        (state: any) => state?.Translations?.language,
+    );
 
     const [userFriendsList, setUserFriendsList] = useState([]);
     const [userPendingFriendsList, setUserPendingFriendsList] = useState([]);
@@ -64,7 +67,12 @@ const UserFriendsList = ({navigation}: IUserFriendsListProps) => {
                     }
                 })
                 .catch(async error => {
-                    dispatch(setAlert('danger', lang.friendsListError['pl']));
+                    dispatch(
+                        setAlert(
+                            'danger',
+                            lang.friendsListError[activeLanguage],
+                        ),
+                    );
 
                     dispatch(setLoader(false));
                 });
@@ -94,7 +102,12 @@ const UserFriendsList = ({navigation}: IUserFriendsListProps) => {
                     }
                 })
                 .catch(async error => {
-                    dispatch(setAlert('danger', lang.friendsListError['pl']));
+                    dispatch(
+                        setAlert(
+                            'danger',
+                            lang.friendsListError[activeLanguage],
+                        ),
+                    );
 
                     dispatch(setLoader(false));
                 });
@@ -113,7 +126,7 @@ const UserFriendsList = ({navigation}: IUserFriendsListProps) => {
                         <ScrollView>
                             <TopHeader
                                 onClose={() => {}}
-                                title={lang.myFriends['pl']}
+                                title={lang.myFriends[activeLanguage]}
                             />
 
                             <View>
@@ -135,7 +148,7 @@ const UserFriendsList = ({navigation}: IUserFriendsListProps) => {
                                                         ? styles.filterBtnTextActive
                                                         : styles.filterBtnText
                                                 }>
-                                                {lang.friends['pl']}
+                                                {lang.friends[activeLanguage]}
                                             </Text>
                                         </TouchableOpacity>
                                     </View>
@@ -156,7 +169,7 @@ const UserFriendsList = ({navigation}: IUserFriendsListProps) => {
                                                         ? styles.filterBtnTextActive
                                                         : styles.filterBtnText
                                                 }>
-                                                {lang.waiting['pl']}
+                                                {lang.waiting[activeLanguage]}
                                             </Text>
                                         </TouchableOpacity>
                                     </View>
@@ -187,7 +200,6 @@ const UserFriendsList = ({navigation}: IUserFriendsListProps) => {
                             navigation={navigation}
                         />
                     </React.Fragment>
-                    {/* )} */}
                 </View>
             </SafeAreaView>
         </React.Fragment>

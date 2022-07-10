@@ -1,5 +1,6 @@
 const lang = {
     noResults: {
+        en: 'No results',
         pl: 'Brak wyników',
     },
 };

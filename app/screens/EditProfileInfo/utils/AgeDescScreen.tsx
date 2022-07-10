@@ -6,6 +6,7 @@ import TextAreaComponent from './../../../components/Utils/TextAreaComponent';
 import lang from './../../../lang/EditProfileInfo/utils/AgeDescScreen';
 import TopHeader from './../../../components/Utils/TopHeader';
 import {darkGrayColor} from './../../../assets/global/globalStyles';
+import {useSelector} from 'react-redux';
 
 const fillInfoBg: any = require('./../../../assets/images/fillInfoBgMin.jpg');
 
@@ -16,23 +17,30 @@ const AgeDescScreen = (props: {
     desc: string;
     nextStep: any;
 }): any => {
+    const activeLanguage = useSelector(
+        (state: any) => state?.Translations?.language,
+    );
+
     return (
         <View style={styles.sectionContainer}>
             <ScrollView>
-                <TopHeader onClose={() => {}} title={lang.header['pl']} />
+                <TopHeader
+                    onClose={() => {}}
+                    title={lang.header[activeLanguage]}
+                />
 
                 <View style={styles.infoContainer}>
                     <Text style={styles.fillInfoHeader}>
-                        {lang.fillBasicInfo['pl']}
+                        {lang.fillBasicInfo[activeLanguage]}
                     </Text>
 
                     <Text style={styles.subText}>
-                        {lang.nick['pl']} ({props.nickname.length}/20{' '}
-                        {lang.chars['pl']}) *
+                        {lang.nick[activeLanguage]} ({props.nickname.length}/20{' '}
+                        {lang.chars[activeLanguage]}) *
                     </Text>
 
                     <InputComponent
-                        placeholder={lang.nick['pl']}
+                        placeholder={lang.nick[activeLanguage]}
                         inputOnChange={(nickname: string) =>
                             props.handleChange('nickname', nickname)
                         }
@@ -41,10 +49,12 @@ const AgeDescScreen = (props: {
                         maxLength={20}
                     />
 
-                    <Text style={styles.subText}>{lang.age['pl']} *</Text>
+                    <Text style={styles.subText}>
+                        {lang.age[activeLanguage]} *
+                    </Text>
 
                     <InputComponent
-                        placeholder={lang.age['pl']}
+                        placeholder={lang.age[activeLanguage]}
                         inputOnChange={(age: string) =>
                             props.handleChange('age', age)
                         }
@@ -54,12 +64,12 @@ const AgeDescScreen = (props: {
                     />
 
                     <Text style={styles.subText}>
-                        {lang.description['pl']} ({props.desc.length}/250{' '}
-                        {lang.chars['pl']})
+                        {lang.description[activeLanguage]} ({props.desc.length}
+                        /250 {lang.chars[activeLanguage]})
                     </Text>
 
                     <TextAreaComponent
-                        placeholder={lang.description['pl']}
+                        placeholder={lang.description[activeLanguage]}
                         inputOnChange={(desc: string) =>
                             props.handleChange('desc', desc)
                         }
@@ -75,7 +85,7 @@ const AgeDescScreen = (props: {
                 {props.age > 0 && props.nickname !== '' && (
                     <ButtonComponent
                         pressButtonComponent={props.nextStep}
-                        buttonComponentText={lang.next['pl']}
+                        buttonComponentText={lang.next[activeLanguage]}
                         fullWidth={true}
                         underlayColor="#dd904d"
                         whiteBg={false}

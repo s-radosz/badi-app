@@ -23,8 +23,9 @@ interface IAboutProps {
 
 const About = ({navigation}: IAboutProps) => {
     const userData = useSelector((state: any) => state?.User?.details);
-
-    //console.log(["about", context.userData]);
+    const activeLanguage = useSelector(
+        (state: any) => state?.Translations?.language,
+    );
 
     return (
         <React.Fragment>
@@ -33,16 +34,16 @@ const About = ({navigation}: IAboutProps) => {
                     <ScrollView>
                         <TopHeader
                             onClose={() => {}}
-                            title={lang.aboutApp['pl']}
+                            title={lang.aboutApp[activeLanguage]}
                         />
 
                         <View style={styles.aboutContainer}>
                             <View>
                                 <Text style={styles.appName}>
-                                    {lang.appName['pl']}
+                                    {lang.appName[activeLanguage]}
                                 </Text>
                                 <Text style={styles.appDesc}>
-                                    {lang.appDesc['pl']}
+                                    {lang.appDesc[activeLanguage]}
                                 </Text>
                             </View>
                             <View>
@@ -51,15 +52,15 @@ const About = ({navigation}: IAboutProps) => {
                                     onPress={() =>
                                         navigation.navigate('FeedbackModal', {})
                                     }>
-                                    {lang.haveQuestion['pl']}{' '}
+                                    {lang.haveQuestion[activeLanguage]}{' '}
                                     <Text style={styles.writeToUs}>
-                                        {lang.writeToUs['pl']}
+                                        {lang.writeToUs[activeLanguage]}
                                     </Text>
                                 </Text>
                             </View>
                             <View style={styles.websiteContainer}>
                                 <Text style={styles.visitWebsite}>
-                                    {lang.visitWebsite['pl']}
+                                    {lang.visitWebsite[activeLanguage]}
                                 </Text>
                                 <TouchableHighlight
                                     onPress={() => {
@@ -67,7 +68,7 @@ const About = ({navigation}: IAboutProps) => {
                                     }}
                                     underlayColor={'#fff'}>
                                     <Text style={styles.websiteAddress}>
-                                        {lang.websiteAddress['pl']}
+                                        {lang.websiteAddress[activeLanguage]}
                                     </Text>
                                 </TouchableHighlight>
                             </View>
@@ -87,12 +88,12 @@ const About = ({navigation}: IAboutProps) => {
                                     }}
                                     underlayColor={'#fff'}>
                                     <Text style={styles.voteApp}>
-                                        {lang.voteApp['pl']}
+                                        {lang.voteApp[activeLanguage]}
                                     </Text>
                                 </TouchableHighlight>
                             </View>
                             <View>
-                                <Text>{lang.socialText['pl']}</Text>
+                                <Text>{lang.socialText[activeLanguage]}</Text>
                                 <View style={styles.socialContainer}>
                                     <TouchableHighlight
                                         onPress={() => {
