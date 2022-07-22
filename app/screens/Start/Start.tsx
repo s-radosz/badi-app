@@ -19,14 +19,17 @@ const Start = ({navigation}: MainScreenProps) => {
     const activeLanguage = useSelector(
         (state: any) => state?.Translations?.language,
     );
+    const activeCategory = useSelector(
+        (state: any) => state?.Categories?.activeCategory,
+    );
 
     const [showSelectCategory, setSelectCategory] = useState(false);
     const [showSelectDate, setSelectDate] = useState(false);
 
-    const [selectedCategoryId, setSelectedCategoryId] = useState(1);
-    const [selectedCategoryName, setSelectedCategoryName] = useState(
-        activeLanguage === 'pl' ? 'Piłka nozna' : 'Football',
-    );
+    // const [selectedCategoryId, setSelectedCategoryId] = useState(1);
+    // const [selectedCategoryName, setSelectedCategoryName] = useState(
+    //     activeLanguage === 'pl' ? 'Piłka nozna' : 'Football',
+    // );
 
     const [selectedDateRangeFrom, setSelectedDateRangeFrom] = useState(
         new Date().toISOString().slice(0, 10),
@@ -38,8 +41,8 @@ const Start = ({navigation}: MainScreenProps) => {
     );
 
     const handleSelectCategory = (id: number, name: string) => {
-        setSelectedCategoryId(id);
-        setSelectedCategoryName(name);
+        // setSelectedCategoryId(id);
+        // setSelectedCategoryName(name);
         setSelectCategory(false);
     };
 
@@ -79,19 +82,21 @@ const Start = ({navigation}: MainScreenProps) => {
                             setSelectCategory(value)
                         }
                         setSelectDate={(value: boolean) => setSelectDate(value)}
-                        selectedCategoryName={selectedCategoryName}
+                        selectedCategoryName={activeCategory?.name}
                         selectedDateRange={`${lang.from[activeLanguage]}: ${selectedDateRangeFrom}\n${lang.to[activeLanguage]}: ${selectedDateRangeTo}`}
                     />
                     <MapView
                         initialRegion={
-                            lang.from[activeLanguage] === 'pl'
+                            activeLanguage === 'pl'
                                 ? {
-                                      latitude: 50.9333296,
-                                      longitude: 21.3999984,
+                                      //warsaw
+                                      latitude: 52.237049,
+                                      longitude: 21.017532,
                                       latitudeDelta: 0.0922,
                                       longitudeDelta: 0.0421,
                                   }
                                 : {
+                                      //london
                                       latitude: 51.509865,
                                       longitude: -0.118092,
                                       latitudeDelta: 0.0922,

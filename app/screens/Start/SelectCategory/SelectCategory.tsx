@@ -1,9 +1,11 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Dimensions, SafeAreaView, StyleSheet, Text, View} from 'react-native';
 import {Chip} from 'react-native-paper';
 import TopHeader from './../../../components/Utils/TopHeader';
 import lang from './../../../lang/Start/SelectCategory/SelectCategory';
-import {useSelector} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
+import {FlatList} from 'react-native-gesture-handler';
+import {setActiveCategory} from './../../../store/categories/actions';
 
 interface SelectCategoryProps {
     onClose: () => void;
@@ -12,123 +14,162 @@ interface SelectCategoryProps {
 }
 
 const SelectCategory = (props: SelectCategoryProps) => {
+    const dispatch = useDispatch();
+
     const activeLanguage = useSelector(
         (state: any) => state?.Translations?.language,
     );
+    const categories = useSelector(
+        (state: any) => state?.Categories?.categoryGroups,
+    );
 
-    const [hobbiesTeams, setHobbiesTeams] = useState(
-        activeLanguage === 'pl'
-            ? [
-                  {
-                      id: 1,
-                      name: 'Piłka nożna',
-                      selected: false,
-                  },
-                  {
-                      id: 2,
-                      name: 'Koszykówka',
-                      selected: false,
-                  },
-                  {
-                      id: 3,
-                      name: 'Siatkówka',
-                      selected: false,
-                  },
-                  {
-                      id: 4,
-                      name: 'Piłka ręczna',
-                      selected: false,
-                  },
-              ]
-            : [
-                  {
-                      id: 1,
-                      name: 'Football',
-                      selected: false,
-                  },
-                  {
-                      id: 2,
-                      name: 'Basketball',
-                      selected: false,
-                  },
-                  {
-                      id: 3,
-                      name: 'Volleyball',
-                      selected: false,
-                  },
-              ],
-    );
-    const [hobbiesIndividual, setHobbiesIndividual] = useState(
-        activeLanguage === 'pl'
-            ? [
-                  {
-                      id: 5,
-                      name: 'Tennis',
-                      selected: false,
-                  },
-                  {
-                      id: 6,
-                      name: 'Siłownia',
-                      selected: false,
-                  },
-                  {
-                      id: 7,
-                      name: 'Squash',
-                      selected: false,
-                  },
-              ]
-            : [
-                  {
-                      id: 5,
-                      name: 'Tennis',
-                      selected: false,
-                  },
-                  {
-                      id: 6,
-                      name: 'Gym',
-                      selected: false,
-                  },
-                  {
-                      id: 7,
-                      name: 'Squash',
-                      selected: false,
-                  },
-              ],
-    );
-    const [hobbiesEsport, setHobbiesEsport] = useState([
-        {
-            id: 8,
-            name: 'LoL',
-            selected: false,
-        },
-        {
-            id: 9,
-            name: 'CS:GO',
-            selected: false,
-        },
-    ]);
-    const [hobbiesRest, setHobbiesRest] = useState(
-        activeLanguage === 'pl'
-            ? [
-                  {
-                      id: 10,
-                      name: 'Jazda na motocyklu',
-                      selected: false,
-                  },
-                  {
-                      id: 11,
-                      name: 'Wędkarstwo',
-                      selected: false,
-                  },
-              ]
-            : [
-                  {
-                      id: 10,
-                      name: 'Motocycles',
-                      selected: false,
-                  },
-              ],
-    );
+    // const [hobbiesTeams, setHobbiesTeams] = useState(
+    //     activeLanguage === 'pl'
+    //         ? [
+    //               {
+    //                   id: 1,
+    //                   name: 'Piłka nożna',
+    //                   selected: false,
+    //               },
+    //               {
+    //                   id: 2,
+    //                   name: 'Koszykówka',
+    //                   selected: false,
+    //               },
+    //               {
+    //                   id: 3,
+    //                   name: 'Siatkówka',
+    //                   selected: false,
+    //               },
+    //               {
+    //                   id: 4,
+    //                   name: 'Piłka ręczna',
+    //                   selected: false,
+    //               },
+    //           ]
+    //         : [
+    //               {
+    //                   id: 1,
+    //                   name: 'Football',
+    //                   selected: false,
+    //               },
+    //               {
+    //                   id: 2,
+    //                   name: 'Basketball',
+    //                   selected: false,
+    //               },
+    //               {
+    //                   id: 3,
+    //                   name: 'Volleyball',
+    //                   selected: false,
+    //               },
+    //           ],
+    // );
+    // const [hobbiesIndividual, setHobbiesIndividual] = useState(
+    //     activeLanguage === 'pl'
+    //         ? [
+    //               {
+    //                   id: 5,
+    //                   name: 'Tennis',
+    //                   selected: false,
+    //               },
+    //               {
+    //                   id: 6,
+    //                   name: 'Siłownia',
+    //                   selected: false,
+    //               },
+    //               {
+    //                   id: 7,
+    //                   name: 'Squash',
+    //                   selected: false,
+    //               },
+    //           ]
+    //         : [
+    //               {
+    //                   id: 5,
+    //                   name: 'Tennis',
+    //                   selected: false,
+    //               },
+    //               {
+    //                   id: 6,
+    //                   name: 'Gym',
+    //                   selected: false,
+    //               },
+    //               {
+    //                   id: 7,
+    //                   name: 'Squash',
+    //                   selected: false,
+    //               },
+    //           ],
+    // );
+    // const [hobbiesEsport, setHobbiesEsport] = useState([
+    //     {
+    //         id: 8,
+    //         name: 'LoL',
+    //         selected: false,
+    //     },
+    //     {
+    //         id: 9,
+    //         name: 'CS:GO',
+    //         selected: false,
+    //     },
+    // ]);
+    // const [hobbiesRest, setHobbiesRest] = useState(
+    //     activeLanguage === 'pl'
+    //         ? [
+    //               {
+    //                   id: 10,
+    //                   name: 'Jazda na motocyklu',
+    //                   selected: false,
+    //               },
+    //               {
+    //                   id: 11,
+    //                   name: 'Wędkarstwo',
+    //                   selected: false,
+    //               },
+    //           ]
+    //         : [
+    //               {
+    //                   id: 10,
+    //                   name: 'Motocycles',
+    //                   selected: false,
+    //               },
+    //           ],
+    // );
+
+    const renderItem = ({item}) => {
+        console.log(['item', item]);
+        return (
+            <>
+                <Text style={styles.hobbyText}>{item?.name}</Text>
+                <View style={styles.chipContainer}>
+                    {item?.categories?.length &&
+                        item?.categories?.map((category, i) => {
+                            return (
+                                <Chip
+                                    key={category?.id}
+                                    mode="outlined"
+                                    onPress={() => {
+                                        dispatch(
+                                            setActiveCategory({
+                                                id: category?.id,
+                                                name: category?.name,
+                                            }),
+                                        );
+                                        props?.handleSelectCategory(
+                                            category?.id,
+                                            category?.name,
+                                        );
+                                    }}
+                                    style={styles.chip}>
+                                    {category?.name}
+                                </Chip>
+                            );
+                        })}
+                </View>
+            </>
+        );
+    };
 
     return (
         <SafeAreaView testID="MainScreen" style={styles.container}>
@@ -139,103 +180,7 @@ const SelectCategory = (props: SelectCategoryProps) => {
 
             <View>
                 <View style={styles.singleListContainer}>
-                    <Text style={styles.hobbyText}>
-                        {lang.teamSports[activeLanguage]}
-                    </Text>
-
-                    <View style={styles.chipContainer}>
-                        {hobbiesTeams?.map((hobby, i) => {
-                            return (
-                                <Chip
-                                    key={hobby?.id}
-                                    mode="outlined"
-                                    onPress={() =>
-                                        props?.handleSelectCategory(
-                                            hobby?.id,
-                                            hobby?.name,
-                                        )
-                                    }
-                                    style={styles.chip}>
-                                    {hobby?.name}
-                                </Chip>
-                            );
-                        })}
-                    </View>
-                </View>
-
-                <View style={styles.singleListContainer}>
-                    <Text style={styles.hobbyText}>
-                        {lang.individualSports[activeLanguage]}
-                    </Text>
-
-                    <View style={styles.chipContainer}>
-                        {hobbiesIndividual?.map((hobby, i) => {
-                            return (
-                                <Chip
-                                    key={hobby?.id}
-                                    mode="outlined"
-                                    onPress={() =>
-                                        props?.handleSelectCategory(
-                                            hobby?.id,
-                                            hobby?.name,
-                                        )
-                                    }
-                                    style={styles.chip}>
-                                    {hobby?.name}
-                                </Chip>
-                            );
-                        })}
-                    </View>
-                </View>
-
-                <View style={styles.singleListContainer}>
-                    <Text style={styles.hobbyText}>
-                        {lang.esport[activeLanguage]}
-                    </Text>
-
-                    <View style={styles.chipContainer}>
-                        {hobbiesEsport?.map((hobby, i) => {
-                            return (
-                                <Chip
-                                    key={hobby?.id}
-                                    mode="outlined"
-                                    onPress={() =>
-                                        props?.handleSelectCategory(
-                                            hobby?.id,
-                                            hobby?.name,
-                                        )
-                                    }
-                                    style={styles.chip}>
-                                    {hobby?.name}
-                                </Chip>
-                            );
-                        })}
-                    </View>
-                </View>
-
-                <View style={styles.singleListContainer}>
-                    <Text style={styles.hobbyText}>
-                        {lang.other[activeLanguage]}
-                    </Text>
-
-                    <View style={styles.chipContainer}>
-                        {hobbiesRest?.map((hobby, i) => {
-                            return (
-                                <Chip
-                                    key={hobby?.id}
-                                    mode="outlined"
-                                    onPress={() =>
-                                        props?.handleSelectCategory(
-                                            hobby?.id,
-                                            hobby?.name,
-                                        )
-                                    }
-                                    style={styles.chip}>
-                                    {hobby?.name}
-                                </Chip>
-                            );
-                        })}
-                    </View>
+                    <FlatList renderItem={renderItem} data={categories} />
                 </View>
             </View>
         </SafeAreaView>

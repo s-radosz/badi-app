@@ -31,6 +31,7 @@ import {setAlert} from '../../app/store/alert/actions';
 import {setUserDetails} from '../../app/store/user/actions';
 import Alert from './../components/Alert/Alert';
 import {getTranslations} from './../store/translations/actions';
+import {getCategories} from './../store/categories/actions';
 import {API_URL} from './../helpers/globalVariables';
 
 const MainStack = createSwitchNavigator(
@@ -293,6 +294,7 @@ const App = ({navigation}: NavigationScreenInterface) => {
 
     useEffect(() => {
         dispatch(getTranslations());
+        dispatch(getCategories());
         NavigationService.navigate('Welcome', {});
     }, []);
 
