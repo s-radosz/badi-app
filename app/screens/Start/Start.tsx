@@ -7,20 +7,29 @@ import SelectDate from './SelectDate/SelectDate';
 import BottomPanel from './../../components/SharedComponents/BottomPanel';
 import {withNavigation} from 'react-navigation';
 import ButtonComponent from './../../components/Utils/ButtonComponent';
-import {useSelector} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
 import lang from './../../lang/Start/Start';
+import {setDateFrom, setDateTo} from './../../store/searchFilter/actions';
 
 interface MainScreenProps {
     navigation: any;
 }
 
 const Start = ({navigation}: MainScreenProps) => {
+    const dispatch = useDispatch();
+
     const userToken = useSelector((state: any) => state?.User?.details?.token);
     const activeLanguage = useSelector(
         (state: any) => state?.Translations?.language,
     );
     const activeCategory = useSelector(
         (state: any) => state?.Categories?.activeCategory,
+    );
+    const activeDateFrom = useSelector(
+        (state: any) => state?.SearchFilter?.dateFrom,
+    );
+    const activeDateTo = useSelector(
+        (state: any) => state?.SearchFilter?.dateTo,
     );
 
     const [showSelectCategory, setSelectCategory] = useState(false);
@@ -31,26 +40,25 @@ const Start = ({navigation}: MainScreenProps) => {
     //     activeLanguage === 'pl' ? 'Piłka nozna' : 'Football',
     // );
 
-    const [selectedDateRangeFrom, setSelectedDateRangeFrom] = useState(
-        new Date().toISOString().slice(0, 10),
-    );
-    const [selectedDateRangeTo, setSelectedDateRangeTo] = useState(
-        new Date(new Date().setDate(new Date().getDate() + 7))
-            .toISOString()
-            .slice(0, 10),
-    );
+    useEffect(() => {
+        if (!activeDateFrom) {
+            dispatch(setDateFrom(new Date().toISOString().slice(0, 10)));
+        }
+
+        if (!activeDateTo) {
+            dispatch(
+                setDateTo(
+                    new Date(new Date().setDate(new Date().getDate() + 7))
+                        .toISOString()
+                        .slice(0, 10),
+                ),
+            );
+        }
+    }, [activeDateFrom, activeDateTo]);
 
     const handleSelectCategory = (id: number, name: string) => {
-        // setSelectedCategoryId(id);
-        // setSelectedCategoryName(name);
         setSelectCategory(false);
     };
-
-    // useEffect(() => {
-    //     if (userToken) {
-    //         console.log(['userToken', userToken]);
-    //     }
-    // }, [userToken]);
 
     return (
         <>
@@ -65,8 +73,8 @@ const Start = ({navigation}: MainScreenProps) => {
             {showSelectDate ? (
                 <SelectDate
                     onClose={() => setSelectDate(false)}
-                    setSelectedDateRangeFrom={setSelectedDateRangeFrom}
-                    setSelectedDateRangeTo={setSelectedDateRangeTo}
+                    // setSelectedDateRangeFrom={activeDateFrom}
+                    // setSelectedDateRangeTo={activeDateTo}
                     navigation={navigation}
                 />
             ) : null}
@@ -83,7 +91,7 @@ const Start = ({navigation}: MainScreenProps) => {
                         }
                         setSelectDate={(value: boolean) => setSelectDate(value)}
                         selectedCategoryName={activeCategory?.name}
-                        selectedDateRange={`${lang.from[activeLanguage]}: ${selectedDateRangeFrom}\n${lang.to[activeLanguage]}: ${selectedDateRangeTo}`}
+                        selectedDateRange={`${lang.from[activeLanguage]}: ${activeDateFrom}\n${lang.to[activeLanguage]}: ${activeDateTo}`}
                     />
                     <MapView
                         initialRegion={

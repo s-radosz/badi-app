@@ -21,6 +21,8 @@ import LoggedInUserDetails from './../screens/Profile/utils/LoggedInUserDetails'
 import FeedbackModal from './../screens/FeedbackModal/FeedbackModal';
 //Start
 import Start from './../screens/Start/Start';
+//AddEvent
+import AddEvent from './../screens/AddEvent/AddEvent';
 //@ts-ignore
 import {fadeIn} from 'react-navigation-transitions';
 import axios from 'axios';
@@ -75,6 +77,12 @@ const MainStack = createSwitchNavigator(
         },
         Start: {
             screen: Start,
+            navigationOptions: {
+                header: null,
+            },
+        },
+        AddEvent: {
+            screen: AddEvent,
             navigationOptions: {
                 header: null,
             },

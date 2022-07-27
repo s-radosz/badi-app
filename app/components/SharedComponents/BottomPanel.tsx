@@ -130,7 +130,7 @@ const BottomPanel = ({navigation}: IBottomPanelProps) => {
                 <TouchableOpacity
                     onPress={() =>
                         userData
-                            ? NavigationService.navigate('Auctions', {})
+                            ? NavigationService.navigate('AddEvent', {})
                             : NavigationService.navigate('Register', {})
                     }>
                     <View

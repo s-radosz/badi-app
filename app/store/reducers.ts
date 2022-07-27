@@ -5,6 +5,7 @@ import Loader from './loader/reducer';
 import Translations from './translations/reducer';
 import User from './user/reducer';
 import Categories from './categories/reducer';
+import SearchFilter from './searchFilter/reducer';
 
 const rootReducer = combineReducers({
     Alert,
@@ -12,6 +13,7 @@ const rootReducer = combineReducers({
     Translations,
     User,
     Categories,
+    SearchFilter,
 });
 
 export default rootReducer;

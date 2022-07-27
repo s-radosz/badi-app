@@ -3,16 +3,19 @@ import {SafeAreaView, StyleSheet, Dimensions, View} from 'react-native';
 import {Appbar} from 'react-native-paper';
 import {DatePickerModal} from 'react-native-paper-dates';
 import lang from './../../../lang/Start/SelectDate/SelectDate';
-import {useSelector} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
+import {setDateFrom, setDateTo} from './../../../store/searchFilter/actions';
 
 interface SelectDateProps {
     onClose: () => void;
     navigation: any;
-    setSelectedDateRangeFrom: any;
-    setSelectedDateRangeTo: any;
+    // setSelectedDateRangeFrom: any;
+    // setSelectedDateRangeTo: any;
 }
 
 const SelectDate = (props: SelectDateProps) => {
+    const dispatch = useDispatch();
+
     const activeLanguage = useSelector(
         (state: any) => state?.Translations?.language,
     );
@@ -27,12 +30,20 @@ const SelectDate = (props: SelectDateProps) => {
     const onConfirm = React.useCallback(
         ({startDate, endDate}: any) => {
             setRange({startDate, endDate});
-            props?.setSelectedDateRangeFrom(
-                new Date(new Date().setDate(startDate?.getDate()))
-                    ?.toISOString()
-                    ?.slice(0, 10),
+            dispatch(
+                setDateFrom(
+                    new Date(new Date().setDate(startDate?.getDate()))
+                        ?.toISOString()
+                        ?.slice(0, 10),
+                ),
             );
-            props?.setSelectedDateRangeTo(endDate?.toISOString()?.slice(0, 10));
+            dispatch(setDateTo(endDate?.toISOString()?.slice(0, 10)));
+            // props?.setSelectedDateRangeFrom(
+            //     new Date(new Date().setDate(startDate?.getDate()))
+            //         ?.toISOString()
+            //         ?.slice(0, 10),
+            // );
+            // props?.setSelectedDateRangeTo(endDate?.toISOString()?.slice(0, 10));
             setOpen(false);
             props?.onClose();
         },
