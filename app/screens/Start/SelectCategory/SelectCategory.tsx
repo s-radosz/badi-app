@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {Dimensions, SafeAreaView, StyleSheet, Text, View} from 'react-native';
 import {Chip} from 'react-native-paper';
 import TopHeader from './../../../components/Utils/TopHeader';
@@ -97,7 +97,6 @@ const styles = StyleSheet.create({
         elevation: 0,
     },
     singleListContainer: {
-        // marginBottom: 10,
         paddingLeft: 20,
         paddingRight: 20,
         paddingTop: 20,

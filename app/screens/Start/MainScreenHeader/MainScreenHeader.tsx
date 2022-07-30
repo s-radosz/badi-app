@@ -3,6 +3,7 @@ import {TouchableOpacity, View, Dimensions, StyleSheet} from 'react-native';
 import {Text, IconButton} from 'react-native-paper';
 import lang from './../../../lang/Start/MainScreenHeader/MainScreenHeader';
 import {useSelector} from 'react-redux';
+import NavigationService from './../../../routes/NavigationService';
 
 interface MainScreenHeaderProps {
     navigation: any;
@@ -47,7 +48,7 @@ const MainScreenHeader = (props: MainScreenHeaderProps) => {
                 </TouchableOpacity>
 
                 <TouchableOpacity
-                    onPress={() => props?.navigation.navigate('add')}
+                    onPress={() => NavigationService.navigate('AddEvent', {})}
                     style={styles.btnContainer}>
                     <IconButton
                         icon="plus-circle"
@@ -67,8 +68,6 @@ const styles = StyleSheet.create({
         width: Dimensions.get('window').width,
     },
     wrapper: {
-        // paddingLeft: 10,
-        // paddingRight: 10,
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
@@ -83,7 +82,6 @@ const styles = StyleSheet.create({
         minHeight: 70,
         justifyContent: 'center',
         alignItems: 'center',
-        // backgroundColor: "#ccc",
         width: Dimensions.get('window').width / 3,
     },
     btnIcon: {
@@ -91,7 +89,6 @@ const styles = StyleSheet.create({
         margin: 0,
         height: 50,
         width: 50,
-        // backgroundColor: "blue"
     },
     btnText: {
         textAlign: 'center',

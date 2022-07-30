@@ -4,6 +4,10 @@ import * as Animatable from 'react-native-animatable';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {useDispatch, useSelector} from 'react-redux';
 import {setLanguage} from './../../store/translations/actions';
+import {
+    setStartViewMapLatitude,
+    setStartViewMapLongitude,
+} from './../../store/searchFilter/actions';
 
 const enFlag: any = require('./../../assets/images/en-flag.png');
 const plFlag: any = require('./../../assets/images/pl-flag.png');
@@ -77,6 +81,20 @@ const Languages = (props: any) => {
                                     onPress={() => {
                                         dispatch(
                                             setLanguage(languageFlag.text),
+                                        );
+                                        dispatch(
+                                            setStartViewMapLatitude(
+                                                languageFlag.text === 'pl'
+                                                    ? 52.237049
+                                                    : 51.509865,
+                                            ),
+                                        );
+                                        dispatch(
+                                            setStartViewMapLongitude(
+                                                languageFlag.text === 'pl'
+                                                    ? 21.017532
+                                                    : -0.118092,
+                                            ),
                                         );
                                         setShowLanguages(false);
                                     }}>

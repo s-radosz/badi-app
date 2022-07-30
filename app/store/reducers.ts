@@ -6,6 +6,7 @@ import Translations from './translations/reducer';
 import User from './user/reducer';
 import Categories from './categories/reducer';
 import SearchFilter from './searchFilter/reducer';
+import Events from './events/reducer';
 
 const rootReducer = combineReducers({
     Alert,
@@ -14,6 +15,7 @@ const rootReducer = combineReducers({
     User,
     Categories,
     SearchFilter,
+    Events,
 });
 
 export default rootReducer;

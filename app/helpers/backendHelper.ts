@@ -1,9 +1,8 @@
-import {get} from './apiHelper';
+import {get, post} from './apiHelper';
 import * as url from './urlHelper';
 
 //Translations
 export const getTranslations = async () => {
-    // console.log(['getTranslations backend', url.GET_TRANSLATIONS]);
     return await get(url.GET_TRANSLATIONS)
         .then(async response => {
             if (response.status === 'OK') {
@@ -20,12 +19,9 @@ export const getTranslations = async () => {
                                 zh: translation.zh,
                             },
                         };
-                        // translations.push(single);
                         translations = Object.assign(translations, single);
                     },
                 );
-
-                // console.log(['translations', translations]);
 
                 return translations;
             } else {
@@ -39,7 +35,6 @@ export const getTranslations = async () => {
 
 //User Data
 export const getUserDetails = async () => {
-    // console.log(['getTranslations backend', url.GET_TRANSLATIONS]);
     return await get(url.GET_TRANSLATIONS)
         .then(async response => {
             if (response.status === 'OK') {
@@ -56,12 +51,9 @@ export const getUserDetails = async () => {
                                 zh: translation.zh,
                             },
                         };
-                        // translations.push(single);
                         translations = Object.assign(translations, single);
                     },
                 );
-
-                // console.log(['translations', translations]);
 
                 return translations;
             } else {
@@ -74,13 +66,10 @@ export const getUserDetails = async () => {
 };
 
 // categories
-
 export const getCategories = async () => {
-    // console.log(['getTranslations backend', url.GET_TRANSLATIONS]);
     return await get(url.GET_CATEGORIES)
         .then(async response => {
             if (response.status === 'OK') {
-                // console.log(['response.result getCategories', response.result]);
                 return {
                     result: response.result,
                     activeCategory: {
@@ -88,6 +77,30 @@ export const getCategories = async () => {
                         name: response.result[0].categories[0].name,
                     },
                 };
+            } else {
+                return;
+            }
+        })
+        .catch(error => {
+            return;
+        });
+};
+
+//events
+export const getEvents = async (
+    latitude?: number,
+    longitude?: number,
+    categoryId?: number,
+) => {
+    console.log(['getEvents', latitude, longitude, categoryId]);
+    return await post(url.GET_EVENTS, {
+        latitude: latitude ? latitude : 51.509865,
+        longitude: longitude ? longitude : -0.118092,
+        category_id: categoryId ? categoryId : null,
+    })
+        .then(async response => {
+            if (response.status === 'OK') {
+                return response.result;
             } else {
                 return;
             }

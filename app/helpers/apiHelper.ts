@@ -24,7 +24,17 @@ export async function get(url: string, config?: any) {
             ...config,
         })
         .then(response => {
-            console.log(['ress', response.data]);
+            return response.data;
+        });
+}
+
+export async function post(url: string, body: any, config?: any) {
+    console.log(['url', url, `${API_URL}${url}`, body, config]);
+    return await axiosApi
+        .post(`${API_URL}${url}`, body, {
+            ...config,
+        })
+        .then(response => {
             return response.data;
         });
 }

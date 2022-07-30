@@ -33,7 +33,6 @@ const Profile = ({navigation}: IFeedbackModalProps) => {
     const [countFriends, setCountFriends] = useState(0);
     const [showProfilePreview, setShowProfilePreview] = useState(false);
     const [showEditUserData, setShowEditUserData] = useState(false);
-    const [userHobbies, setUserHobbies] = useState([]);
 
     useEffect(() => {
         if (userData) {
@@ -80,7 +79,6 @@ const Profile = ({navigation}: IFeedbackModalProps) => {
                                 city={locationDetails.city}
                                 age={userData?.age}
                                 countFriends={countFriends}
-                                // countKids={this.context.userData.kids.length}
                                 countKids={0}
                                 locationString={userData?.location_string}
                                 showLogout={true}

@@ -9,8 +9,6 @@ import {setDateFrom, setDateTo} from './../../../store/searchFilter/actions';
 interface SelectDateProps {
     onClose: () => void;
     navigation: any;
-    // setSelectedDateRangeFrom: any;
-    // setSelectedDateRangeTo: any;
 }
 
 const SelectDate = (props: SelectDateProps) => {
@@ -38,12 +36,6 @@ const SelectDate = (props: SelectDateProps) => {
                 ),
             );
             dispatch(setDateTo(endDate?.toISOString()?.slice(0, 10)));
-            // props?.setSelectedDateRangeFrom(
-            //     new Date(new Date().setDate(startDate?.getDate()))
-            //         ?.toISOString()
-            //         ?.slice(0, 10),
-            // );
-            // props?.setSelectedDateRangeTo(endDate?.toISOString()?.slice(0, 10));
             setOpen(false);
             props?.onClose();
         },

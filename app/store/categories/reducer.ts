@@ -24,7 +24,7 @@ const categories = (state = initialState, action) => {
             state = {
                 ...state,
                 categoryGroups: action.payload?.result,
-                activeCategory: action.payload?.activeCategory,
+                // activeCategory: action.payload?.activeCategory,
             };
             break;
         case GET_CATEGORIES_FAIL:

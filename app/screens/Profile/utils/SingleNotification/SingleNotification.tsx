@@ -1,6 +1,5 @@
 import React from 'react';
 import {Text, View, Image, TouchableHighlight, StyleSheet} from 'react-native';
-// import styles from "../../style";
 const friendship: any = require('./../../../../assets/images/friendship.png');
 const messageNotification: any = require('./../../../../assets/images/messageNotification.png');
 const startConversation: any = require('./../../../../assets/images/startConversation.png');

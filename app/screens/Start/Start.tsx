@@ -8,7 +8,7 @@ import {
     Button,
 } from 'react-native';
 import MainScreenHeader from './MainScreenHeader/MainScreenHeader';
-import MapView from 'react-native-maps';
+import MapView, {Marker} from 'react-native-maps';
 import SelectCategory from './SelectCategory/SelectCategory';
 import SelectDate from './SelectDate/SelectDate';
 import BottomPanel from './../../components/SharedComponents/BottomPanel';
@@ -16,8 +16,15 @@ import {withNavigation} from 'react-navigation';
 import ButtonComponent from './../../components/Utils/ButtonComponent';
 import {useSelector, useDispatch} from 'react-redux';
 import lang from './../../lang/Start/Start';
-import {setDateFrom, setDateTo} from './../../store/searchFilter/actions';
+import {
+    setDateFrom,
+    setDateTo,
+    setStartViewMapLatitude,
+    setStartViewMapLongitude,
+} from './../../store/searchFilter/actions';
 import {Modalize} from 'react-native-modalize';
+import {getEvents} from './../../store/events/actions';
+import {FlatList} from 'react-native-gesture-handler';
 
 interface MainScreenProps {
     navigation: any;
@@ -25,47 +32,6 @@ interface MainScreenProps {
 
 const Start = ({navigation}: MainScreenProps) => {
     const modalizeRef = useRef<Modalize>(null);
-
-    const onOpen = () => {
-        modalizeRef.current?.open();
-    };
-
-    const getData = () => {
-        return [
-            {
-                id: 5,
-                title: 'Test #1',
-                description: 'Test',
-                category_id: 1,
-                date: '2022-07-27',
-                members_limit: 1,
-                author_id: 1,
-                latitude: 51.509865,
-                longitude: -0.118092,
-                created_at: '2022-07-27T17:41:10.000000Z',
-                updated_at: '2022-07-27T17:41:10.000000Z',
-            },
-            {
-                id: 6,
-                title: 'Test #2',
-                description: 'Test 2 desc',
-                category_id: 6,
-                date: '2022-07-29',
-                members_limit: 2,
-                author_id: 1,
-                latitude: 51.528354567701,
-                longitude: -0.12985293202157,
-                created_at: '2022-07-27T17:44:09.000000Z',
-                updated_at: '2022-07-27T17:44:09.000000Z',
-            },
-        ];
-    };
-
-    const renderItem = item => (
-        <View>
-            <Text>{item.title}</Text>
-        </View>
-    );
 
     const dispatch = useDispatch();
 
@@ -82,14 +48,16 @@ const Start = ({navigation}: MainScreenProps) => {
     const activeDateTo = useSelector(
         (state: any) => state?.SearchFilter?.dateTo,
     );
+    const startViewMapLatitude = useSelector(
+        (state: any) => state?.SearchFilter?.startViewMapLatitude,
+    );
+    const startViewMapLongitude = useSelector(
+        (state: any) => state?.SearchFilter?.startViewMapLongitude,
+    );
+    const events = useSelector((state: any) => state?.Events?.events);
 
     const [showSelectCategory, setSelectCategory] = useState(false);
     const [showSelectDate, setSelectDate] = useState(false);
-
-    // const [selectedCategoryId, setSelectedCategoryId] = useState(1);
-    // const [selectedCategoryName, setSelectedCategoryName] = useState(
-    //     activeLanguage === 'pl' ? 'Piłka nozna' : 'Football',
-    // );
 
     useEffect(() => {
         if (!activeDateFrom) {
@@ -107,30 +75,64 @@ const Start = ({navigation}: MainScreenProps) => {
         }
     }, [activeDateFrom, activeDateTo]);
 
+    useEffect(() => {
+        if (startViewMapLatitude && startViewMapLongitude) {
+            console.log([
+                'dispatch get events',
+                startViewMapLatitude,
+                startViewMapLongitude,
+            ]);
+            handleGetEvents(
+                startViewMapLatitude,
+                startViewMapLongitude,
+                activeCategory?.id ? activeCategory?.id : null,
+            );
+        }
+    }, [startViewMapLatitude, startViewMapLongitude]);
+
+    const handleGetEvents = (
+        latitude?: number,
+        longitude?: number,
+        categoryId?: number,
+    ) => {
+        dispatch(getEvents(latitude, longitude, categoryId));
+    };
+
     const handleSelectCategory = (id: number, name: string) => {
+        handleGetEvents(
+            startViewMapLatitude,
+            startViewMapLongitude,
+            id ? id : null,
+        );
         setSelectCategory(false);
     };
 
-    const handleClose = dest => {
-        if (modalizeRef.current) {
-            modalizeRef.current.close(dest);
-        }
+    const returnListItem = ({item}) => {
+        return (
+            <View
+                style={{
+                    borderBottomWidth: 1,
+                    borderBottomColor: '#ccc',
+                    paddingVertical: 20,
+                }}>
+                <Text>{item?.title}</Text>
+                <Text>{item?.description}</Text>
+            </View>
+        );
     };
 
     const renderContent = () => (
         <View style={styles.content}>
-            <Text style={styles.content__subheading}>
-                {'Introduction'.toUpperCase()}
-            </Text>
-            <Text style={styles.content__heading}>Always open modal!</Text>
-            <Text style={styles.content__description}>
-                jsjdsjds dsdsjkdskmd dskmdskkdms dkskmdkmds kmdsmkdskm sdm
-                kmdskm kmdsmkds kdsms kdsmkds
-            </Text>
-            {/* <Button name="Close to initial position" onPress={() => handleClose('alwaysOpen')} />
-          <Button name="Close completely" onPress={handleClose} /> */}
+            <FlatList data={events} renderItem={returnListItem} />
         </View>
     );
+
+    const handleMapDragend = (e: any) => {
+        console.log(['handleMapDragend', e]);
+
+        dispatch(setStartViewMapLatitude(e?.latitude));
+        dispatch(setStartViewMapLongitude(e?.longitude));
+    };
 
     return (
         <>
@@ -145,8 +147,6 @@ const Start = ({navigation}: MainScreenProps) => {
             {showSelectDate ? (
                 <SelectDate
                     onClose={() => setSelectDate(false)}
-                    // setSelectedDateRangeFrom={activeDateFrom}
-                    // setSelectedDateRangeTo={activeDateTo}
                     navigation={navigation}
                 />
             ) : null}
@@ -180,21 +180,43 @@ const Start = ({navigation}: MainScreenProps) => {
                             activeLanguage === 'pl'
                                 ? {
                                       //warsaw
-                                      latitude: 52.237049,
-                                      longitude: 21.017532,
+                                      latitude: startViewMapLatitude
+                                          ? startViewMapLatitude
+                                          : 52.237049,
+                                      longitude: startViewMapLongitude
+                                          ? startViewMapLongitude
+                                          : 21.017532,
                                       latitudeDelta: 0.0922,
                                       longitudeDelta: 0.0421,
                                   }
                                 : {
                                       //london
-                                      latitude: 51.509865,
-                                      longitude: -0.118092,
+                                      latitude: startViewMapLatitude
+                                          ? startViewMapLatitude
+                                          : 51.509865,
+                                      longitude: startViewMapLongitude
+                                          ? startViewMapLongitude
+                                          : -0.118092,
                                       latitudeDelta: 0.0922,
                                       longitudeDelta: 0.0421,
                                   }
                         }
-                        style={styles.map}
-                    />
+                        onRegionChangeComplete={handleMapDragend}
+                        style={styles.map}>
+                        {events
+                            ? events?.map((event, i) => {
+                                  return (
+                                      <Marker
+                                          draggable={false}
+                                          coordinate={{
+                                              latitude: event.latitude,
+                                              longitude: event.longitude,
+                                          }}
+                                      />
+                                  );
+                              })
+                            : null}
+                    </MapView>
                     <View style={styles.bottomBtnContainer}>
                         {!userToken ? (
                             <ButtonComponent
