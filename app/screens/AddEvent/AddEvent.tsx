@@ -14,7 +14,6 @@ import {DatePickerModal, TimePickerModal} from 'react-native-paper-dates';
 import {setAlert} from '../../../app/store/alert/actions';
 import axios from 'axios';
 import {API_URL} from './../../helpers/globalVariables';
-import NavigationService from './../../routes/NavigationService';
 
 interface AddEventScreenProps {
     navigation: any;
@@ -188,7 +187,7 @@ const AddEvent = ({navigation}: AddEventScreenProps) => {
                                 ),
                             );
 
-                            NavigationService.navigate('Start', {});
+                            navigation.navigate('Start');
                         } else {
                             dispatch(
                                 setAlert(
@@ -263,7 +262,9 @@ const AddEvent = ({navigation}: AddEventScreenProps) => {
                     // data-test="FindUsers"
                 >
                     <TopHeader
-                        onClose={() => (showMap ? setShowMap(false) : {})}
+                        onClose={() =>
+                            showMap ? setShowMap(false) : navigation.goBack()
+                        }
                         title={
                             showMap
                                 ? lang.selectLocation[activeLanguage]

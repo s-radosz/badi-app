@@ -33,7 +33,7 @@ const About = ({navigation}: IAboutProps) => {
                 <View style={styles.wrapper} data-test="ProfileContainer">
                     <ScrollView>
                         <TopHeader
-                            onClose={() => {}}
+                            onClose={() => navigation.goBack()}
                             title={lang.aboutApp[activeLanguage]}
                         />
 

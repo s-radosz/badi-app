@@ -91,7 +91,7 @@ const LoggedInUserDetails = ({navigation}: ILoggedInUserDetailsProps) => {
                         {userDetailsData && (
                             <ScrollView>
                                 <TopHeader
-                                    onClose={() => {}}
+                                    onClose={() => navigation.goBack()}
                                     title={userDetailsData?.name}
                                     ignoreBottomMargin={true}
                                 />

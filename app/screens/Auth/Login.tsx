@@ -21,7 +21,6 @@ import {useDispatch, useSelector} from 'react-redux';
 import {setAlert} from '../../../app/store/alert/actions';
 import {setUserDetails} from '../../../app/store/user/actions';
 import {API_URL} from './../../helpers/globalVariables';
-import NavigationService from './../../routes/NavigationService';
 
 interface ILoginProps {
     navigation: any;
@@ -183,16 +182,11 @@ const Login = ({navigation}: ILoginProps) => {
                                         ),
                                     );
 
-                                    NavigationService.navigate('Start', {});
+                                    navigation.navigate('Start');
                                 }
                             })
                             .catch(error => {
                                 console.log(['error', error]);
-                                // context.setAlert(
-                                //     true,
-                                //     'danger',
-                                //     lang.loginError['pl'],
-                                // );
 
                                 dispatch(
                                     setAlert(

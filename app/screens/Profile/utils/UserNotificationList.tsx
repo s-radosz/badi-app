@@ -81,7 +81,7 @@ const UserNotificationList = ({navigation}: IUserNotificationListProps) => {
                     <React.Fragment>
                         <ScrollView>
                             <TopHeader
-                                onClose={() => {}}
+                                onClose={() => navigation.goBack()}
                                 title={lang.notificationTitle[activeLanguage]}
                             />
                             <View style={styles.notificationsListContainer}>

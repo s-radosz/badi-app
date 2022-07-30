@@ -26,7 +26,6 @@ import AddEvent from './../screens/AddEvent/AddEvent';
 //@ts-ignore
 import {fadeIn} from 'react-navigation-transitions';
 import axios from 'axios';
-import NavigationService from './NavigationService';
 import {ifIphoneX} from 'react-native-iphone-x-helper';
 import {useDispatch, useSelector} from 'react-redux';
 import {setAlert} from '../../app/store/alert/actions';
@@ -36,138 +35,10 @@ import {getTranslations} from './../store/translations/actions';
 import {getCategories} from './../store/categories/actions';
 import {API_URL} from './../helpers/globalVariables';
 
-const MainStack = createSwitchNavigator(
-    {
-        Welcome: {
-            screen: Welcome,
-            navigationOptions: {
-                header: null,
-                gesturesEnabled: false,
-            },
-        },
-        Login: {
-            screen: Login,
-            navigationOptions: {
-                header: null,
-            },
-        },
-        Register: {
-            screen: Register,
-            navigationOptions: {
-                header: null,
-            },
-        },
-        ResetPassword: {
-            screen: ResetPassword,
-            navigationOptions: {
-                header: null,
-            },
-        },
-        ConfirmAccount: {
-            screen: ConfirmAccount,
-            navigationOptions: {
-                header: null,
-            },
-        },
-        FillNecessaryInfo: {
-            screen: FillNecessaryInfo,
-            navigationOptions: {
-                header: null,
-            },
-        },
-        Start: {
-            screen: Start,
-            navigationOptions: {
-                header: null,
-            },
-        },
-        AddEvent: {
-            screen: AddEvent,
-            navigationOptions: {
-                header: null,
-            },
-        },
-        Messages: {
-            screen: Messages,
-            navigationOptions: {
-                header: null,
-            },
-        },
-        ConversationDetails: {
-            screen: ConversationDetails,
-            navigationOptions: {
-                header: null,
-            },
-        },
-        Profile: {
-            screen: Profile,
-            navigationOptions: {
-                header: null,
-            },
-        },
-        UserFriendsList: {
-            screen: UserFriendsList,
-            navigationOptions: {
-                header: null,
-            },
-        },
-        UserNotificationList: {
-            screen: UserNotificationList,
-            navigationOptions: {
-                header: null,
-            },
-        },
-        FeedbackModal: {
-            screen: FeedbackModal,
-            navigationOptions: {
-                header: null,
-            },
-        },
-        About: {
-            screen: About,
-            navigationOptions: {
-                header: null,
-            },
-        },
-        LoggedInUserDetails: {
-            screen: LoggedInUserDetails,
-            navigationOptions: {
-                header: null,
-            },
-        },
-    },
-    {
-        initialRouteName: 'Welcome',
-        // transitionConfig: () => fadeIn(),
-        // headerMode: "none"
-    },
-);
+import {NavigationContainer} from '@react-navigation/native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
-const AppContainer = createAppContainer(MainStack);
-
-interface AppState {
-    showAlert: boolean;
-    alertType: string;
-    alertMessage: string;
-    userData: any;
-    userLoggedIn: boolean;
-    API_URL: string;
-    showLoader: boolean;
-    currentNavName: string;
-    language: string;
-    // translations: Array<object>;
-    translations: any;
-}
-interface NavigationScreenInterface {
-    navigation: {
-        navigate: any;
-        getParam: any;
-        state: any;
-        setParams: any;
-    };
-}
-
-const App = ({navigation}: NavigationScreenInterface) => {
+const Init = ({navigation}) => {
     const userData = useSelector((state: any) => state?.User);
 
     const [userLoggedIn, setUserLoggedIn] = useState(false);
@@ -216,67 +87,16 @@ const App = ({navigation}: NavigationScreenInterface) => {
         return json;
     };
 
-    // const clearUserNotificationsStatus = async (userId: number) => {
-    //     axios
-    //         .post(API_URL + '/clearUserNotificationsStatus', {
-    //             userId: userId,
-    //         })
-    //         .then(async response => {
-    //             if (response.data.status === 'OK') {
-    //                 let newUserState = userData;
-    //                 newUserState.unreadedNotifications = false;
-    //                 newUserState.unreadedNotificationsAmount = 0;
-    //                 setUserData(newUserState);
-    //                 // await this.setState({userData: newUserState});
-    //             }
-    //         })
-    //         .catch(error => {
-    //             //console.log(error);
-    //         });
-    // };
-
-    // const clearUserUnreadedMessages = async (
-    //     userId: number,
-    //     conversationId: number,
-    // ) => {
-    //     try {
-    //         axios
-    //             .post(API_URL + '/setUserMessagesStatus', {
-    //                 userId: userId,
-    //                 conversationId: conversationId,
-    //             })
-    //             .then(async response => {
-    //                 if (response.data.status === 'OK') {
-    //                     let newUserState = userData;
-    //                     newUserState.unreadedConversationMessage =
-    //                         response.data.result.userUnreadedMessages;
-    //                     newUserState.unreadedConversationMessageAmount =
-    //                         response.data.result.userUnreadedMessagesCount;
-    //                     setUserData(newUserState);
-
-    //                     //that.checkUserStatus();
-    //                 }
-    //             })
-    //             .catch(error => {
-    //                 //console.log(error);
-    //             });
-    //     } catch (error) {
-    //         //console.log(error);
-    //     }
-
-    //     //console.log(this.state.userData);
-    // };
-
     const checkUserStatus = (): void => {
         console.log(['checkUserStatus', userData]);
 
         if (userData.verified === 1 && userData.user_filled_info === 1) {
             console.log(['user list redirect']);
-            NavigationService.navigate('Start', {});
+            navigation.navigate('Welcome');
         } else if (userData.verified === 0) {
-            NavigationService.navigate('ConfirmAccount', {});
+            navigation.navigate('ConfirmAccount');
         } else if (userData.verified === 1 && userData.user_filled_info === 0) {
-            NavigationService.navigate('FillNecessaryInfo', {});
+            navigation.navigate('FillNecessaryInfo');
         }
     };
 
@@ -303,26 +123,121 @@ const App = ({navigation}: NavigationScreenInterface) => {
     useEffect(() => {
         dispatch(getTranslations());
         dispatch(getCategories());
-        NavigationService.navigate('Welcome', {});
+        navigation.navigate('Welcome');
     }, []);
 
     const handleSetCurrentNavName = (name: string) => {
         setCurrentNavName(name);
     };
 
+    return <></>;
+};
+
+// const AppContainer = createAppContainer(MainStack);
+const Stack = createNativeStackNavigator();
+
+interface AppState {
+    showAlert: boolean;
+    alertType: string;
+    alertMessage: string;
+    userData: any;
+    userLoggedIn: boolean;
+    API_URL: string;
+    showLoader: boolean;
+    currentNavName: string;
+    language: string;
+    // translations: Array<object>;
+    translations: any;
+}
+
+const App = ({navigation}) => {
     return (
         <SafeAreaView style={styles.container}>
             <Alert />
-            <AppContainer
-                ref={navigatorRef => {
-                    NavigationService.setTopLevelNavigator(navigatorRef);
-                }}
-                //@ts-ignore
-                alertType={alertType}
-                alertMessage={''}
-                closeAlert={closeAlert}
-                showAlert={false}
-            />
+            <NavigationContainer>
+                <Stack.Navigator initialRouteName="Init">
+                    <Stack.Screen
+                        name="Init"
+                        component={Init}
+                        options={{headerShown: false}}
+                    />
+                    <Stack.Screen
+                        name="Welcome"
+                        component={Welcome}
+                        options={{headerShown: false}}
+                    />
+                    <Stack.Screen
+                        name="Start"
+                        component={Start}
+                        options={{headerShown: false}}
+                    />
+                    <Stack.Screen
+                        name="Login"
+                        component={Login}
+                        options={{headerShown: false}}
+                    />
+                    <Stack.Screen
+                        name="Register"
+                        component={Register}
+                        options={{headerShown: false}}
+                    />
+                    <Stack.Screen
+                        name="ResetPassword"
+                        component={ConfirmAccount}
+                        options={{headerShown: false}}
+                    />
+                    <Stack.Screen
+                        name="FillNecessaryInfo"
+                        component={FillNecessaryInfo}
+                        options={{headerShown: false}}
+                    />
+                    <Stack.Screen
+                        name="AddEvent"
+                        component={AddEvent}
+                        options={{headerShown: false}}
+                    />
+                    <Stack.Screen
+                        name="Messages"
+                        component={Messages}
+                        options={{headerShown: false}}
+                    />
+                    <Stack.Screen
+                        name="ConversationDetails"
+                        component={ConversationDetails}
+                        options={{headerShown: false}}
+                    />
+                    <Stack.Screen
+                        name="Profile"
+                        component={Profile}
+                        options={{headerShown: false}}
+                    />
+                    <Stack.Screen
+                        name="UserFriendsList"
+                        component={UserFriendsList}
+                        options={{headerShown: false}}
+                    />
+                    <Stack.Screen
+                        name="UserNotificationList"
+                        component={UserNotificationList}
+                        options={{headerShown: false}}
+                    />
+                    <Stack.Screen
+                        name="FeedbackModal"
+                        component={FeedbackModal}
+                        options={{headerShown: false}}
+                    />
+                    <Stack.Screen
+                        name="About"
+                        component={About}
+                        options={{headerShown: false}}
+                    />
+                    <Stack.Screen
+                        name="LoggedInUserDetails"
+                        component={LoggedInUserDetails}
+                        options={{headerShown: false}}
+                    />
+                </Stack.Navigator>
+            </NavigationContainer>
         </SafeAreaView>
     );
 };

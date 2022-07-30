@@ -3,7 +3,6 @@ import {TouchableOpacity, View, Dimensions, StyleSheet} from 'react-native';
 import {Text, IconButton} from 'react-native-paper';
 import lang from './../../../lang/Start/MainScreenHeader/MainScreenHeader';
 import {useSelector} from 'react-redux';
-import NavigationService from './../../../routes/NavigationService';
 
 interface MainScreenHeaderProps {
     navigation: any;
@@ -13,7 +12,13 @@ interface MainScreenHeaderProps {
     selectedDateRange: string;
 }
 
-const MainScreenHeader = (props: MainScreenHeaderProps) => {
+const MainScreenHeader = ({
+    navigation,
+    setSelectCategory,
+    setSelectDate,
+    selectedCategoryName,
+    selectedDateRange,
+}: MainScreenHeaderProps) => {
     const activeLanguage = useSelector(
         (state: any) => state?.Translations?.language,
     );
@@ -22,33 +27,33 @@ const MainScreenHeader = (props: MainScreenHeaderProps) => {
         <View style={styles.container}>
             <View style={styles.wrapper}>
                 <TouchableOpacity
-                    onPress={() => props?.setSelectCategory(true)}
+                    onPress={() => setSelectCategory(true)}
                     style={styles.btnContainer}>
                     <View>
                         <Text style={[styles.btnText]}>
                             {lang.category[activeLanguage]}
                         </Text>
                         <Text style={[styles.subBtnText]}>
-                            {props?.selectedCategoryName}
+                            {selectedCategoryName}
                         </Text>
                     </View>
                 </TouchableOpacity>
 
                 <TouchableOpacity
-                    onPress={() => props?.setSelectDate(true)}
+                    onPress={() => setSelectDate(true)}
                     style={styles.btnContainer}>
                     <View>
                         <Text style={[styles.btnText]}>
                             {lang.date[activeLanguage]}
                         </Text>
                         <Text style={[styles.subBtnText]}>
-                            {props?.selectedDateRange}
+                            {selectedDateRange}
                         </Text>
                     </View>
                 </TouchableOpacity>
 
                 <TouchableOpacity
-                    onPress={() => NavigationService.navigate('AddEvent', {})}
+                    onPress={() => navigation.navigate('AddEvent')}
                     style={styles.btnContainer}>
                     <IconButton
                         icon="plus-circle"

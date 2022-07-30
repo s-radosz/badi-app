@@ -125,7 +125,7 @@ const UserFriendsList = ({navigation}: IUserFriendsListProps) => {
                     <React.Fragment>
                         <ScrollView>
                             <TopHeader
-                                onClose={() => {}}
+                                onClose={() => navigation.goBack()}
                                 title={lang.myFriends[activeLanguage]}
                             />
 

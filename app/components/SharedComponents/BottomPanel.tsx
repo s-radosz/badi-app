@@ -2,7 +2,6 @@ import React from 'react';
 import {TouchableOpacity, View, Text, Image, StyleSheet} from 'react-native';
 import lang from './../../lang/SharedComponents/BottomPanel';
 import {useSelector} from 'react-redux';
-import NavigationService from './../../routes/NavigationService';
 import {
     customOrangeColor,
     darkGrayColor,
@@ -32,45 +31,27 @@ const BottomPanel = ({navigation}: IBottomPanelProps) => {
                 <TouchableOpacity
                     onPress={() =>
                         userData
-                            ? NavigationService.navigate('Start', {})
-                            : NavigationService.navigate('Register', {})
+                            ? navigation.navigate('Start')
+                            : navigation.navigate('Register')
                     }>
-                    <View
-                        style={
-                            styles.bottomPanelImage
-                            // context.currentNavName === lang.start['pl']
-                            //     ? styles.bottomPanelImageActive
-                            //     : styles.bottomPanelImage
-                        }>
+                    <View style={styles.bottomPanelImage}>
                         <Image
                             style={styles.buttonImage}
                             source={network}
                             resizeMode="contain"
                         />
                     </View>
-                    <Text
-                        style={
-                            styles.buttonText
-                            // context.currentNavName === lang.start['pl']
-                            //     ? styles.buttonTextActive
-                            //     : styles.buttonText
-                        }>
+                    <Text style={styles.buttonText}>
                         {lang.start[activeLanguage]}
                     </Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                     onPress={() =>
                         userData
-                            ? NavigationService.navigate('Messages', {})
-                            : NavigationService.navigate('Register', {})
+                            ? navigation.navigate('Messages')
+                            : navigation.navigate('Register')
                     }>
-                    <View
-                        style={
-                            styles.bottomPanelImage
-                            // context.currentNavName === lang.messages['pl']
-                            //     ? styles.bottomPanelImageActive
-                            //     : styles.bottomPanelImage
-                        }>
+                    <View style={styles.bottomPanelImage}>
                         <Image
                             style={styles.buttonImage}
                             source={message}
@@ -117,42 +98,24 @@ const BottomPanel = ({navigation}: IBottomPanelProps) => {
                                 )}
                             </TouchableOpacity>
                         )}
-                    <Text
-                        style={
-                            styles.buttonText
-                            // context.currentNavName === lang.messages['pl']
-                            //     ? styles.buttonTextActive
-                            //     : styles.buttonText
-                        }>
+                    <Text style={styles.buttonText}>
                         {lang.messages[activeLanguage]}
                     </Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                     onPress={() =>
                         userData
-                            ? NavigationService.navigate('AddEvent', {})
-                            : NavigationService.navigate('Register', {})
+                            ? navigation.navigate('AddEvent')
+                            : navigation.navigate('Register')
                     }>
-                    <View
-                        style={
-                            styles.bottomPanelImage
-                            // context.currentNavName === lang.addNewEvent['pl']
-                            //     ? styles.bottomPanelImageActive
-                            //     : styles.bottomPanelImage
-                        }>
+                    <View style={styles.bottomPanelImage}>
                         <Image
                             style={styles.buttonImage}
                             source={sell}
                             resizeMode="contain"
                         />
                     </View>
-                    <Text
-                        style={
-                            styles.buttonText
-                            // context.currentNavName === lang.addNewEvent['pl']
-                            //     ? styles.buttonTextActive
-                            //     : styles.buttonText
-                        }>
+                    <Text style={styles.buttonText}>
                         {lang.addNewEvent[activeLanguage]}
                     </Text>
                 </TouchableOpacity>
@@ -160,11 +123,8 @@ const BottomPanel = ({navigation}: IBottomPanelProps) => {
                 <TouchableOpacity
                     onPress={() =>
                         userData
-                            ? NavigationService.navigate(
-                                  'UserNotificationList',
-                                  {},
-                              )
-                            : NavigationService.navigate('Register', {})
+                            ? navigation.navigate('UserNotificationList')
+                            : navigation.navigate('Register')
                     }>
                     <View
                         style={
@@ -192,8 +152,8 @@ const BottomPanel = ({navigation}: IBottomPanelProps) => {
                 <TouchableOpacity
                     onPress={() =>
                         userData
-                            ? NavigationService.navigate('Profile', {})
-                            : NavigationService.navigate('Register', {})
+                            ? navigation.navigate('Profile')
+                            : navigation.navigate('Register')
                     }>
                     <View
                         style={
@@ -261,9 +221,7 @@ const BottomPanel = ({navigation}: IBottomPanelProps) => {
             {userData ? (
                 <TouchableOpacity
                     style={styles.feedbackBtn}
-                    onPress={() =>
-                        NavigationService.navigate('FeedbackModal', {})
-                    }
+                    onPress={() => navigation.navigate('FeedbackModal')}
                     data-test="feedbackIcon">
                     <Image source={feedback} style={styles.feedbackImg} />
                 </TouchableOpacity>

@@ -118,7 +118,7 @@ const Messages = ({navigation}: IMessagesProps) => {
                     <React.Fragment>
                         <ScrollView>
                             <TopHeader
-                                onClose={() => {}}
+                                onClose={() => navigation.goBack()}
                                 title={lang.header[activeLanguage]}
                             />
 

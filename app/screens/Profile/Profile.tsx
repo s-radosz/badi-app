@@ -65,7 +65,8 @@ const Profile = ({navigation}: IFeedbackModalProps) => {
                         {/* user preview page header */}
                         {showProfilePreview && !showEditUserData && (
                             <TopHeader
-                                onClose={handleSetShowProfilePreview}
+                                // onClose={handleSetShowProfilePreview}
+                                onClose={() => navigation.goBack()}
                                 title={userData?.name}
                             />
                         )}
