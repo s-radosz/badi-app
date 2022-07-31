@@ -11,6 +11,10 @@ const lang = {
         en: 'To',
         pl: 'Do',
     },
+    listTitle: {
+        en: 'Check Out Incoming Events',
+        pl: 'Sprawdź nadchodzące wydarzenia',
+    },
 };
 
 export default lang;

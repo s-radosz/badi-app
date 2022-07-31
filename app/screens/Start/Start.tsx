@@ -6,6 +6,7 @@ import {
     View,
     Text,
     Button,
+    Image,
 } from 'react-native';
 import MainScreenHeader from './MainScreenHeader/MainScreenHeader';
 import MapView, {Marker} from 'react-native-maps';
@@ -25,6 +26,10 @@ import {
 import {Modalize} from 'react-native-modalize';
 import {getEvents} from './../../store/events/actions';
 import {FlatList} from 'react-native-gesture-handler';
+import {customOrangeColor} from './../../assets/global/globalStyles';
+
+const calendar: any = require('./../../assets/images/calendar.png');
+const group: any = require('./../../assets/images/group.png');
 
 interface MainScreenProps {
     navigation: any;
@@ -109,20 +114,44 @@ const Start = ({navigation}: MainScreenProps) => {
 
     const returnListItem = ({item}) => {
         return (
-            <View
-                style={{
-                    borderBottomWidth: 1,
-                    borderBottomColor: '#ccc',
-                    paddingVertical: 20,
-                }}>
-                <Text>{item?.title}</Text>
-                <Text>{item?.description}</Text>
+            <View style={styles.listItemContainer}>
+                <Text style={styles.listItemCategory}>
+                    {item?.category?.name}
+                </Text>
+                <View style={styles.listItemSeparator}></View>
+                <Text style={styles.listItemTitle}>{item?.title}</Text>
+                <Text style={styles.listItemDescription}>
+                    {item?.description}
+                </Text>
+                <View style={styles.listItemBottom}>
+                    <View style={styles.listItemBottomElement}>
+                        <Image
+                            style={styles.listItemImg}
+                            source={calendar}
+                            resizeMode="contain"
+                        />
+                        <Text style={styles.listItemDate}>{item?.date}</Text>
+                    </View>
+                    <View style={styles.listItemBottomElement}>
+                        <Image
+                            style={styles.listItemImg}
+                            source={group}
+                            resizeMode="contain"
+                        />
+                        <Text style={styles.listItemMembers}>
+                            {item?.members_limit}
+                        </Text>
+                    </View>
+                </View>
             </View>
         );
     };
 
     const renderContent = () => (
         <View style={styles.content}>
+            <Text style={styles.listTitle}>
+                {lang.listTitle[activeLanguage]}
+            </Text>
             <FlatList data={events} renderItem={returnListItem} />
         </View>
     );
@@ -302,5 +331,59 @@ const styles = StyleSheet.create({
         fontWeight: '200',
         lineHeight: 22,
         color: '#666',
+    },
+
+    listTitle: {
+        fontSize: 18,
+        fontWeight: 'bold',
+        paddingTop: 20,
+        paddingBottom: 20,
+        textAlign: 'center',
+    },
+    listItemContainer: {
+        padding: 20,
+        borderWidth: 1,
+        borderRadius: 8,
+        borderColor: '#ccc',
+        marginBottom: 10,
+    },
+    listItemSeparator: {
+        width: 50,
+        height: 3,
+        backgroundColor: customOrangeColor,
+        borderRadius: 2,
+        marginTop: 10,
+        marginBottom: 20,
+    },
+    listItemCategory: {
+        fontSize: 15,
+        fontWeight: 'bold',
+    },
+    listItemImg: {
+        width: 20,
+        marginRight: 10,
+    },
+    listItemBottom: {
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+    listItemBottomElement: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        height: 20,
+        marginTop: 20,
+        paddingRight: 30,
+    },
+    listItemTitle: {
+        fontSize: 15,
+    },
+    listItemDescription: {
+        fontSize: 13,
+    },
+    listItemDate: {
+        fontSize: 14,
+    },
+    listItemMembers: {
+        fontSize: 14,
     },
 });
