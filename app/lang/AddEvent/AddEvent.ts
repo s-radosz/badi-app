@@ -1,43 +1,55 @@
 const lang = {
     header: {
         en: 'Add New Event',
-        pl: `Dodaj nowe wydarzenie`,
+        pl: 'Dodaj nowe wydarzenie',
     },
     formTitleLabel: {
         en: 'Title',
-        pl: `Tytuł`,
+        pl: 'Tytuł',
     },
     formDescriptionLabel: {
         en: 'Description',
-        pl: `Opis`,
+        pl: 'Opis',
     },
     formMembersLimitLabel: {
         en: 'Members Limit',
-        pl: `Limit uczestników`,
+        pl: 'Limit uczestników',
+    },
+    formDateLabel: {
+        en: 'Data',
+        pl: 'Data',
+    },
+    formCategoryLabel: {
+        en: 'Category',
+        pl: 'Kategoria',
+    },
+    formLocationLabel: {
+        en: 'Location',
+        pl: 'Lokalizacja',
     },
     selectTime: {
         en: 'Select Start Time',
-        pl: `Wybierz czas rozpoczęcia`,
+        pl: 'Wybierz czas rozpoczęcia',
     },
     cancel: {
         en: 'Cancel',
-        pl: `Anuluj`,
+        pl: 'Anuluj',
     },
     accept: {
         en: 'Ok',
-        pl: `Zatwierdź`,
+        pl: 'Zatwierdź',
     },
     selectDate: {
         en: 'Select Start Date',
-        pl: `Wybierz datę rozpoczęcia`,
+        pl: 'Wybierz datę rozpoczęcia',
     },
     selectLocation: {
         en: 'Select Location',
-        pl: `Wybierz lokalizacje`,
+        pl: 'Wybierz lokalizacje',
     },
     submit: {
         en: 'Submit',
-        pl: `Zatwierdź`,
+        pl: 'Zatwierdź',
     },
     allFieldsRequired: {
         en: 'All fields required',

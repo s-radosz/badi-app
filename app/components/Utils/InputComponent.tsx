@@ -1,29 +1,80 @@
 import React from 'react';
-import {TextInput, StyleSheet} from 'react-native';
+import {
+    TextInput,
+    StyleSheet,
+    View,
+    Text,
+    TouchableOpacity,
+} from 'react-native';
 
-const InputComponent = (props: {
+interface Props {
     placeholder: string;
     inputOnChange: (text: string) => void;
     value: string;
     secureTextEntry: boolean;
     maxLength: number;
-}) => {
+    type?: string;
+    editable?: boolean;
+    onClick?: any;
+
+    label?: string;
+}
+
+const InputComponent = ({
+    placeholder,
+    inputOnChange,
+    value,
+    secureTextEntry,
+    maxLength,
+    type,
+    editable,
+    onClick,
+    label,
+}: Props) => {
     return (
-        <TextInput
-            secureTextEntry={props.secureTextEntry}
-            style={styles.input}
-            placeholder={props.placeholder}
-            placeholderTextColor="#919191"
-            onChangeText={props.inputOnChange}
-            value={props.value}
-            maxLength={props.maxLength}
-        />
+        <>
+            {type === 'select' ? (
+                <View style={label ? styles.labelInputContainer : null}>
+                    {label ? <Text style={styles.label}>{label}</Text> : null}
+                    <TouchableOpacity onPress={onClick}>
+                        <View
+                            style={[
+                                styles.input,
+                                {flexDirection: 'row', alignItems: 'center'},
+                            ]}>
+                            <Text>
+                                {value
+                                    ? value
+                                    : placeholder
+                                    ? placeholder
+                                    : null}
+                            </Text>
+                        </View>
+                    </TouchableOpacity>
+                </View>
+            ) : (
+                <View style={label ? styles.labelInputContainer : null}>
+                    {label ? <Text style={styles.label}>{label}</Text> : null}
+                    <TextInput
+                        secureTextEntry={secureTextEntry}
+                        style={styles.input}
+                        placeholder={placeholder}
+                        placeholderTextColor="#919191"
+                        onChangeText={inputOnChange}
+                        value={value}
+                        maxLength={maxLength}
+                        keyboardType={type === 'number' ? 'numeric' : 'default'}
+                        editable={editable}
+                    />
+                </View>
+            )}
+        </>
     );
 };
 
 const styles = StyleSheet.create({
     input: {
-        width: '100%',
+        minWidth: '100%',
         marginTop: 10,
         borderRadius: 6,
         height: 40,
@@ -33,6 +84,14 @@ const styles = StyleSheet.create({
         paddingLeft: 10,
         paddingRight: 10,
         //fontFamily: "Open Sans"
+    },
+
+    label: {
+        fontSize: 13,
+        fontWeight: 'bold',
+    },
+    labelInputContainer: {
+        paddingBottom: 20,
     },
 });
 

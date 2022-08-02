@@ -14,6 +14,7 @@ import {DatePickerModal, TimePickerModal} from 'react-native-paper-dates';
 import {setAlert} from '../../../app/store/alert/actions';
 import axios from 'axios';
 import {API_URL} from './../../helpers/globalVariables';
+import InputComponent from './../../components/Utils/InputComponent';
 
 interface AddEventScreenProps {
     navigation: any;
@@ -293,75 +294,73 @@ const AddEvent = ({navigation}: AddEventScreenProps) => {
                     ) : null}
 
                     <View style={styles.formWrapper}>
-                        <TextInput
-                            label={lang.formTitleLabel[activeLanguage]}
-                            value={form.title}
-                            onChangeText={text =>
+                        <InputComponent
+                            placeholder={lang.formTitleLabel[activeLanguage]}
+                            inputOnChange={text =>
                                 handleSetFormValue('title', text)
                             }
+                            value={form.title}
+                            secureTextEntry={false}
+                            maxLength={100}
+                            label={`${lang.formTitleLabel[activeLanguage]}*`}
                         />
-
-                        <TextInput
-                            label={lang.formDescriptionLabel[activeLanguage]}
-                            value={form.description}
-                            onChangeText={text =>
+                        <InputComponent
+                            placeholder={
+                                lang.formDescriptionLabel[activeLanguage]
+                            }
+                            inputOnChange={text =>
                                 handleSetFormValue('description', text)
                             }
-                            multiline={true}
-                            numberOfLines={5}
+                            value={form.description}
+                            secureTextEntry={false}
+                            maxLength={300}
+                            label={`${lang.formDescriptionLabel[activeLanguage]}*`}
                         />
-
-                        <TextInput
-                            label={lang.formMembersLimitLabel[activeLanguage]}
-                            value={form.members_limit.toString()}
-                            //regex accept numeric
-                            onChangeText={text =>
+                        <InputComponent
+                            placeholder={
+                                lang.formMembersLimitLabel[activeLanguage]
+                            }
+                            inputOnChange={text =>
                                 handleSetFormValue(
                                     'members_limit',
                                     text.replace(/[^0-9]/g, ''),
                                 )
                             }
-                            keyboardType="numeric"
+                            value={form.members_limit.toString()}
+                            secureTextEntry={false}
                             maxLength={3}
+                            type={'number'}
+                            label={`${lang.formMembersLimitLabel[activeLanguage]}*`}
                         />
-
-                        <Text>{`Date: ${form.date} ${form.time}`}</Text>
-                        <ButtonComponent
-                            pressButtonComponent={() => setSelectDate(true)}
-                            buttonComponentText={
-                                // lang.register[activeLanguage]
-                                'Select Date'
-                            }
-                            fullWidth={false}
-                            underlayColor="#dd904d"
-                            whiteBg={false}
-                            showBackIcon={false}
+                        <InputComponent
+                            placeholder={'Date'}
+                            inputOnChange={null}
+                            value={`${form.date} ${form.time}`}
+                            secureTextEntry={false}
+                            maxLength={3}
+                            type={'select'}
+                            onClick={() => setSelectDate(true)}
+                            label={'Date*'}
                         />
-
-                        <Text>{`Category: ${activeCategory?.name}`}</Text>
-                        <ButtonComponent
-                            pressButtonComponent={() => setSelectCategory(true)}
-                            buttonComponentText={
-                                // lang.register[activeLanguage]
-                                'Select Category'
-                            }
-                            fullWidth={false}
-                            underlayColor="#dd904d"
-                            whiteBg={false}
-                            showBackIcon={false}
+                        <InputComponent
+                            placeholder={'Select Category'}
+                            inputOnChange={null}
+                            value={activeCategory?.name}
+                            secureTextEntry={false}
+                            maxLength={3}
+                            type={'select'}
+                            onClick={() => setSelectCategory(true)}
+                            label={'Category*'}
                         />
-
-                        <Text>{`Lat: ${form?.latitude}, Lng: ${form?.longitude}`}</Text>
-                        <ButtonComponent
-                            pressButtonComponent={() => setShowMap(true)}
-                            buttonComponentText={
-                                // lang.register[activeLanguage]
-                                'Select Location'
-                            }
-                            fullWidth={false}
-                            underlayColor="#dd904d"
-                            whiteBg={false}
-                            showBackIcon={false}
+                        <InputComponent
+                            placeholder={'Location'}
+                            inputOnChange={null}
+                            value={`Lat: ${form?.latitude}, Lng: ${form?.longitude}`}
+                            secureTextEntry={false}
+                            maxLength={3}
+                            type={'select'}
+                            onClick={() => setShowMap(true)}
+                            label={'Location*'}
                         />
 
                         <ButtonComponent
@@ -397,6 +396,7 @@ const styles = StyleSheet.create({
     formWrapper: {
         width: Dimensions.get('window').width,
         height: Dimensions.get('window').height - 210,
+        paddingHorizontal: 10,
         // position: 'absolute',
         // left: 0,
         // top: 0,
