@@ -17,7 +17,7 @@ const translations = (state = initialState, action) => {
             state = {...state};
             break;
         case GET_TRANSLATIONS_SUCCESS:
-            state = {...state, translations: [action.payload]};
+            state = {...state, translations: action.payload};
             break;
         case GET_TRANSLATIONS_FAIL:
             state = {

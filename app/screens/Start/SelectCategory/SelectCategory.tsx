@@ -7,6 +7,7 @@ import {useSelector, useDispatch} from 'react-redux';
 import {FlatList} from 'react-native-gesture-handler';
 import {setActiveCategory} from './../../../store/categories/actions';
 import {customOrangeColor} from './../../../assets/global/globalStyles';
+import {returnTranslation} from './../../../helpers/globalMethods';
 
 interface SelectCategoryProps {
     onClose: () => void;
@@ -23,6 +24,9 @@ const SelectCategory = ({
 
     const activeLanguage = useSelector(
         (state: any) => state?.Translations?.language,
+    );
+    const translations = useSelector(
+        (state: any) => state?.Translations?.translations,
     );
     const categories = useSelector(
         (state: any) => state?.Categories?.categoryGroups,
@@ -52,30 +56,45 @@ const SelectCategory = ({
     };
 
     const renderItem = ({item}) => {
-        console.log(['item', item]);
         return (
             <>
-                <Text style={styles.hobbyText}>{item?.name}</Text>
+                <Text style={styles.hobbyText}>
+                    {`${returnTranslation(
+                        item?.name,
+                        translations,
+                        activeLanguage,
+                    )}`}
+                </Text>
                 <View style={styles.chipContainer}>
                     {item?.categories?.length &&
-                        item?.categories?.map((category, i) => {
-                            return (
-                                <Chip
-                                    key={category?.id}
-                                    mode="outlined"
-                                    onPress={() =>
-                                        handleClickCategoryTile(category)
-                                    }
-                                    style={[
-                                        styles.chip,
-                                        activeCategory?.name === category?.name
-                                            ? {borderColor: customOrangeColor}
-                                            : null,
-                                    ]}>
-                                    {category?.name}
-                                </Chip>
-                            );
-                        })}
+                        item?.categories?.map(
+                            (category: {id: number; name: string}, i) => {
+                                return (
+                                    <Chip
+                                        key={category?.id}
+                                        mode="outlined"
+                                        onPress={() =>
+                                            handleClickCategoryTile(category)
+                                        }
+                                        style={[
+                                            styles.chip,
+                                            activeCategory?.name ===
+                                            category?.name
+                                                ? {
+                                                      borderColor:
+                                                          customOrangeColor,
+                                                  }
+                                                : null,
+                                        ]}>
+                                        {`${returnTranslation(
+                                            category?.name,
+                                            translations,
+                                            activeLanguage,
+                                        )}`}
+                                    </Chip>
+                                );
+                            },
+                        )}
                 </View>
             </>
         );

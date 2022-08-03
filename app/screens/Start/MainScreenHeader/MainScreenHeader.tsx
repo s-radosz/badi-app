@@ -3,6 +3,7 @@ import {TouchableOpacity, View, Dimensions, StyleSheet} from 'react-native';
 import {Text, IconButton} from 'react-native-paper';
 import lang from './../../../lang/Start/MainScreenHeader/MainScreenHeader';
 import {useSelector} from 'react-redux';
+import {returnTranslation} from './../../../helpers/globalMethods';
 
 interface MainScreenHeaderProps {
     navigation: any;
@@ -22,6 +23,9 @@ const MainScreenHeader = ({
     const activeLanguage = useSelector(
         (state: any) => state?.Translations?.language,
     );
+    const translations = useSelector(
+        (state: any) => state?.Translations?.translations,
+    );
 
     return (
         <View style={styles.container}>
@@ -34,7 +38,11 @@ const MainScreenHeader = ({
                             {lang.category[activeLanguage]}
                         </Text>
                         <Text style={[styles.subBtnText]}>
-                            {selectedCategoryName}
+                            {`${returnTranslation(
+                                selectedCategoryName,
+                                translations,
+                                activeLanguage,
+                            )}`}
                         </Text>
                     </View>
                 </TouchableOpacity>

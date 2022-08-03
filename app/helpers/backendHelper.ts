@@ -8,22 +8,24 @@ export const getTranslations = async () => {
             if (response.status === 'OK') {
                 let translations = {};
 
-                response.result.translations.map(
-                    (translation: any, i: number) => {
-                        let single = {
-                            [translation.name]: {
-                                en: translation.en,
-                                de: translation.de,
-                                fr: translation.fr,
-                                es: translation.es,
-                                zh: translation.zh,
-                            },
-                        };
-                        translations = Object.assign(translations, single);
-                    },
-                );
+                // response.result.translations.map(
+                //     (translation: any, i: number) => {
+                //         let single = {
+                //             [translation.name]: {
+                //                 en: translation.en,
+                //                 pl: translation.pl,
+                //                 de: translation.de,
+                //                 fr: translation.fr,
+                //                 es: translation.es,
+                //                 zh: translation.zh,
+                //             },
+                //         };
+                //         translations = Object.assign(translations, single);
+                //     },
+                // );
 
-                return translations;
+                // return translations;
+                return response.result.translations;
             } else {
                 return;
             }
