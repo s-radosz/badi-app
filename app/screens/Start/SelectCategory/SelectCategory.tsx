@@ -6,6 +6,7 @@ import lang from './../../../lang/Start/SelectCategory/SelectCategory';
 import {useSelector, useDispatch} from 'react-redux';
 import {FlatList} from 'react-native-gesture-handler';
 import {setActiveCategory} from './../../../store/categories/actions';
+import {customOrangeColor} from './../../../assets/global/globalStyles';
 
 interface SelectCategoryProps {
     onClose: () => void;
@@ -13,7 +14,11 @@ interface SelectCategoryProps {
     handleSelectCategory: (id: number, name: string) => void;
 }
 
-const SelectCategory = (props: SelectCategoryProps) => {
+const SelectCategory = ({
+    onClose,
+    navigation,
+    handleSelectCategory,
+}: SelectCategoryProps) => {
     const dispatch = useDispatch();
 
     const activeLanguage = useSelector(
@@ -22,6 +27,29 @@ const SelectCategory = (props: SelectCategoryProps) => {
     const categories = useSelector(
         (state: any) => state?.Categories?.categoryGroups,
     );
+    const activeCategory = useSelector(
+        (state: any) => state?.Categories?.activeCategory,
+    );
+
+    const handleClickCategoryTile = (category: {name: string; id: number}) => {
+        if (activeCategory?.name === category?.name) {
+            dispatch(
+                setActiveCategory({
+                    id: null,
+                    name: null,
+                }),
+            );
+            handleSelectCategory(null, null);
+        } else {
+            dispatch(
+                setActiveCategory({
+                    id: category?.id,
+                    name: category?.name,
+                }),
+            );
+            handleSelectCategory(category?.id, category?.name);
+        }
+    };
 
     const renderItem = ({item}) => {
         console.log(['item', item]);
@@ -35,19 +63,15 @@ const SelectCategory = (props: SelectCategoryProps) => {
                                 <Chip
                                     key={category?.id}
                                     mode="outlined"
-                                    onPress={() => {
-                                        dispatch(
-                                            setActiveCategory({
-                                                id: category?.id,
-                                                name: category?.name,
-                                            }),
-                                        );
-                                        props?.handleSelectCategory(
-                                            category?.id,
-                                            category?.name,
-                                        );
-                                    }}
-                                    style={styles.chip}>
+                                    onPress={() =>
+                                        handleClickCategoryTile(category)
+                                    }
+                                    style={[
+                                        styles.chip,
+                                        activeCategory?.name === category?.name
+                                            ? {borderColor: customOrangeColor}
+                                            : null,
+                                    ]}>
                                     {category?.name}
                                 </Chip>
                             );
@@ -59,10 +83,7 @@ const SelectCategory = (props: SelectCategoryProps) => {
 
     return (
         <SafeAreaView testID="MainScreen" style={styles.container}>
-            <TopHeader
-                onClose={props?.onClose}
-                title={lang.title[activeLanguage]}
-            />
+            <TopHeader onClose={onClose} title={lang.title[activeLanguage]} />
 
             <View>
                 <View style={styles.singleListContainer}>
@@ -86,10 +107,6 @@ const styles = StyleSheet.create({
         paddingRight: 20,
     },
     topBar: {
-        // position: 'absolute',
-        // left: 0,
-        // right: 0,
-        // top: 0,
         backgroundColor: '#fff',
     },
     topBarBack: {
@@ -116,5 +133,6 @@ const styles = StyleSheet.create({
     chip: {
         marginRight: 5,
         marginBottom: 5,
+        borderWidth: 2,
     },
 });

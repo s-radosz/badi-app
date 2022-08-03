@@ -282,9 +282,6 @@ const styles = StyleSheet.create({
     map: {
         width: Dimensions.get('window').width,
         height: Dimensions.get('window').height - 210,
-        // position: 'absolute',
-        // left: 0,
-        // top: 0,
     },
     bottomBtnContainer: {
         position: 'absolute',
@@ -295,20 +292,16 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         width: Dimensions.get('screen').width,
     },
-
     content: {
         padding: 20,
     },
-
     content__modal: {
         shadowColor: '#000',
         shadowOffset: {width: 0, height: 6},
         shadowOpacity: 0.45,
         shadowRadius: 16,
-
         flex: 0,
     },
-
     content__subheading: {
         marginBottom: 2,
 
