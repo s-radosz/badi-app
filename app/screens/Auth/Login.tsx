@@ -89,11 +89,20 @@ const Login = ({navigation}: ILoginProps) => {
 
                                         //@ts-ignore
                                         dispatch(
-                                            setUserDetails(
-                                                response.data.result,
+                                            setUserDetails({
+                                                ...response.data.result,
+                                                token: token,
+                                            }),
+                                        );
+
+                                        dispatch(
+                                            setAlert(
+                                                'success',
+                                                'Poprawnie zalogowano',
                                             ),
                                         );
 
+                                        navigation.navigate('Start');
                                         // context.setUserData(
                                         //     response.data.result,
                                         // );

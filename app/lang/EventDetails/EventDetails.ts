@@ -23,6 +23,18 @@ const lang = {
         en: 'User accept failed',
         pl: 'Problem przy akceptacji użytkownika',
     },
+    joinEvent: {
+        en: 'Join',
+        pl: 'Dołącz',
+    },
+    userJoinSuccess: {
+        en: 'Successfully send request',
+        pl: 'Prawidłowo wysłano prośbę o dołączenie',
+    },
+    userJoinFail: {
+        en: 'Request send failed',
+        pl: 'Problem przy wysłaniu prośby o dołączenie',
+    },
 };
 
 export default lang;

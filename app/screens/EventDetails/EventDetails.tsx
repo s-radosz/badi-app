@@ -10,6 +10,7 @@ import EventContent from './utils/EventContent';
 import {FlatList, TouchableOpacity} from 'react-native-gesture-handler';
 import {customOrangeColor} from '../../assets/global/globalStyles';
 import {setAlert} from '../../../app/store/alert/actions';
+import ButtonComponent from './../../components/Utils/ButtonComponent';
 
 interface EventDetailsScreenProps {
     navigation: any;
@@ -39,6 +40,11 @@ const EventDetails = ({navigation, route}: EventDetailsScreenProps) => {
     const [eventDetails, setEventDetails] = useState(null);
     const [isAuthor, setIsAuthor] = useState(false);
     const [userOnList, setUserOnList] = useState(false);
+
+    const config = {
+        Authorization: `Bearer ${userToken}`,
+        Accept: 'application/json',
+    };
 
     useEffect(() => {
         if (eventId) {
@@ -71,13 +77,10 @@ const EventDetails = ({navigation, route}: EventDetailsScreenProps) => {
     const renderItem = ({item}) => {
         return (
             <View style={styles.singleUserContainer}>
-                <Text style={styles.singleUserText}>{`${
-                    item?.user_details?.nickname
-                } ${
-                    userId === item?.user_id
-                        ? ` - ${lang.creator[activeLanguage]}`
-                        : ''
-                }`}</Text>
+                <Text
+                    style={
+                        styles.singleUserText
+                    }>{`${item?.user_details?.nickname}`}</Text>
 
                 {isAuthor && userId !== item?.user_id && !item?.is_accepted ? (
                     <TouchableOpacity
@@ -93,11 +96,6 @@ const EventDetails = ({navigation, route}: EventDetailsScreenProps) => {
     };
 
     const handleAcceptUserRequest = async (requestId: number) => {
-        const config = {
-            Authorization: `Bearer ${userToken}`,
-            Accept: 'application/json',
-        };
-
         await post('/event/accept-take-part-request', {id: requestId}, config)
             .then(response => {
                 if (response.status === 'OK') {
@@ -125,6 +123,33 @@ const EventDetails = ({navigation, route}: EventDetailsScreenProps) => {
                         lang.userRequestAcceptFail[activeLanguage],
                     ),
                 );
+            });
+    };
+
+    const handleJoinEvent = async () => {
+        await post(
+            '/event/send-take-part-request',
+            {event_id: eventDetails?.id, user_id: userId},
+            config,
+        )
+            .then(response => {
+                if (response.status === 'OK') {
+                    dispatch(
+                        setAlert(
+                            'success',
+                            lang.userJoinSuccess[activeLanguage],
+                        ),
+                    );
+
+                    getEventDetails(eventId);
+                } else {
+                    dispatch(
+                        setAlert('danger', lang.userJoinFail[activeLanguage]),
+                    );
+                }
+            })
+            .catch(error => {
+                dispatch(setAlert('danger', lang.userJoinFail[activeLanguage]));
             });
     };
 
@@ -159,6 +184,19 @@ const EventDetails = ({navigation, route}: EventDetailsScreenProps) => {
                                 renderItem={renderItem}
                                 keyExtractor={item => item?.user_id}
                             />
+
+                            {!userOnList ? (
+                                <ButtonComponent
+                                    pressButtonComponent={handleJoinEvent}
+                                    buttonComponentText={
+                                        lang.joinEvent[activeLanguage]
+                                    }
+                                    fullWidth={true}
+                                    underlayColor="#dd904d"
+                                    whiteBg={false}
+                                    showBackIcon={false}
+                                />
+                            ) : null}
                         </View>
                     </View>
 
