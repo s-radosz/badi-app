@@ -7,6 +7,7 @@ import {
     Text,
     Button,
     Image,
+    TouchableWithoutFeedback,
 } from 'react-native';
 import MainScreenHeader from './MainScreenHeader/MainScreenHeader';
 import MapView, {Marker} from 'react-native-maps';
@@ -25,8 +26,9 @@ import {
 } from './../../store/searchFilter/actions';
 import {Modalize} from 'react-native-modalize';
 import {getEvents} from './../../store/events/actions';
-import {FlatList} from 'react-native-gesture-handler';
+import {FlatList, TouchableOpacity} from 'react-native-gesture-handler';
 import {customOrangeColor} from './../../assets/global/globalStyles';
+import EventContent from './../EventDetails/utils/EventContent';
 
 const calendar: any = require('./../../assets/images/calendar.png');
 const group: any = require('./../../assets/images/group.png');
@@ -114,36 +116,21 @@ const Start = ({navigation}: MainScreenProps) => {
 
     const returnListItem = ({item}) => {
         return (
-            <View style={styles.listItemContainer}>
-                <Text style={styles.listItemCategory}>
-                    {item?.category?.name}
-                </Text>
-                <View style={styles.listItemSeparator}></View>
-                <Text style={styles.listItemTitle}>{item?.title}</Text>
-                <Text style={styles.listItemDescription}>
-                    {item?.description}
-                </Text>
-                <View style={styles.listItemBottom}>
-                    <View style={styles.listItemBottomElement}>
-                        <Image
-                            style={styles.listItemImg}
-                            source={calendar}
-                            resizeMode="contain"
-                        />
-                        <Text style={styles.listItemDate}>{item?.date}</Text>
-                    </View>
-                    <View style={styles.listItemBottomElement}>
-                        <Image
-                            style={styles.listItemImg}
-                            source={group}
-                            resizeMode="contain"
-                        />
-                        <Text style={styles.listItemMembers}>
-                            {item?.members_limit}
-                        </Text>
-                    </View>
+            <TouchableWithoutFeedback
+                onPress={() => {
+                    console.log(['EventDetails']);
+                    navigation.navigate('EventDetails', {eventId: item?.id});
+                }}>
+                <View style={styles.listItemContainer}>
+                    <EventContent
+                        categoryName={item?.category?.name}
+                        title={item?.title}
+                        description={item?.description}
+                        date={item?.date}
+                        membersLimit={item?.members_limit}
+                    />
                 </View>
-            </View>
+            </TouchableWithoutFeedback>
         );
     };
 

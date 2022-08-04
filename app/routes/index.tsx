@@ -23,6 +23,8 @@ import FeedbackModal from './../screens/FeedbackModal/FeedbackModal';
 import Start from './../screens/Start/Start';
 //AddEvent
 import AddEvent from './../screens/AddEvent/AddEvent';
+//AddEvent
+import EventDetails from './../screens/EventDetails/EventDetails';
 //@ts-ignore
 import {fadeIn} from 'react-navigation-transitions';
 import axios from 'axios';
@@ -234,6 +236,11 @@ const App = ({navigation}) => {
                     <Stack.Screen
                         name="LoggedInUserDetails"
                         component={LoggedInUserDetails}
+                        options={{headerShown: false}}
+                    />
+                    <Stack.Screen
+                        name="EventDetails"
+                        component={EventDetails}
                         options={{headerShown: false}}
                     />
                 </Stack.Navigator>

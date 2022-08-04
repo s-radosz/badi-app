@@ -29,10 +29,18 @@ export async function get(url: string, config?: any) {
 }
 
 export async function post(url: string, body: any, config?: any) {
-    console.log(['url', url, `${API_URL}${url}`, body, config]);
+    console.log([
+        'url',
+        url,
+        `${API_URL}${url}`,
+        body,
+        {
+            config,
+        },
+    ]);
     return await axiosApi
         .post(`${API_URL}${url}`, body, {
-            ...config,
+            headers: config,
         })
         .then(response => {
             return response.data;
