@@ -17,9 +17,10 @@ const feedback: any = require('./../../assets/images/feedback.png');
 
 interface IBottomPanelProps {
     navigation: any;
+    showFeedbackBtn?: boolean;
 }
 
-const BottomPanel = ({navigation}: IBottomPanelProps) => {
+const BottomPanel = ({navigation, showFeedbackBtn}: IBottomPanelProps) => {
     const userData = useSelector((state: any) => state?.User?.details);
     const activeLanguage = useSelector(
         (state: any) => state?.Translations?.language,
@@ -218,7 +219,7 @@ const BottomPanel = ({navigation}: IBottomPanelProps) => {
                 </TouchableOpacity>
             </View>
 
-            {userData ? (
+            {userData && showFeedbackBtn ? (
                 <TouchableOpacity
                     style={styles.feedbackBtn}
                     onPress={() => navigation.navigate('FeedbackModal')}

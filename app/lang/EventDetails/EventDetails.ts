@@ -35,6 +35,18 @@ const lang = {
         en: 'Request send failed',
         pl: 'Problem przy wysłaniu prośby o dołączenie',
     },
+    waitingForAccepted: {
+        en: 'Waiting for accepted',
+        pl: 'Oczekujący',
+    },
+    commentsHeader: {
+        en: 'Comments',
+        pl: 'Komentarze',
+    },
+    createdAt: {
+        en: 'Created at',
+        pl: 'Stworzono',
+    },
 };
 
 export default lang;

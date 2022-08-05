@@ -250,7 +250,11 @@ const Start = ({navigation}: MainScreenProps) => {
                         ) : null}
                     </View>
                 </View>
-                <BottomPanel data-test="BottomPanel" navigation={navigation} />
+                <BottomPanel
+                    data-test="BottomPanel"
+                    navigation={navigation}
+                    showFeedbackBtn={true}
+                />
             </SafeAreaView>
         </>
     );

@@ -1,5 +1,12 @@
 import React, {useState, useEffect} from 'react';
-import {SafeAreaView, Dimensions, StyleSheet, View, Text} from 'react-native';
+import {
+    SafeAreaView,
+    Dimensions,
+    StyleSheet,
+    View,
+    Text,
+    ScrollView,
+} from 'react-native';
 import BottomPanel from './../../components/SharedComponents/BottomPanel';
 import {withNavigation} from 'react-navigation';
 import {useSelector, useDispatch} from 'react-redux';
@@ -60,6 +67,7 @@ const EventDetails = ({navigation, route}: EventDetailsScreenProps) => {
 
     const getEventDetails = async (id: number) => {
         const response = await post('/event/details', {id: id});
+        console.log(['getEventDetails', response?.result]);
         setEventDetails(response?.result ? response?.result : null);
     };
 
@@ -74,13 +82,16 @@ const EventDetails = ({navigation, route}: EventDetailsScreenProps) => {
         }
     };
 
-    const renderItem = ({item}) => {
+    const renderItemUsers = ({item}) => {
         return (
             <View style={styles.singleUserContainer}>
-                <Text
-                    style={
-                        styles.singleUserText
-                    }>{`${item?.user_details?.nickname}`}</Text>
+                <Text style={styles.singleUserText}>{`${
+                    item?.user_details?.nickname
+                }${
+                    !item?.is_accepted
+                        ? `- ${lang.waitingForAccepted[activeLanguage]}`
+                        : ''
+                }`}</Text>
 
                 {isAuthor && userId !== item?.user_id && !item?.is_accepted ? (
                     <TouchableOpacity
@@ -91,6 +102,24 @@ const EventDetails = ({navigation, route}: EventDetailsScreenProps) => {
                         </Text>
                     </TouchableOpacity>
                 ) : null}
+            </View>
+        );
+    };
+
+    const renderItemComment = ({item}) => {
+        return (
+            <View style={styles.commentItemContainer}>
+                <Text style={styles.commentItemUsername}>
+                    {item?.user_details?.nickname}
+                </Text>
+                <View style={styles.commentItemSeparator}></View>
+                <Text style={styles.commentItemDescription}>
+                    {item?.message}
+                </Text>
+                <Text
+                    style={
+                        styles.commentItemDate
+                    }>{`${lang.createdAt[activeLanguage]} - ${item?.created_at}`}</Text>
             </View>
         );
     };
@@ -164,8 +193,10 @@ const EventDetails = ({navigation, route}: EventDetailsScreenProps) => {
                         onClose={() => navigation.goBack()}
                         title={lang.header[activeLanguage]}
                     />
-
-                    <View style={styles.content}>
+                    <ScrollView
+                        contentContainerStyle={{flexGrow: 1}}
+                        style={styles.content}>
+                        {/* <View style={styles.content}> */}
                         <EventContent
                             categoryName={eventDetails?.category?.name}
                             title={eventDetails?.title}
@@ -175,14 +206,17 @@ const EventDetails = ({navigation, route}: EventDetailsScreenProps) => {
                         />
 
                         <View>
-                            <Text style={styles.usersTitle}>
+                            <Text style={styles.subHeaderTitle}>
                                 {lang.userListHeader[activeLanguage]}
                             </Text>
 
                             <FlatList
                                 data={eventDetails?.users}
-                                renderItem={renderItem}
+                                renderItem={renderItemUsers}
                                 keyExtractor={item => item?.user_id}
+                                showsVerticalScrollIndicator={false}
+                                showsHorizontalScrollIndicator={false}
+                                scrollEnabled={false}
                             />
 
                             {!userOnList ? (
@@ -198,7 +232,23 @@ const EventDetails = ({navigation, route}: EventDetailsScreenProps) => {
                                 />
                             ) : null}
                         </View>
-                    </View>
+
+                        <View style={styles.commentSection}>
+                            <Text style={styles.subHeaderTitle}>
+                                {lang.commentsHeader[activeLanguage]}
+                            </Text>
+
+                            <FlatList
+                                data={eventDetails?.comments}
+                                renderItem={renderItemComment}
+                                keyExtractor={item => item?.user_id}
+                                showsVerticalScrollIndicator={false}
+                                showsHorizontalScrollIndicator={false}
+                                scrollEnabled={false}
+                            />
+                        </View>
+                        {/* </View> */}
+                    </ScrollView>
 
                     <BottomPanel
                         data-test="BottomPanel"
@@ -225,7 +275,7 @@ const styles = StyleSheet.create({
         height: Dimensions.get('window').height - 220,
         paddingHorizontal: 20,
     },
-    usersTitle: {
+    subHeaderTitle: {
         fontSize: 18,
         fontWeight: 'bold',
         paddingTop: 40,
@@ -252,5 +302,36 @@ const styles = StyleSheet.create({
         color: '#fff',
         fontWeight: 'bold',
         fontSize: 14,
+    },
+    commentSection: {
+        paddingBottom: 100,
+    },
+    commentItemContainer: {
+        padding: 20,
+        borderWidth: 1,
+        borderRadius: 8,
+        borderColor: '#ccc',
+        marginBottom: 10,
+    },
+    commentItemSeparator: {
+        width: 50,
+        height: 3,
+        backgroundColor: customOrangeColor,
+        borderRadius: 2,
+        marginTop: 10,
+        marginBottom: 20,
+    },
+    commentItemUsername: {
+        fontSize: 15,
+        fontWeight: 'bold',
+        // paddingTop: 20,
+        paddingBottom: 10,
+    },
+    commentItemDescription: {
+        fontSize: 13,
+    },
+    commentItemDate: {
+        paddingTop: 10,
+        fontSize: 12,
     },
 });
