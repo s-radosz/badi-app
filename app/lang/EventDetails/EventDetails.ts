@@ -47,6 +47,22 @@ const lang = {
         en: 'Created at',
         pl: 'Stworzono',
     },
+    saveCommentSuccess: {
+        en: 'Successfully add new comment',
+        pl: 'Prawidłowo dodano nowy komentarz',
+    },
+    saveCommentFail: {
+        en: 'Adding new comment failed',
+        pl: 'Problem przy dodawaniu komentarza',
+    },
+    commentLabel: {
+        en: 'Comment',
+        pl: 'Komentarz',
+    },
+    addComment: {
+        en: 'Add',
+        pl: 'Wyślij',
+    },
 };
 
 export default lang;

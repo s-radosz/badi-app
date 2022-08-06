@@ -18,6 +18,7 @@ interface Props {
     onClick?: any;
 
     label?: string;
+    additionalStyle?: any;
 }
 
 const InputComponent = ({
@@ -30,6 +31,7 @@ const InputComponent = ({
     editable,
     onClick,
     label,
+    additionalStyle,
 }: Props) => {
     return (
         <>
@@ -57,7 +59,18 @@ const InputComponent = ({
                     {label ? <Text style={styles.label}>{label}</Text> : null}
                     <TextInput
                         secureTextEntry={secureTextEntry}
-                        style={styles.input}
+                        style={[
+                            styles.input,
+                            additionalStyle
+                                ? additionalStyle
+                                : {
+                                      minWidth: '100%',
+                                      height: 40,
+                                      marginTop: 10,
+                                      paddingLeft: 10,
+                                      paddingRight: 10,
+                                  },
+                        ]}
                         placeholder={placeholder}
                         placeholderTextColor="#919191"
                         onChangeText={inputOnChange}
@@ -74,15 +87,10 @@ const InputComponent = ({
 
 const styles = StyleSheet.create({
     input: {
-        minWidth: '100%',
-        marginTop: 10,
         borderRadius: 6,
-        height: 40,
         borderColor: '#8c8c8c',
         color: '#424242',
         borderWidth: 2,
-        paddingLeft: 10,
-        paddingRight: 10,
         //fontFamily: "Open Sans"
     },
 

@@ -10,15 +10,26 @@ const ButtonComponent = (props: {
     underlayColor: string;
     whiteBg: boolean;
     showBackIcon: boolean;
+    additionalStyle?: any;
 }) => {
     return (
         <TouchableHighlight
             style={
-                props.fullWidth
+                props?.additionalStyle
+                    ? [props?.additionalStyle, styles.buttonComponent]
+                    : props.fullWidth
                     ? styles.buttonComponentFullWidth
                     : props.whiteBg
                     ? styles.buttonComponentFullWidthWhite
-                    : styles.buttonComponent
+                    : [
+                          styles.buttonComponent,
+                          {
+                              height: 45,
+                              width: 180,
+                              marginTop: 20,
+                              marginBottom: 15,
+                          },
+                      ]
             }
             onPress={props.pressButtonComponent}
             underlayColor={props.underlayColor}>
@@ -77,14 +88,11 @@ const styles = StyleSheet.create({
         flexWrap: 'wrap',
     },
     buttonComponent: {
-        height: 45,
-        width: 180,
         borderRadius: 6,
         borderColor: customOrangeColor,
         borderWidth: 2,
         backgroundColor: customOrangeColor,
-        marginTop: 20,
-        marginBottom: 15,
+
         alignItems: 'center',
         justifyContent: 'center',
         flexDirection: 'row',

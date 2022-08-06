@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import {
     SafeAreaView,
     Dimensions,
@@ -19,6 +19,7 @@ import {customOrangeColor} from '../../assets/global/globalStyles';
 import {setAlert} from '../../../app/store/alert/actions';
 import ButtonComponent from './../../components/Utils/ButtonComponent';
 import moment from 'moment';
+import InputComponent from './../../components/Utils/InputComponent';
 
 interface EventDetailsScreenProps {
     navigation: any;
@@ -48,6 +49,9 @@ const EventDetails = ({navigation, route}: EventDetailsScreenProps) => {
     const [eventDetails, setEventDetails] = useState(null);
     const [isAuthor, setIsAuthor] = useState(false);
     const [userOnList, setUserOnList] = useState(false);
+    const [comment, setComment] = useState(null);
+
+    const scrollViewRef = useRef(null);
 
     const config = {
         Authorization: `Bearer ${userToken}`,
@@ -188,6 +192,45 @@ const EventDetails = ({navigation, route}: EventDetailsScreenProps) => {
             });
     };
 
+    const handleSaveComment = async () => {
+        if (comment) {
+            await post(
+                '/event/save-comment',
+                {event_id: eventDetails?.id, user_id: userId, message: comment},
+                config,
+            )
+                .then(response => {
+                    if (response.status === 'OK') {
+                        dispatch(
+                            setAlert(
+                                'success',
+                                lang.saveCommentSuccess[activeLanguage],
+                            ),
+                        );
+
+                        getEventDetails(eventId);
+                        setComment(null);
+                        scrollViewRef.current.scrollToEnd({animated: true});
+                    } else {
+                        dispatch(
+                            setAlert(
+                                'danger',
+                                lang.saveCommentFail[activeLanguage],
+                            ),
+                        );
+                    }
+                })
+                .catch(error => {
+                    dispatch(
+                        setAlert(
+                            'danger',
+                            lang.saveCommentFail[activeLanguage],
+                        ),
+                    );
+                });
+        }
+    };
+
     return (
         <>
             <SafeAreaView style={styles.container}>
@@ -201,7 +244,8 @@ const EventDetails = ({navigation, route}: EventDetailsScreenProps) => {
                     />
                     <ScrollView
                         contentContainerStyle={{flexGrow: 1}}
-                        style={styles.content}>
+                        style={styles.content}
+                        ref={scrollViewRef}>
                         {/* <View style={styles.content}> */}
                         <EventContent
                             categoryName={eventDetails?.category?.name}
@@ -262,7 +306,47 @@ const EventDetails = ({navigation, route}: EventDetailsScreenProps) => {
                                 showsHorizontalScrollIndicator={false}
                                 scrollEnabled={false}
                             />
+
+                            <View style={styles.addCommentContainer}>
+                                <InputComponent
+                                    placeholder={
+                                        lang.commentLabel[activeLanguage]
+                                    }
+                                    inputOnChange={text => setComment(text)}
+                                    value={comment}
+                                    secureTextEntry={false}
+                                    maxLength={300}
+                                    additionalStyle={{
+                                        minWidth:
+                                            Dimensions.get('screen').width *
+                                            0.7,
+                                        height: 40,
+                                        marginRight: 10,
+                                        paddingLeft: 10,
+                                        paddingRight: 10,
+                                    }}
+                                    // label={`${lang.formTitleLabel[activeLanguage]}*`}
+                                />
+
+                                <ButtonComponent
+                                    pressButtonComponent={handleSaveComment}
+                                    buttonComponentText={
+                                        lang.addComment[activeLanguage]
+                                    }
+                                    fullWidth={false}
+                                    underlayColor="#dd904d"
+                                    whiteBg={false}
+                                    showBackIcon={false}
+                                    additionalStyle={{
+                                        width:
+                                            Dimensions.get('screen').width *
+                                            0.15,
+                                        height: 40,
+                                    }}
+                                />
+                            </View>
                         </View>
+
                         {/* </View> */}
                     </ScrollView>
 
@@ -349,5 +433,10 @@ const styles = StyleSheet.create({
     commentItemDate: {
         paddingTop: 10,
         fontSize: 12,
+    },
+    addCommentContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
     },
 });
