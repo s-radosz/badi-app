@@ -4,6 +4,7 @@ import {customOrangeColor} from './../../../assets/global/globalStyles';
 
 const calendar: any = require('./../../../assets/images/calendar.png');
 const group: any = require('./../../../assets/images/group.png');
+const comments: any = require('./../../../assets/images/comments.png');
 
 interface EventContentProps {
     categoryName: string;
@@ -11,6 +12,8 @@ interface EventContentProps {
     description: string;
     date: string;
     membersLimit: number | string;
+    acceptedUsersCount: number;
+    commentsCount: number;
 }
 
 const EventContent = ({
@@ -19,6 +22,8 @@ const EventContent = ({
     description,
     date,
     membersLimit,
+    acceptedUsersCount,
+    commentsCount,
 }: EventContentProps) => {
     return (
         <>
@@ -41,7 +46,18 @@ const EventContent = ({
                         source={group}
                         resizeMode="contain"
                     />
-                    <Text style={styles.listItemMembers}>{membersLimit}</Text>
+                    <Text
+                        style={
+                            styles.listItemMembers
+                        }>{`${acceptedUsersCount}/${membersLimit}`}</Text>
+                </View>
+                <View style={styles.listItemBottomElement}>
+                    <Image
+                        style={styles.listItemImg}
+                        source={comments}
+                        resizeMode="contain"
+                    />
+                    <Text style={styles.listItemMembers}>{commentsCount}</Text>
                 </View>
             </View>
         </>

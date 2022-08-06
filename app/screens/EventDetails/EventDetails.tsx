@@ -18,6 +18,7 @@ import {FlatList, TouchableOpacity} from 'react-native-gesture-handler';
 import {customOrangeColor} from '../../assets/global/globalStyles';
 import {setAlert} from '../../../app/store/alert/actions';
 import ButtonComponent from './../../components/Utils/ButtonComponent';
+import moment from 'moment';
 
 interface EventDetailsScreenProps {
     navigation: any;
@@ -116,10 +117,12 @@ const EventDetails = ({navigation, route}: EventDetailsScreenProps) => {
                 <Text style={styles.commentItemDescription}>
                     {item?.message}
                 </Text>
-                <Text
-                    style={
-                        styles.commentItemDate
-                    }>{`${lang.createdAt[activeLanguage]} - ${item?.created_at}`}</Text>
+                <Text style={styles.commentItemDate}>{`${
+                    lang.createdAt[activeLanguage]
+                } - ${
+                    moment(item?.created_at).format('YYYY-MM-DD HH:mm:ss')
+                    // .format('LLL')
+                }`}</Text>
             </View>
         );
     };
@@ -127,6 +130,7 @@ const EventDetails = ({navigation, route}: EventDetailsScreenProps) => {
     const handleAcceptUserRequest = async (requestId: number) => {
         await post('/event/accept-take-part-request', {id: requestId}, config)
             .then(response => {
+                console.log(['response', response]);
                 if (response.status === 'OK') {
                     dispatch(
                         setAlert(
@@ -140,7 +144,9 @@ const EventDetails = ({navigation, route}: EventDetailsScreenProps) => {
                     dispatch(
                         setAlert(
                             'danger',
-                            lang.userRequestAcceptFail[activeLanguage],
+                            response?.msg
+                                ? response?.msg
+                                : lang.userRequestAcceptFail[activeLanguage],
                         ),
                     );
                 }
@@ -203,6 +209,16 @@ const EventDetails = ({navigation, route}: EventDetailsScreenProps) => {
                             description={eventDetails?.description}
                             date={eventDetails?.date}
                             membersLimit={eventDetails?.members_limit}
+                            acceptedUsersCount={
+                                eventDetails?.users?.filter(
+                                    user => user.is_accepted,
+                                )?.length
+                            }
+                            commentsCount={
+                                eventDetails?.comments?.length
+                                    ? eventDetails?.comments?.length
+                                    : 0
+                            }
                         />
 
                         <View>

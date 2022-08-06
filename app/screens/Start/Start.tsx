@@ -84,11 +84,11 @@ const Start = ({navigation}: MainScreenProps) => {
 
     useEffect(() => {
         if (startViewMapLatitude && startViewMapLongitude) {
-            console.log([
-                'dispatch get events',
-                startViewMapLatitude,
-                startViewMapLongitude,
-            ]);
+            // console.log([
+            //     'dispatch get events',
+            //     startViewMapLatitude,
+            //     startViewMapLongitude,
+            // ]);
             handleGetEvents(
                 startViewMapLatitude,
                 startViewMapLongitude,
@@ -115,10 +115,11 @@ const Start = ({navigation}: MainScreenProps) => {
     };
 
     const returnListItem = ({item}) => {
+        // let acceptedUsersCount = item?.users?.filter(user => user.is_accepted)?.length;
+
         return (
             <TouchableWithoutFeedback
                 onPress={() => {
-                    console.log(['EventDetails']);
                     navigation.navigate('EventDetails', {eventId: item?.id});
                 }}>
                 <View style={styles.listItemContainer}>
@@ -128,6 +129,13 @@ const Start = ({navigation}: MainScreenProps) => {
                         description={item?.description}
                         date={item?.date}
                         membersLimit={item?.members_limit}
+                        acceptedUsersCount={
+                            item?.users?.filter(user => user.is_accepted)
+                                ?.length
+                        }
+                        commentsCount={
+                            item?.comments?.length ? item?.comments?.length : 0
+                        }
                     />
                 </View>
             </TouchableWithoutFeedback>
