@@ -63,6 +63,10 @@ const lang = {
         en: 'Add',
         pl: 'Wyślij',
     },
+    onlyAccepted: {
+        en: 'Only accepted users can see comments section',
+        pl: 'Tylko zaakceptowani użytkownicy mogą widzieć sekcję komentarzy',
+    },
 };
 
 export default lang;

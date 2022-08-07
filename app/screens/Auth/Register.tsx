@@ -114,13 +114,14 @@ const Register = ({navigation}: IRegisterProps) => {
                             axios
                                 .post(API_URL + '/register', {
                                     name: name,
+                                    nickname: name,
                                     email: email,
                                     password: password,
                                     platform: platform,
                                 })
-                                .then(response => {
-                                    //console.log(response.data);
-                                    if (response.data.status === 'OK') {
+                                .then((response: any) => {
+                                    console.log(response.data);
+                                    if (response?.data?.result?.token) {
                                         dispatch(setLoader(false));
 
                                         dispatch(
@@ -139,13 +140,16 @@ const Register = ({navigation}: IRegisterProps) => {
 
                                         // context.setUserData(response.data.user);
                                         dispatch(
-                                            setUserDetails(response.data.user),
+                                            setUserDetails(
+                                                response?.data?.result?.user,
+                                            ),
                                         );
                                         // context.setUserLoggedIn(true);
                                         //navProps.setUserData(response.data.user);
                                     }
                                 })
                                 .catch(error => {
+                                    console.log(['e', error]);
                                     dispatch(setLoader(false));
                                 });
                         }
@@ -171,7 +175,7 @@ const Register = ({navigation}: IRegisterProps) => {
                         </Text>
 
                         <InputComponent
-                            placeholder={lang.name[activeLanguage]}
+                            placeholder={lang.nick[activeLanguage]}
                             inputOnChange={(name: string) => setName(name)}
                             value={name}
                             secureTextEntry={false}

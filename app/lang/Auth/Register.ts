@@ -59,6 +59,10 @@ const lang = {
         en: 'Check the mailbox and confirm account',
         pl: 'Sprawdź swoją skrzynkę email i potwierdź konto',
     },
+    nick: {
+        en: 'Nick',
+        pl: 'Nazwa użytkownika',
+    },
 };
 
 export default lang;

@@ -50,6 +50,7 @@ const EventDetails = ({navigation, route}: EventDetailsScreenProps) => {
     const [isAuthor, setIsAuthor] = useState(false);
     const [userOnList, setUserOnList] = useState(false);
     const [comment, setComment] = useState(null);
+    const [showCommentsSection, setShowCommentsSection] = useState(false);
 
     const scrollViewRef = useRef(null);
 
@@ -72,7 +73,7 @@ const EventDetails = ({navigation, route}: EventDetailsScreenProps) => {
 
     const getEventDetails = async (id: number) => {
         const response = await post('/event/details', {id: id});
-        console.log(['getEventDetails', response?.result]);
+        console.log(['getEventDetails', response?.result, userId]);
         setEventDetails(response?.result ? response?.result : null);
     };
 
@@ -298,53 +299,67 @@ const EventDetails = ({navigation, route}: EventDetailsScreenProps) => {
                                 {lang.commentsHeader[activeLanguage]}
                             </Text>
 
-                            <FlatList
-                                data={eventDetails?.comments}
-                                renderItem={renderItemComment}
-                                keyExtractor={item => item?.user_id}
-                                showsVerticalScrollIndicator={false}
-                                showsHorizontalScrollIndicator={false}
-                                scrollEnabled={false}
-                            />
+                            {eventDetails?.users?.find(
+                                user => user?.user_id === userId,
+                            )?.is_accepted ? (
+                                <>
+                                    <FlatList
+                                        data={eventDetails?.comments}
+                                        renderItem={renderItemComment}
+                                        keyExtractor={item => item?.user_id}
+                                        showsVerticalScrollIndicator={false}
+                                        showsHorizontalScrollIndicator={false}
+                                        scrollEnabled={false}
+                                    />
 
-                            <View style={styles.addCommentContainer}>
-                                <InputComponent
-                                    placeholder={
-                                        lang.commentLabel[activeLanguage]
-                                    }
-                                    inputOnChange={text => setComment(text)}
-                                    value={comment}
-                                    secureTextEntry={false}
-                                    maxLength={300}
-                                    additionalStyle={{
-                                        minWidth:
-                                            Dimensions.get('screen').width *
-                                            0.7,
-                                        height: 40,
-                                        marginRight: 10,
-                                        paddingLeft: 10,
-                                        paddingRight: 10,
-                                    }}
-                                    // label={`${lang.formTitleLabel[activeLanguage]}*`}
-                                />
+                                    <View style={styles.addCommentContainer}>
+                                        <InputComponent
+                                            placeholder={
+                                                lang.commentLabel[
+                                                    activeLanguage
+                                                ]
+                                            }
+                                            inputOnChange={text =>
+                                                setComment(text)
+                                            }
+                                            value={comment}
+                                            secureTextEntry={false}
+                                            maxLength={300}
+                                            additionalStyle={{
+                                                minWidth:
+                                                    Dimensions.get('screen')
+                                                        .width * 0.7,
+                                                height: 40,
+                                                marginRight: 10,
+                                                paddingLeft: 10,
+                                                paddingRight: 10,
+                                            }}
+                                            // label={`${lang.formTitleLabel[activeLanguage]}*`}
+                                        />
 
-                                <ButtonComponent
-                                    pressButtonComponent={handleSaveComment}
-                                    buttonComponentText={
-                                        lang.addComment[activeLanguage]
-                                    }
-                                    fullWidth={false}
-                                    underlayColor="#dd904d"
-                                    whiteBg={false}
-                                    showBackIcon={false}
-                                    additionalStyle={{
-                                        width:
-                                            Dimensions.get('screen').width *
-                                            0.15,
-                                        height: 40,
-                                    }}
-                                />
-                            </View>
+                                        <ButtonComponent
+                                            pressButtonComponent={
+                                                handleSaveComment
+                                            }
+                                            buttonComponentText={
+                                                lang.addComment[activeLanguage]
+                                            }
+                                            fullWidth={false}
+                                            underlayColor="#dd904d"
+                                            whiteBg={false}
+                                            showBackIcon={false}
+                                            additionalStyle={{
+                                                width:
+                                                    Dimensions.get('screen')
+                                                        .width * 0.15,
+                                                height: 40,
+                                            }}
+                                        />
+                                    </View>
+                                </>
+                            ) : (
+                                <Text>{lang.onlyAccepted[activeLanguage]}</Text>
+                            )}
                         </View>
 
                         {/* </View> */}
