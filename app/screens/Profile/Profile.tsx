@@ -16,9 +16,10 @@ const UserPreview = React.lazy(
 
 interface IFeedbackModalProps {
     navigation: any;
+    route: any;
 }
 
-const Profile = ({navigation}: IFeedbackModalProps) => {
+const Profile = ({navigation, route}: IFeedbackModalProps) => {
     const dispatch = useDispatch();
 
     const userData = useSelector((state: any) => state?.User?.details);
@@ -34,11 +35,68 @@ const Profile = ({navigation}: IFeedbackModalProps) => {
     const [showProfilePreview, setShowProfilePreview] = useState(false);
     const [showEditUserData, setShowEditUserData] = useState(false);
 
+    const foreignUserId = route?.params?.foreignUserId
+        ? route?.params?.foreignUserId
+        : null;
+    const [foreignUserData, setForeignUserData] = useState(null);
+
     useEffect(() => {
-        if (userData) {
-            getAmountOfFriends(userData?.id);
+        if (foreignUserId) {
+            loadUserDataById(foreignUserId);
         }
-    }, []);
+        if (userData || foreignUserId) {
+            getAmountOfFriends(
+                userData?.id
+                    ? userData?.id
+                    : foreignUserId
+                    ? foreignUserId
+                    : null,
+            );
+        }
+    }, [foreignUserId]);
+
+    const handleStartConversation = () => {
+        return new Promise((resolve, reject) => {
+            axios
+                .post(API_URL + '/saveConversation', {
+                    senderId: userData?.id,
+                    receiverId: foreignUserData?.id,
+                    message: 'Conversation started',
+                })
+                .then(response => {
+                    console.log(['response', response]);
+                    if (response?.data?.result) {
+                        navigation?.navigate('Messages');
+                        // setForeignUserData(response?.data?.result);
+                        resolve(true);
+                    }
+                })
+                .catch(error => {
+                    reject(true);
+                });
+        });
+    };
+
+    const loadUserDataById = (userId: number) => {
+        //let userId = this.props.navigation.state.params.receiverId;
+
+        return new Promise((resolve, reject) => {
+            axios
+                .post(API_URL + '/loadUserDataById', {
+                    id: userId,
+                })
+                .then(response => {
+                    console.log(['response', response]);
+                    if (response?.data?.result) {
+                        setForeignUserData(response?.data?.result);
+                        resolve(true);
+                    }
+                })
+                .catch(error => {
+                    reject(true);
+                });
+        });
+    };
 
     const handleSetShowProfilePreview = (): void => {
         setShowProfilePreview(!showProfilePreview);
@@ -74,40 +132,74 @@ const Profile = ({navigation}: IFeedbackModalProps) => {
                         {!showEditUserData && (
                             <ProfileHeader
                                 API_URL={API_URL}
-                                avatar={userData?.photo_path}
-                                name={userData?.name}
+                                avatar={
+                                    foreignUserData?.photo_path
+                                        ? foreignUserData?.photo_path
+                                        : userData?.photo_path
+                                        ? userData?.photo_path
+                                        : null
+                                }
+                                name={
+                                    foreignUserData?.name
+                                        ? foreignUserData?.name
+                                        : userData?.name
+                                        ? userData?.name
+                                        : null
+                                }
                                 cityDistrict={locationDetails?.cityDistrict}
                                 city={locationDetails.city}
-                                age={userData?.age}
+                                age={
+                                    foreignUserData?.age
+                                        ? foreignUserData?.age
+                                        : userData?.age
+                                        ? userData?.age
+                                        : null
+                                }
                                 countFriends={countFriends}
                                 countKids={0}
-                                locationString={userData?.location_string}
+                                locationString={
+                                    foreignUserData?.location_string
+                                        ? foreignUserData?.location_string
+                                        : userData?.location_string
+                                        ? userData?.location_string
+                                        : null
+                                }
                                 showLogout={true}
                                 navigation={navigation}
-                            />
-                        )}
-                        {!showProfilePreview && !showEditUserData && (
-                            <ProfileOptions
-                                setShowProfilePreview={
-                                    handleSetShowProfilePreview
+                                foreignUserData={foreignUserData}
+                                handleStartConversation={
+                                    handleStartConversation
                                 }
-                                navigation={navigation}
-                                user={userData}
-                                API_URL={API_URL}
                             />
                         )}
-                        {showProfilePreview && !showEditUserData && (
-                            <Suspense
-                                fallback={
-                                    <Text>{lang.loading[activeLanguage]}</Text>
-                                }>
-                                <UserPreview
-                                    description={userData?.description}
-                                    hobbies={userData?.hobbies}
-                                    kids={userData?.kids}
+                        {!showProfilePreview &&
+                            !showEditUserData &&
+                            !foreignUserData && (
+                                <ProfileOptions
+                                    setShowProfilePreview={
+                                        handleSetShowProfilePreview
+                                    }
+                                    navigation={navigation}
+                                    user={userData}
+                                    API_URL={API_URL}
                                 />
-                            </Suspense>
-                        )}
+                            )}
+                        {showProfilePreview &&
+                            !showEditUserData &&
+                            !foreignUserData && (
+                                <Suspense
+                                    fallback={
+                                        <Text>
+                                            {lang.loading[activeLanguage]}
+                                        </Text>
+                                    }>
+                                    <UserPreview
+                                        description={userData?.description}
+                                        hobbies={userData?.hobbies}
+                                        kids={userData?.kids}
+                                    />
+                                </Suspense>
+                            )}
                     </ScrollView>
                     <BottomPanel
                         data-test="BottomPanel"

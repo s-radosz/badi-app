@@ -20,14 +20,19 @@ import {setAlert} from '../../../../app/store/alert/actions';
 import {API_URL} from './../../../helpers/globalVariables';
 import {setLoader} from '../../../../app/store/loader/actions';
 import {customOrangeColor} from './../../../assets/global/globalStyles';
+import TopHeader from './../../../components/Utils/TopHeader';
 
 const loaderImage: any = require('./../../../assets/images/loader.gif');
 
 interface IConversationDetailsProps {
     navigation: any;
+    route: any;
 }
 
-const ConversationDetails = ({navigation}: IConversationDetailsProps) => {
+const ConversationDetails = ({
+    navigation,
+    route,
+}: IConversationDetailsProps) => {
     const dispatch = useDispatch();
 
     const userData = useSelector((state: any) => state?.User?.details);
@@ -68,7 +73,7 @@ const ConversationDetails = ({navigation}: IConversationDetailsProps) => {
                     status: status,
                 })
                 .then(response => {
-                    //console.log(["saveMessage", response.data]);
+                    console.log(['saveMessage', response.data]);
                     if (response.data.status === 'OK') {
                         //save conversation_id as openDetailsId in notification,
                         //openDetailsId is parameter for route
@@ -99,6 +104,7 @@ const ConversationDetails = ({navigation}: IConversationDetailsProps) => {
 
     //open conversation details from list of conversations
     const openConversationDetails = (id: number) => {
+        console.log(['openConversationDetails', id]);
         return new Promise((resolve, reject) => {
             let conversation_id = id;
 
@@ -109,6 +115,7 @@ const ConversationDetails = ({navigation}: IConversationDetailsProps) => {
                     conversation_id: conversation_id,
                 })
                 .then(async response => {
+                    console.log(['response showConversationDetails', response]);
                     if (response.data.status === 'OK') {
                         let privateMessage = true;
                         if (
@@ -120,7 +127,7 @@ const ConversationDetails = ({navigation}: IConversationDetailsProps) => {
                         setOpenConversationMessages(
                             response?.data?.result?.conversation?.messages,
                         );
-                        setReceiverId(navigation?.state?.params?.receiverId);
+                        setReceiverId(route?.params?.receiverId);
                         setPrivateConversation(privateMessage);
                         setProductConversationId(
                             response?.data?.result?.conversation?.product_id,
@@ -158,8 +165,8 @@ const ConversationDetails = ({navigation}: IConversationDetailsProps) => {
                     id: userId,
                 })
                 .then(response => {
-                    if (response.data.status === 'OK') {
-                        let results = response.data.result[0];
+                    if (response.data.result) {
+                        let results = response.data.result;
 
                         setReceiverName(results?.name);
                         setReceiverEmail(results?.email);
@@ -180,8 +187,8 @@ const ConversationDetails = ({navigation}: IConversationDetailsProps) => {
     };
 
     useEffect(() => {
-        openConversationDetails(navigation?.state?.params?.conversationId);
-        loadUserDataById(navigation?.state?.params?.receiverId);
+        openConversationDetails(route?.params?.conversationId);
+        loadUserDataById(route?.params?.receiverId);
 
         // if (userData?.id) {
         //     // this.context.clearUserUnreadedMessages(
@@ -200,12 +207,9 @@ const ConversationDetails = ({navigation}: IConversationDetailsProps) => {
                             keyboardShouldPersistTaps={'always'}
                             style={styles.viewContainer}
                             data-test="ConversationDetails">
-                            <PageHeader
-                                boldText={receiverName}
-                                normalText={''}
-                                closeMethod={() => navigation?.goBack(null)}
-                                closeMethodParameter={''}
-                                data-test="PageHeader"
+                            <TopHeader
+                                onClose={() => navigation.goBack()}
+                                title={receiverName}
                             />
 
                             <View style={styles.messageDetailsContainer}>
@@ -233,11 +237,10 @@ const ConversationDetails = ({navigation}: IConversationDetailsProps) => {
                                     {privateConversation && (
                                         <TouchableHighlight
                                             onPress={async () => {
-                                                navigation?.push(
+                                                navigation?.navigate(
                                                     'UserDetails',
                                                     {
-                                                        userId: navigation
-                                                            ?.state?.params
+                                                        userId: route?.params
                                                             ?.receiverId,
                                                         showBtns: true,
                                                     },
@@ -262,7 +265,7 @@ const ConversationDetails = ({navigation}: IConversationDetailsProps) => {
                                         productConversationAuthorId !== 0 && (
                                             <TouchableHighlight
                                                 onPress={async () => {
-                                                    navigation?.push(
+                                                    navigation?.navigate(
                                                         'ProductDetails',
                                                         {
                                                             productId:
@@ -305,9 +308,7 @@ const ConversationDetails = ({navigation}: IConversationDetailsProps) => {
 
                             <SendMessageBox
                                 receiverId={receiverId}
-                                conversationId={
-                                    navigation?.state?.params?.conversationId
-                                }
+                                conversationId={route?.params?.conversationId}
                                 sendMessage={sendMessage}
                                 receiverName={receiverName}
                                 receiverEmail={receiverEmail}

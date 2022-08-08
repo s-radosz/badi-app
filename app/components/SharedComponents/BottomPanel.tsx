@@ -75,10 +75,10 @@ const BottomPanel = ({navigation, showFeedbackBtn}: IBottomPanelProps) => {
                                     }
                                 />
 
-                                {userData &&
-                                //@ts-ignore
-                                context.userData
-                                    .unreadedConversationMessageAmount < 10 ? (
+                                {userData ? (
+                                    //@ts-ignore
+                                    // context.userData
+                                    //     .unreadedConversationMessageAmount < 10
                                     <Text
                                         style={
                                             styles.unreadedMessagesNotificationDotText

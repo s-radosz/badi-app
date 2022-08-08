@@ -54,6 +54,7 @@ const Messages = ({navigation}: IMessagesProps) => {
                 user_id: user_id,
             })
             .then(async response => {
+                console.log(['showUserConversations', response]);
                 if (response.data.status === 'OK') {
                     //console.log(["messagesList", response.data.result.conversationData]);
                     setMessagesList(response.data.result.conversationData);
@@ -122,7 +123,7 @@ const Messages = ({navigation}: IMessagesProps) => {
                                 title={lang.header[activeLanguage]}
                             />
 
-                            {showFilterPanel && (
+                            {/* {showFilterPanel && (
                                 <View data-test="showFilterPanel">
                                     <View style={styles.filterBtnContainer}>
                                         <View
@@ -177,7 +178,7 @@ const Messages = ({navigation}: IMessagesProps) => {
                                         </View>
                                     </View>
                                 </View>
-                            )}
+                            )} */}
 
                             {messagesList ? (
                                 messagesList.length > 0 ? (

@@ -6,6 +6,7 @@ import {useDispatch, useSelector} from 'react-redux';
 
 const logout: any = require('./../../assets/images/logout.png');
 const bellWhite: any = require('./../../assets/images/bellWhite.png');
+const message: any = require('./../../assets/images/messageWhite.png');
 
 const ProfileHeader = (props: any) => {
     const dispatch = useDispatch();
@@ -22,7 +23,7 @@ const ProfileHeader = (props: any) => {
     return (
         <React.Fragment>
             <View style={styles.topBtnContainer}>
-                {props.showLogout ? (
+                {props?.showLogout && !props?.foreignUserData ? (
                     <TouchableOpacity
                         style={styles.logoutContainer}
                         onPress={() =>
@@ -43,7 +44,7 @@ const ProfileHeader = (props: any) => {
                         </View>
                     </TouchableOpacity>
                 ) : null}
-                {props.showLogout ? (
+                {props?.showLogout && !props?.foreignUserData ? (
                     <TouchableOpacity
                         style={styles.logoutContainer}
                         onPress={handleLogout}>
@@ -58,6 +59,28 @@ const ProfileHeader = (props: any) => {
                             </Text>
                         </View>
                     </TouchableOpacity>
+                ) : null}
+
+                {props?.foreignUserData ? (
+                    <>
+                        <TouchableOpacity
+                            style={styles.logoutContainer}
+                            onPress={() => {}}></TouchableOpacity>
+                        <TouchableOpacity
+                            style={styles.logoutContainer}
+                            onPress={() => props?.handleStartConversation()}>
+                            <View style={styles.imgContainer}>
+                                <Image
+                                    source={message}
+                                    style={styles.logoutImage}
+                                    resizeMode="contain"
+                                />
+                                <Text style={styles.logoutText}>
+                                    {lang.messageUser[activeLanguage]}
+                                </Text>
+                            </View>
+                        </TouchableOpacity>
+                    </>
                 ) : null}
             </View>
 

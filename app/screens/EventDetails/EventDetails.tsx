@@ -115,9 +115,16 @@ const EventDetails = ({navigation, route}: EventDetailsScreenProps) => {
     const renderItemComment = ({item}) => {
         return (
             <View style={styles.commentItemContainer}>
-                <Text style={styles.commentItemUsername}>
-                    {item?.user_details?.nickname}
-                </Text>
+                <TouchableOpacity
+                    onPress={() =>
+                        navigation?.navigate('Profile', {
+                            foreignUserId: item?.user_details?.id,
+                        })
+                    }>
+                    <Text style={styles.commentItemUsername}>
+                        {item?.user_details?.nickname}
+                    </Text>
+                </TouchableOpacity>
                 <View style={styles.commentItemSeparator}></View>
                 <Text style={styles.commentItemDescription}>
                     {item?.message}

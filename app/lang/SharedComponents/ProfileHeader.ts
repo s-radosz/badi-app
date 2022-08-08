@@ -15,6 +15,10 @@ const lang = {
         en: 'friends',
         pl: 'znajomi',
     },
+    messageUser: {
+        en: 'Chat',
+        pl: 'Czat',
+    },
 };
 
 export default lang;
