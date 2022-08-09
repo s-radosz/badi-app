@@ -41,6 +41,7 @@ const Profile = ({navigation, route}: IFeedbackModalProps) => {
     const [foreignUserData, setForeignUserData] = useState(null);
 
     useEffect(() => {
+        setForeignUserData(null);
         if (foreignUserId) {
             loadUserDataById(foreignUserId);
         }
@@ -64,14 +65,22 @@ const Profile = ({navigation, route}: IFeedbackModalProps) => {
                     message: 'Conversation started',
                 })
                 .then(response => {
-                    console.log(['response', response]);
+                    console.log(['saveConversation', response]);
                     if (response?.data?.result) {
-                        navigation?.navigate('Messages');
+                        const {} = response?.data?.result;
+                        // navigation?.navigate('Messages');
+
+                        navigation.navigate('ConversationDetails', {
+                            conversationId:
+                                response?.data?.result?.conversation?.id,
+                            receiverId: response?.data?.result?.receiverId,
+                        });
                         // setForeignUserData(response?.data?.result);
                         resolve(true);
                     }
                 })
                 .catch(error => {
+                    navigation?.navigate('Messages');
                     reject(true);
                 });
         });

@@ -17,7 +17,7 @@ const ProfileOptions = (props: any) => {
 
     return (
         <View style={styles.container}>
-            <TouchableHighlight
+            {/* <TouchableHighlight
                 style={styles.buttonOption}
                 onPress={() =>
                     props.navigation &&
@@ -30,7 +30,7 @@ const ProfileOptions = (props: any) => {
                         {lang.preview[activeLanguage]}
                     </Text>
                 </View>
-            </TouchableHighlight>
+            </TouchableHighlight> */}
 
             <TouchableHighlight
                 style={styles.buttonOption}

@@ -152,12 +152,20 @@ interface AppState {
     translations: any;
 }
 
+const forFade = ({current}) => ({
+    cardStyle: {
+        opacity: current.progress,
+    },
+});
+
 const App = ({navigation}) => {
     return (
         <SafeAreaView style={styles.container}>
             <Alert />
             <NavigationContainer>
-                <Stack.Navigator initialRouteName="Init">
+                <Stack.Navigator
+                    initialRouteName="Init"
+                    screenOptions={{animation: 'none'}}>
                     <Stack.Screen
                         name="Init"
                         component={Init}
