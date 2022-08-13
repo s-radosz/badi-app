@@ -7,6 +7,10 @@ const lang = {
         en: 'Nickname already exists',
         pl: 'Nick jest już zarezerwowany',
     },
+    editProfileError: {
+        en: 'Cannot edit',
+        pl: 'Nie można edytować',
+    },
 };
 
 export default lang;

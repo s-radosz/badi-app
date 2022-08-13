@@ -23,6 +23,7 @@ import {
     lightBorderRadius,
     customOrangeColor,
 } from './../../assets/global/globalStyles';
+import {returnTranslation} from './../../helpers/globalMethods';
 
 const loaderImage: any = require('./../../assets/images/loader.gif');
 
@@ -36,6 +37,9 @@ const FeedbackModal = ({navigation}: IFeedbackModalProps) => {
     const userData = useSelector((state: any) => state?.User?.details);
     const activeLanguage = useSelector(
         (state: any) => state?.Translations?.language,
+    );
+    const translations = useSelector(
+        (state: any) => state?.Translations?.translations,
     );
 
     const [feedbackMessage, setFeedbackMessage] = useState('');
@@ -91,11 +95,19 @@ const FeedbackModal = ({navigation}: IFeedbackModalProps) => {
                 })
                 .catch(error => {
                     dispatch(
-                        setAlert('danger', lang.messageError[activeLanguage]),
+                        setAlert(
+                            'danger',
+                            `${returnTranslation(
+                                error?.response?.data?.msg
+                                    ? error?.response?.data?.msg
+                                    : lang.messageError[activeLanguage],
+                                translations,
+                                activeLanguage,
+                            )}`,
+                        ),
                     );
 
                     dispatch(setLoader(false));
-
                     navigation.goBack(null);
                 });
         }

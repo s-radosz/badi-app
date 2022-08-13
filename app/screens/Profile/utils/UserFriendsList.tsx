@@ -21,6 +21,7 @@ import {
     filterBtnActive,
     filterBtn,
 } from './../../../assets/global/globalStyles';
+import {returnTranslation} from './../../../helpers/globalMethods';
 
 const loaderImage: any = require('./../../../assets/images/loader.gif');
 
@@ -34,6 +35,9 @@ const UserFriendsList = ({navigation}: IUserFriendsListProps) => {
     const userData = useSelector((state: any) => state?.User?.details);
     const activeLanguage = useSelector(
         (state: any) => state?.Translations?.language,
+    );
+    const translations = useSelector(
+        (state: any) => state?.Translations?.translations,
     );
 
     const [userFriendsList, setUserFriendsList] = useState([]);
@@ -70,7 +74,13 @@ const UserFriendsList = ({navigation}: IUserFriendsListProps) => {
                     dispatch(
                         setAlert(
                             'danger',
-                            lang.friendsListError[activeLanguage],
+                            `${returnTranslation(
+                                error?.response?.data?.msg
+                                    ? error?.response?.data?.msg
+                                    : lang.friendsListError[activeLanguage],
+                                translations,
+                                activeLanguage,
+                            )}`,
                         ),
                     );
 
@@ -105,7 +115,13 @@ const UserFriendsList = ({navigation}: IUserFriendsListProps) => {
                     dispatch(
                         setAlert(
                             'danger',
-                            lang.friendsListError[activeLanguage],
+                            `${returnTranslation(
+                                error?.response?.data?.msg
+                                    ? error?.response?.data?.msg
+                                    : lang.friendsListError[activeLanguage],
+                                translations,
+                                activeLanguage,
+                            )}`,
                         ),
                     );
 

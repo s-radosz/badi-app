@@ -18,6 +18,8 @@ import {API_URL} from './../../helpers/globalVariables';
 import {setAlert} from '../../../app/store/alert/actions';
 import {setLoader} from '../../../app/store/loader/actions';
 import {customOrangeColor} from './../../assets/global/globalStyles';
+import {returnTranslation} from './../../helpers/globalMethods';
+
 const messagesBgMin: any = require('./../../assets/images/messagesBgMin.jpg');
 const loaderImage: any = require('./../../assets/images/loader.gif');
 
@@ -31,6 +33,9 @@ const Messages = ({navigation}: IMessagesProps) => {
     const userData = useSelector((state: any) => state?.User?.details);
     const activeLanguage = useSelector(
         (state: any) => state?.Translations?.language,
+    );
+    const translations = useSelector(
+        (state: any) => state?.Translations?.translations,
     );
 
     const [messagesList, setMessagesList] = useState([]);
@@ -67,7 +72,13 @@ const Messages = ({navigation}: IMessagesProps) => {
                 dispatch(
                     setAlert(
                         'danger',
-                        lang.conversationDetailsError[activeLanguage],
+                        `${returnTranslation(
+                            error?.response?.data?.msg
+                                ? error?.response?.data?.msg
+                                : lang.conversationDetailsError[activeLanguage],
+                            translations,
+                            activeLanguage,
+                        )}`,
                     ),
                 );
 

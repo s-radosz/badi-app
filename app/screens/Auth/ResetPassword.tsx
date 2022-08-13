@@ -20,6 +20,7 @@ import {
 import {useDispatch, useSelector} from 'react-redux';
 import {setAlert} from '../../../app/store/alert/actions';
 import {API_URL} from './../../helpers/globalVariables';
+import {returnTranslation} from './../../helpers/globalMethods';
 
 interface IRegisterProps {
     navigation: any;
@@ -29,6 +30,9 @@ const ResetPassword = ({navigation}: IRegisterProps) => {
     const dispatch = useDispatch();
     const activeLanguage = useSelector(
         (state: any) => state?.Translations?.language,
+    );
+    const translations = useSelector(
+        (state: any) => state?.Translations?.translations,
     );
 
     const [email, setEmail] = useState('');
@@ -59,12 +63,31 @@ const ResetPassword = ({navigation}: IRegisterProps) => {
                     dispatch(
                         setAlert(
                             'danger',
-                            lang.checkCredentialsError[activeLanguage],
+                            `${returnTranslation(
+                                error?.response?.data?.msg
+                                    ? error?.response?.data?.msg
+                                    : lang.checkCredentialsError[
+                                          activeLanguage
+                                      ],
+                                translations,
+                                activeLanguage,
+                            )}`,
                         ),
                     );
                 });
-        } catch (e) {
-            dispatch(setAlert('danger', lang.resetError[activeLanguage]));
+        } catch (error) {
+            dispatch(
+                setAlert(
+                    'danger',
+                    `${returnTranslation(
+                        error?.response?.data?.msg
+                            ? error?.response?.data?.msg
+                            : lang.resetError[activeLanguage],
+                        translations,
+                        activeLanguage,
+                    )}`,
+                ),
+            );
         }
     };
 

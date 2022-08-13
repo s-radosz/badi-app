@@ -15,6 +15,7 @@ import {setAlert} from '../../../app/store/alert/actions';
 import axios from 'axios';
 import {API_URL} from './../../helpers/globalVariables';
 import InputComponent from './../../components/Utils/InputComponent';
+import {returnTranslation} from './../../helpers/globalMethods';
 
 interface AddEventScreenProps {
     navigation: any;
@@ -27,6 +28,9 @@ const AddEvent = ({navigation}: AddEventScreenProps) => {
     const userId = useSelector((state: any) => state?.User?.details?.id);
     const activeLanguage = useSelector(
         (state: any) => state?.Translations?.language,
+    );
+    const translations = useSelector(
+        (state: any) => state?.Translations?.translations,
     );
     const activeCategory = useSelector(
         (state: any) => state?.Categories?.activeCategory,
@@ -203,14 +207,29 @@ const AddEvent = ({navigation}: AddEventScreenProps) => {
                         dispatch(
                             setAlert(
                                 'danger',
-                                lang.saveEventFail[activeLanguage],
+                                `${returnTranslation(
+                                    error?.response?.data?.msg
+                                        ? error?.response?.data?.msg
+                                        : lang.saveEventFail[activeLanguage],
+                                    translations,
+                                    activeLanguage,
+                                )}`,
                             ),
                         );
                     });
-            } catch (e) {
-                console.log(['e', e]);
+            } catch (error) {
+                console.log(['error', error]);
                 dispatch(
-                    setAlert('danger', lang.saveEventFail[activeLanguage]),
+                    setAlert(
+                        'danger',
+                        `${returnTranslation(
+                            error?.response?.data?.msg
+                                ? error?.response?.data?.msg
+                                : lang.saveEventFail[activeLanguage],
+                            translations,
+                            activeLanguage,
+                        )}`,
+                    ),
                 );
             }
         } else {

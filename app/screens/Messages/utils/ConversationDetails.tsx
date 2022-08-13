@@ -21,6 +21,7 @@ import {API_URL} from './../../../helpers/globalVariables';
 import {setLoader} from '../../../../app/store/loader/actions';
 import {customOrangeColor} from './../../../assets/global/globalStyles';
 import TopHeader from './../../../components/Utils/TopHeader';
+import {returnTranslation} from './../../../helpers/globalMethods';
 
 const loaderImage: any = require('./../../../assets/images/loader.gif');
 
@@ -38,6 +39,9 @@ const ConversationDetails = ({
     const userData = useSelector((state: any) => state?.User?.details);
     const activeLanguage = useSelector(
         (state: any) => state?.Translations?.language,
+    );
+    const translations = useSelector(
+        (state: any) => state?.Translations?.translations,
     );
 
     const [openConversationMessages, setOpenConversationMessages] = useState(
@@ -95,7 +99,13 @@ const ConversationDetails = ({
                     dispatch(
                         setAlert(
                             'danger',
-                            lang.messageSavingError[activeLanguage],
+                            `${returnTranslation(
+                                error?.response?.data?.msg
+                                    ? error?.response?.data?.msg
+                                    : lang.messageSavingError[activeLanguage],
+                                translations,
+                                activeLanguage,
+                            )}`,
                         ),
                     );
                 });
@@ -145,7 +155,15 @@ const ConversationDetails = ({
                     dispatch(
                         setAlert(
                             'danger',
-                            lang.conversationDetailsError[activeLanguage],
+                            `${returnTranslation(
+                                error?.response?.data?.msg
+                                    ? error?.response?.data?.msg
+                                    : lang.conversationDetailsError[
+                                          activeLanguage
+                                      ],
+                                translations,
+                                activeLanguage,
+                            )}`,
                         ),
                     );
 

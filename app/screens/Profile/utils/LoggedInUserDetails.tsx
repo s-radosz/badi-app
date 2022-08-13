@@ -10,6 +10,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {API_URL} from './../../../helpers/globalVariables';
 import {setAlert} from '../../../../app/store/alert/actions';
 import {setLoader} from '../../../../app/store/loader/actions';
+import {returnTranslation} from './../../../helpers/globalMethods';
 
 const loaderImage: any = require('./../../../assets/images/loader.gif');
 
@@ -23,6 +24,9 @@ const LoggedInUserDetails = ({navigation}: ILoggedInUserDetailsProps) => {
     const userData = useSelector((state: any) => state?.User?.details);
     const activeLanguage = useSelector(
         (state: any) => state?.Translations?.language,
+    );
+    const translations = useSelector(
+        (state: any) => state?.Translations?.translations,
     );
 
     const [showUserMessageBox, setShowUserMessageBox] = useState(false);
@@ -77,7 +81,16 @@ const LoggedInUserDetails = ({navigation}: ILoggedInUserDetailsProps) => {
             })
             .catch(async error => {
                 dispatch(
-                    setAlert('danger', lang.userDetailsError[activeLanguage]),
+                    setAlert(
+                        'danger',
+                        `${returnTranslation(
+                            error?.response?.data?.msg
+                                ? error?.response?.data?.msg
+                                : lang.userDetailsError[activeLanguage],
+                            translations,
+                            activeLanguage,
+                        )}`,
+                    ),
                 );
                 dispatch(setLoader(false));
             });

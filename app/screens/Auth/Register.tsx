@@ -27,6 +27,7 @@ import {setAlert} from '../../../app/store/alert/actions';
 import {setLoader} from '../../../app/store/loader/actions';
 import {setUserDetails} from '../../../app/store/user/actions';
 import {API_URL} from './../../helpers/globalVariables';
+import {returnTranslation} from './../../helpers/globalMethods';
 
 const loaderImage: any = require('./../../assets/images/loader.gif');
 
@@ -38,6 +39,9 @@ const Register = ({navigation}: IRegisterProps) => {
     const dispatch = useDispatch();
     const activeLanguage = useSelector(
         (state: any) => state?.Translations?.language,
+    );
+    const translations = useSelector(
+        (state: any) => state?.Translations?.translations,
     );
 
     const [name, setName] = useState('');
@@ -151,10 +155,33 @@ const Register = ({navigation}: IRegisterProps) => {
                                 .catch(error => {
                                     console.log(['e', error]);
                                     dispatch(setLoader(false));
+                                    setAlert(
+                                        'danger',
+                                        `${returnTranslation(
+                                            error?.response?.data?.msg
+                                                ? error?.response?.data?.msg
+                                                : lang.registerError[
+                                                      activeLanguage
+                                                  ],
+                                            translations,
+                                            activeLanguage,
+                                        )}`,
+                                    );
                                 });
                         }
                     });
-            } catch (e) {}
+            } catch (error) {
+                setAlert(
+                    'danger',
+                    `${returnTranslation(
+                        error?.response?.data?.msg
+                            ? error?.response?.data?.msg
+                            : lang.registerError[activeLanguage],
+                        translations,
+                        activeLanguage,
+                    )}`,
+                );
+            }
         } else {
             dispatch(
                 setAlert(

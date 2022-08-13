@@ -9,6 +9,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {API_URL} from './../../../helpers/globalVariables';
 import {setAlert} from '../../../../app/store/alert/actions';
 import {setLoader} from '../../../../app/store/loader/actions';
+import {returnTranslation} from './../../../helpers/globalMethods';
 
 const loaderImage: any = require('./../../../assets/images/loader.gif');
 
@@ -22,6 +23,9 @@ const UserNotificationList = ({navigation}: IUserNotificationListProps) => {
     const userData = useSelector((state: any) => state?.User?.details);
     const activeLanguage = useSelector(
         (state: any) => state?.Translations?.language,
+    );
+    const translations = useSelector(
+        (state: any) => state?.Translations?.translations,
     );
 
     const [userNotificationList, setUserNotificationList] = useState([]);
@@ -50,10 +54,17 @@ const UserNotificationList = ({navigation}: IUserNotificationListProps) => {
                     dispatch(
                         setAlert(
                             'danger',
-                            lang.notificationListError[activeLanguage],
+                            `${returnTranslation(
+                                error?.response?.data?.msg
+                                    ? error?.response?.data?.msg
+                                    : lang.notificationListError[
+                                          activeLanguage
+                                      ],
+                                translations,
+                                activeLanguage,
+                            )}`,
                         ),
                     );
-
                     dispatch(setLoader(false));
 
                     reject(true);

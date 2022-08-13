@@ -63,6 +63,10 @@ const lang = {
         en: 'Nick',
         pl: 'Nazwa użytkownika',
     },
+    registerError: {
+        en: 'Cannot register new user',
+        pl: 'Nie można zarejestrować nowego usera',
+    },
 };
 
 export default lang;

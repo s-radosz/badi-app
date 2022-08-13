@@ -21,6 +21,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {setAlert} from '../../../app/store/alert/actions';
 import {setUserDetails} from '../../../app/store/user/actions';
 import {API_URL} from './../../helpers/globalVariables';
+import {returnTranslation} from './../../helpers/globalMethods';
 
 interface ILoginProps {
     navigation: any;
@@ -30,6 +31,9 @@ const Login = ({navigation}: ILoginProps) => {
     const dispatch = useDispatch();
     const activeLanguage = useSelector(
         (state: any) => state?.Translations?.language,
+    );
+    const translations = useSelector(
+        (state: any) => state?.Translations?.translations,
     );
 
     const [email, setEmail] = useState('');
@@ -113,7 +117,15 @@ const Login = ({navigation}: ILoginProps) => {
                                     dispatch(
                                         setAlert(
                                             'danger',
-                                            lang.loginError[activeLanguage],
+                                            `${returnTranslation(
+                                                error?.response?.data?.msg
+                                                    ? error?.response?.data?.msg
+                                                    : lang.loginError[
+                                                          activeLanguage
+                                                      ],
+                                                translations,
+                                                activeLanguage,
+                                            )}`,
                                         ),
                                     );
                                 });
@@ -123,12 +135,32 @@ const Login = ({navigation}: ILoginProps) => {
                     })
                     .catch(error => {
                         dispatch(
-                            setAlert('danger', lang.loginError[activeLanguage]),
+                            setAlert(
+                                'danger',
+                                `${returnTranslation(
+                                    error?.response?.data?.msg
+                                        ? error?.response?.data?.msg
+                                        : lang.loginError[activeLanguage],
+                                    translations,
+                                    activeLanguage,
+                                )}`,
+                            ),
                         );
                         // context.setAlert(true, 'danger', lang.loginError['pl']);
                     });
-            } catch (e) {
-                //console.log(e);
+            } catch (error) {
+                dispatch(
+                    setAlert(
+                        'danger',
+                        `${returnTranslation(
+                            error?.response?.data?.msg
+                                ? error?.response?.data?.msg
+                                : lang.loginError[activeLanguage],
+                            translations,
+                            activeLanguage,
+                        )}`,
+                    ),
+                );
             }
         }
     };

@@ -20,6 +20,7 @@ import {setAlert} from '../../../app/store/alert/actions';
 import ButtonComponent from './../../components/Utils/ButtonComponent';
 import moment from 'moment';
 import InputComponent from './../../components/Utils/InputComponent';
+import {returnTranslation} from './../../helpers/globalMethods';
 
 interface EventDetailsScreenProps {
     navigation: any;
@@ -33,6 +34,9 @@ const EventDetails = ({navigation, route}: EventDetailsScreenProps) => {
     const userId = useSelector((state: any) => state?.User?.details?.id);
     const activeLanguage = useSelector(
         (state: any) => state?.Translations?.language,
+    );
+    const translations = useSelector(
+        (state: any) => state?.Translations?.translations,
     );
     const activeCategory = useSelector(
         (state: any) => state?.Categories?.activeCategory,
@@ -167,7 +171,13 @@ const EventDetails = ({navigation, route}: EventDetailsScreenProps) => {
                 dispatch(
                     setAlert(
                         'danger',
-                        lang.userRequestAcceptFail[activeLanguage],
+                        `${returnTranslation(
+                            error?.response?.data?.msg
+                                ? error?.response?.data?.msg
+                                : lang.userRequestAcceptFail[activeLanguage],
+                            translations,
+                            activeLanguage,
+                        )}`,
                     ),
                 );
             });
@@ -196,7 +206,18 @@ const EventDetails = ({navigation, route}: EventDetailsScreenProps) => {
                 }
             })
             .catch(error => {
-                dispatch(setAlert('danger', lang.userJoinFail[activeLanguage]));
+                dispatch(
+                    setAlert(
+                        'danger',
+                        `${returnTranslation(
+                            error?.response?.data?.msg
+                                ? error?.response?.data?.msg
+                                : lang.userJoinFail[activeLanguage],
+                            translations,
+                            activeLanguage,
+                        )}`,
+                    ),
+                );
             });
     };
 
@@ -232,7 +253,13 @@ const EventDetails = ({navigation, route}: EventDetailsScreenProps) => {
                     dispatch(
                         setAlert(
                             'danger',
-                            lang.saveCommentFail[activeLanguage],
+                            `${returnTranslation(
+                                error?.response?.data?.msg
+                                    ? error?.response?.data?.msg
+                                    : lang.saveCommentFail[activeLanguage],
+                                translations,
+                                activeLanguage,
+                            )}`,
                         ),
                     );
                 });

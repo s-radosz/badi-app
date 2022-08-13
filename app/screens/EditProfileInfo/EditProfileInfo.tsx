@@ -14,6 +14,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {API_URL} from './../../helpers/globalVariables';
 import {setAlert} from '../../../app/store/alert/actions';
 import {setLoader} from '../../../app/store/loader/actions';
+import {returnTranslation} from './../../helpers/globalMethods';
 
 const loaderImage: any = require('./../../assets/images/loader.gif');
 var ImagePicker = NativeModules.ImageCropPicker;
@@ -37,6 +38,9 @@ const EditProfileInfo = ({navigation}: IEditProfileInfoProps) => {
     const userData = useSelector((state: any) => state?.User?.details);
     const activeLanguage = useSelector(
         (state: any) => state?.Translations?.language,
+    );
+    const translations = useSelector(
+        (state: any) => state?.Translations?.translations,
     );
 
     const [nickname, setNickname] = useState('');
@@ -347,12 +351,31 @@ const EditProfileInfo = ({navigation}: IEditProfileInfoProps) => {
                         return false;
                     }
                 })
-                .catch(err => {
-                    console.log(err);
+                .catch(error => {
+                    setAlert(
+                        'danger',
+                        `${returnTranslation(
+                            error?.response?.data?.msg
+                                ? error?.response?.data?.msg
+                                : lang.editProfileError[activeLanguage],
+                            translations,
+                            activeLanguage,
+                        )}`,
+                    );
                 });
 
             return json;
         } catch (error) {
+            setAlert(
+                'danger',
+                `${returnTranslation(
+                    error?.response?.data?.msg
+                        ? error?.response?.data?.msg
+                        : lang.editProfileError[activeLanguage],
+                    translations,
+                    activeLanguage,
+                )}`,
+            );
             return false;
         }
     };
