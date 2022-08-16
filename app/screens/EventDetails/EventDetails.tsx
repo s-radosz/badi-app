@@ -95,13 +95,23 @@ const EventDetails = ({navigation, route}: EventDetailsScreenProps) => {
     const renderItemUsers = ({item}) => {
         return (
             <View style={styles.singleUserContainer}>
-                <Text style={styles.singleUserText}>{`${
-                    item?.user_details?.nickname
-                }${
-                    !item?.is_accepted
-                        ? `- ${lang.waitingForAccepted[activeLanguage]}`
-                        : ''
-                }`}</Text>
+                <TouchableOpacity
+                    onPress={() =>
+                        navigation?.navigate('Profile', {
+                            foreignUserId:
+                                userId !== item?.user_details?.id
+                                    ? item?.user_details?.id
+                                    : null,
+                        })
+                    }>
+                    <Text style={styles.singleUserText}>{`${
+                        item?.user_details?.nickname
+                    }${
+                        !item?.is_accepted
+                            ? `- ${lang.waitingForAccepted[activeLanguage]}`
+                            : ''
+                    }`}</Text>
+                </TouchableOpacity>
 
                 {isAuthor && userId !== item?.user_id && !item?.is_accepted ? (
                     <TouchableOpacity

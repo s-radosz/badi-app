@@ -43,6 +43,7 @@ const ConversationDetails = ({
     const translations = useSelector(
         (state: any) => state?.Translations?.translations,
     );
+    const userId = useSelector((state: any) => state?.User?.details?.id);
 
     const [openConversationMessages, setOpenConversationMessages] = useState(
         [],
@@ -255,12 +256,24 @@ const ConversationDetails = ({
                                     {privateConversation && (
                                         <TouchableHighlight
                                             onPress={async () => {
+                                                // navigation?.navigate(
+                                                //     'UserDetails',
+                                                //     {
+                                                //         userId: route?.params
+                                                //             ?.receiverId,
+                                                //         showBtns: true,
+                                                //     },
+                                                // );
                                                 navigation?.navigate(
-                                                    'UserDetails',
+                                                    'Profile',
                                                     {
-                                                        userId: route?.params
-                                                            ?.receiverId,
-                                                        showBtns: true,
+                                                        foreignUserId:
+                                                            userId !==
+                                                            route?.params
+                                                                ?.receiverId
+                                                                ? route?.params
+                                                                      ?.receiverId
+                                                                : null,
                                                     },
                                                 );
                                             }}

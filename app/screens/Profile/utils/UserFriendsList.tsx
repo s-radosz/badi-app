@@ -60,6 +60,7 @@ const UserFriendsList = ({navigation}: IUserFriendsListProps) => {
                     userId: userId,
                 })
                 .then(async response => {
+                    console.log(['response', response]);
                     if (response.data.status === 'OK') {
                         setUserFriendsList(response.data.result.friendsList);
                         setShowUserFriendsList(true);
@@ -99,6 +100,7 @@ const UserFriendsList = ({navigation}: IUserFriendsListProps) => {
                     userId: userId,
                 })
                 .then(async response => {
+                    console.log(['response', response]);
                     if (response.data.status === 'OK') {
                         setUserPendingFriendsList(
                             response.data.result.friendsList,
