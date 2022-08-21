@@ -408,12 +408,8 @@ const EventDetails = ({navigation, route}: EventDetailsScreenProps) => {
 
                         {/* </View> */}
                     </ScrollView>
-
-                    <BottomPanel
-                        data-test="BottomPanel"
-                        navigation={navigation}
-                    />
                 </View>
+                <BottomPanel data-test="BottomPanel" navigation={navigation} />
             </SafeAreaView>
         </>
     );

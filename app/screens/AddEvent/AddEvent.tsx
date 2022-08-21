@@ -391,12 +391,8 @@ const AddEvent = ({navigation}: AddEventScreenProps) => {
                             showBackIcon={false}
                         />
                     </View>
-
-                    <BottomPanel
-                        data-test="BottomPanel"
-                        navigation={navigation}
-                    />
                 </View>
+                <BottomPanel data-test="BottomPanel" navigation={navigation} />
             </SafeAreaView>
         </>
     );
@@ -407,14 +403,13 @@ export default withNavigation(AddEvent);
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#fff',
     },
     wrapper: {
         backgroundColor: '#fff',
     },
     formWrapper: {
         width: Dimensions.get('window').width,
-        height: Dimensions.get('window').height - 210,
+        height: Dimensions.get('window').height - 235,
         paddingHorizontal: 10,
         // position: 'absolute',
         // left: 0,

@@ -23,6 +23,10 @@ const lang = {
         en: 'Cannot get the details',
         pl: 'Nie można wyświetlić szczegółów.',
     },
+    findFriends: {
+        en: 'Friends',
+        pl: 'Pryjaciele',
+    },
 };
 
 export default lang;

@@ -242,6 +242,8 @@ const styles = StyleSheet.create({
         alignSelf: 'flex-start',
         width: '100%',
         backgroundColor: '#fff',
+        position: 'absolute',
+        bottom: 0,
     },
     bottomPanelImageActive: {
         opacity: 1,

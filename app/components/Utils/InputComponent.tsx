@@ -42,7 +42,12 @@ const InputComponent = ({
                         <View
                             style={[
                                 styles.input,
-                                {flexDirection: 'row', alignItems: 'center'},
+                                {
+                                    flexDirection: 'row',
+                                    alignItems: 'center',
+                                    height: 40,
+                                    paddingHorizontal: 10,
+                                },
                             ]}>
                             <Text>
                                 {value

@@ -19,6 +19,8 @@ import {setAlert} from '../../../app/store/alert/actions';
 import {setLoader} from '../../../app/store/loader/actions';
 import {customOrangeColor} from './../../assets/global/globalStyles';
 import {returnTranslation} from './../../helpers/globalMethods';
+import ButtonComponent from './../../components/Utils/ButtonComponent';
+import {useIsFocused} from '@react-navigation/native';
 
 const messagesBgMin: any = require('./../../assets/images/messagesBgMin.jpg');
 const loaderImage: any = require('./../../assets/images/loader.gif');
@@ -41,6 +43,49 @@ const Messages = ({navigation}: IMessagesProps) => {
     const [messagesList, setMessagesList] = useState([]);
     const [showFilterPanel, setShowFilterPanel] = useState(false);
     const [displayPrivateMessages, setDisplayPrivateMessages] = useState(false);
+
+    const isFocused = useIsFocused();
+
+    useEffect(() => {
+        if (isFocused) {
+            console.log(['isFocused']);
+            handleClearNotificationByUserId();
+        }
+    }, [isFocused]);
+
+    //load all conversation with messages for them
+    const handleClearNotificationByUserId = (): void => {
+        // let API_URL = this.context.API_URL;
+        let userId = userData?.userId;
+
+        dispatch(setLoader(true));
+
+        axios
+            .post(API_URL + '/clearNotificationByUserId', {
+                userId: userId,
+            })
+            .then(async response => {
+                console.log(['clearNotificationByUserId', response]);
+
+                dispatch(setLoader(false));
+            })
+            .catch(async error => {
+                dispatch(
+                    setAlert(
+                        'danger',
+                        `${returnTranslation(
+                            error?.response?.data?.msg
+                                ? error?.response?.data?.msg
+                                : lang.conversationDetailsError[activeLanguage],
+                            translations,
+                            activeLanguage,
+                        )}`,
+                    ),
+                );
+
+                dispatch(setLoader(false));
+            });
+    };
 
     const closeConversationDetails = (): void => {
         getMessages();
@@ -133,6 +178,24 @@ const Messages = ({navigation}: IMessagesProps) => {
                                 onClose={() => navigation.goBack()}
                                 title={lang.header[activeLanguage]}
                             />
+
+                            <View style={{marginBottom: 20}}>
+                                <ButtonComponent
+                                    pressButtonComponent={() =>
+                                        navigation.navigate(
+                                            'UserFriendsList',
+                                            {},
+                                        )
+                                    }
+                                    buttonComponentText={
+                                        lang.findFriends[activeLanguage]
+                                    }
+                                    fullWidth={true}
+                                    underlayColor="#dd904d"
+                                    whiteBg={false}
+                                    showBackIcon={false}
+                                />
+                            </View>
 
                             {/* {showFilterPanel && (
                                 <View data-test="showFilterPanel">
