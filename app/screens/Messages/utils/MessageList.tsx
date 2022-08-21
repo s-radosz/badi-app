@@ -1,41 +1,47 @@
 import React from 'react';
-import {Text, StyleSheet} from 'react-native';
+import {Text, StyleSheet, FlatList} from 'react-native';
 import ListItem from './../../../components/Utils/ListItem';
 import moment from 'moment';
 import lang from './../../../lang/Messages/utils/MessageList';
 import {API_URL} from './../../../helpers/globalVariables';
 import {useSelector} from 'react-redux';
 
-const MessageList = (props: {messagesList: any; navigation: any}): any => {
+interface MessageListProps {
+    messagesList: any;
+    navigation: any;
+}
+
+const MessageList = ({messagesList, navigation}: MessageListProps) => {
     const activeLanguage = useSelector(
         (state: any) => state?.Translations?.language,
     );
 
-    if (props.messagesList) {
-        return props.messagesList && props.messagesList.length > 0 ? (
-            props.messagesList.map((conversation: any, i: number) => {
+    if (messagesList) {
+        return messagesList && messagesList.length > 0 ? (
+            messagesList.map((conversation: any, i: number) => {
                 return (
                     <ListItem
                         API_URL={API_URL}
                         key={`MessageList-${i}`}
-                        image={`${props.messagesList[i][0].receiverPhotoPath}`}
-                        mainText={props.messagesList[i][0].receiverName}
-                        subText={props.messagesList[i][0].messages[
-                            props.messagesList[i][0].messages.length - 1
+                        image={`${messagesList[i][0].receiverPhotoPath}`}
+                        mainText={messagesList[i][0].receiverName}
+                        subText={messagesList[i][0].messages[
+                            messagesList[i][0].messages.length - 1
                         ].message.substring(0, 20)}
                         subSubText={moment(
-                            props.messagesList[i][0].messages[
-                                props.messagesList[i][0].messages.length - 1
+                            messagesList[i][0].messages[
+                                messagesList[i][0].messages.length - 1
                             ].updated_at,
                         ).format('LLL')}
                         onPress={(): void => {
-                            props.navigation.navigate('ConversationDetails', {
-                                conversationId: props.messagesList[i][0].id,
-                                receiverId: props.messagesList[i][0].receiverId,
+                            navigation.navigate('ConversationDetails', {
+                                conversationId: messagesList[i][0].id,
+                                receiverId: messagesList[i][0].receiverId,
                             });
                         }}
                         userHadUnreadedMessages={
-                            props.messagesList[i][0].userHadUnreadedMessages
+                            false
+                            // messagesList[i][0].userHadUnreadedMessages
                         }
                     />
                 );

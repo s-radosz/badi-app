@@ -59,7 +59,7 @@ const BottomPanel = ({navigation, showFeedbackBtn}: IBottomPanelProps) => {
                             resizeMode="contain"
                         />
                     </View>
-                    {userData &&
+                    {/* {userData &&
                         //@ts-ignore
                         userData.unreadedConversationMessage &&
                         //@ts-ignore
@@ -98,7 +98,7 @@ const BottomPanel = ({navigation, showFeedbackBtn}: IBottomPanelProps) => {
                                     </Text>
                                 )}
                             </TouchableOpacity>
-                        )}
+                        )} */}
                     <Text style={styles.buttonText}>
                         {lang.messages[activeLanguage]}
                     </Text>
