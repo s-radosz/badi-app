@@ -6,19 +6,24 @@ import {useSelector} from 'react-redux';
 const bike: any = require('./../../assets/images/bike.png');
 const dotEmpty: any = require('./../../assets/images/dotEmpty.png');
 
-const UserPreview = (props: any) => {
+interface UserPreviewProps {
+    description: string;
+    hobbies: {name: string}[];
+}
+
+const UserPreview = ({description, hobbies}: UserPreviewProps) => {
     const activeLanguage = useSelector(
         (state: any) => state?.Translations?.language,
     );
 
     return (
         <View>
-            {props.description && (
+            {description && (
                 <Text style={styles.userPreviewSectionDescContainer}>
-                    {props.description}
+                    {description}
                 </Text>
             )}
-            {props.hobbies && props.hobbies.length > 0 && (
+            {hobbies && hobbies.length > 0 && (
                 <View style={styles.userPreviewSectionHobbyContainer}>
                     <View style={styles.userPreviewSectionHeaderContainer}>
                         <Image
@@ -29,8 +34,8 @@ const UserPreview = (props: any) => {
                             {lang.hobby[activeLanguage]}
                         </Text>
                     </View>
-                    {props.hobbies &&
-                        props.hobbies.map((hobby: any, i: number) => {
+                    {hobbies &&
+                        hobbies.map((hobby: any, i: number) => {
                             return (
                                 <View
                                     style={styles.userPreviewListItemContainer}

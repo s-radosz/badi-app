@@ -37,12 +37,19 @@ const paintOrange: any = require('./../../../assets/images/editProfile/paintOran
 const networkOrange: any = require('./../../../assets/images/editProfile/networkOrange.png');
 const cameraOrange: any = require('./../../../assets/images/editProfile/cameraOrange.png');
 
-const ChooseHobbiesScreen = (props: {
+interface ChoosedHobbiesProps {
     hobbies: any;
     changeHobbyStatus: any;
     submitData: any;
     prevStep: any;
-}): any => {
+}
+
+const ChooseHobbiesScreen = ({
+    hobbies,
+    changeHobbyStatus,
+    submitData,
+    prevStep,
+}: ChoosedHobbiesProps) => {
     const activeLanguage = useSelector(
         (state: any) => state?.Translations?.language,
     );
@@ -59,8 +66,8 @@ const ChooseHobbiesScreen = (props: {
                     {lang.hobbyText[activeLanguage]}
                 </Text>
                 <View style={styles.hobbiesContainer}>
-                    {props.hobbies &&
-                        props.hobbies.map(
+                    {hobbies &&
+                        hobbies.map(
                             (
                                 hobby: {
                                     keyId: number;
@@ -72,7 +79,7 @@ const ChooseHobbiesScreen = (props: {
                                 return (
                                     <TouchableOpacity
                                         onPress={() =>
-                                            props.changeHobbyStatus(hobby.keyId)
+                                            changeHobbyStatus(hobby.keyId)
                                         }
                                         style={
                                             hobby.active
@@ -383,7 +390,7 @@ const ChooseHobbiesScreen = (props: {
             <View style={styles.sectionBtnBackContainer}>
                 <View style={{width: '30%'}}>
                     <ButtonComponent
-                        pressButtonComponent={props.prevStep}
+                        pressButtonComponent={prevStep}
                         buttonComponentText={lang.back[activeLanguage]}
                         fullWidth={false}
                         underlayColor="#dd904d"
@@ -393,7 +400,7 @@ const ChooseHobbiesScreen = (props: {
                 </View>
                 <View style={{width: '71%'}}>
                     <ButtonComponent
-                        pressButtonComponent={props.submitData}
+                        pressButtonComponent={submitData}
                         buttonComponentText={lang.save[activeLanguage]}
                         fullWidth={true}
                         underlayColor="#dd904d"

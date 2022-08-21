@@ -7,7 +7,7 @@ import {
     TouchableOpacity,
 } from 'react-native';
 
-interface Props {
+interface InputComponentProps {
     placeholder: string;
     inputOnChange: (text: string) => void;
     value: string;
@@ -32,7 +32,7 @@ const InputComponent = ({
     onClick,
     label,
     additionalStyle,
-}: Props) => {
+}: InputComponentProps) => {
     return (
         <>
             {type === 'select' ? (

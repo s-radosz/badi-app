@@ -3,17 +3,19 @@ import {View, Text, TouchableHighlight, Image, StyleSheet} from 'react-native';
 import {customOrangeColor} from './../../assets/global/globalStyles';
 const trash: any = require('./../../assets/images/trash.png');
 
-const ListItemDelete = (props: {
+interface ListItemDeleteProps {
     key: string;
     text: string;
     onPress: () => void;
-}) => {
+}
+
+const ListItemDelete = ({key, text, onPress}: ListItemDeleteProps) => {
     return (
-        <View key={props.key} style={styles.removeFilterBtnContainer}>
-            <Text style={styles.removeFilterText}>{props.text}</Text>
+        <View key={key} style={styles.removeFilterBtnContainer}>
+            <Text style={styles.removeFilterText}>{text}</Text>
             <TouchableHighlight
                 style={styles.removeFilterBtn}
-                onPress={props.onPress}
+                onPress={onPress}
                 underlayColor={'#dd904d'}>
                 <Image source={trash} style={styles.img} />
             </TouchableHighlight>

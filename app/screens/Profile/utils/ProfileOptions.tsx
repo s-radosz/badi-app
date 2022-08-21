@@ -10,7 +10,11 @@ const strollerOrange: any = require('./../../../assets/images/strollerOrange.png
 const bell: any = require('./../../../assets/images/bell.png');
 const info: any = require('./../../../assets/images/info.png');
 
-const ProfileOptions = (props: any) => {
+interface ProfileOptionsProps {
+    navigation: any;
+}
+
+const ProfileOptions = ({navigation}: ProfileOptionsProps) => {
     const activeLanguage = useSelector(
         (state: any) => state?.Translations?.language,
     );
@@ -20,8 +24,8 @@ const ProfileOptions = (props: any) => {
             {/* <TouchableHighlight
                 style={styles.buttonOption}
                 onPress={() =>
-                    props.navigation &&
-                    props.navigation.navigate('LoggedInUserDetails', {})
+                    navigation &&
+                    navigation.navigate('LoggedInUserDetails', {})
                 }
                 underlayColor={'#fff'}>
                 <View>
@@ -36,8 +40,7 @@ const ProfileOptions = (props: any) => {
                 style={styles.buttonOption}
                 onPress={() => {
                     {
-                        props.navigation &&
-                            props.navigation.navigate('FillNecessaryInfo');
+                        navigation && navigation.navigate('FillNecessaryInfo');
                     }
                 }}
                 underlayColor={'#fff'}>
@@ -51,7 +54,7 @@ const ProfileOptions = (props: any) => {
 
             <TouchableHighlight
                 style={styles.buttonOption}
-                onPress={() => props.navigation.navigate('UserFriendsList', {})}
+                onPress={() => navigation.navigate('UserFriendsList', {})}
                 underlayColor={'#fff'}>
                 <View>
                     <Image style={styles.img} source={highFive} />
@@ -63,9 +66,7 @@ const ProfileOptions = (props: any) => {
 
             <TouchableHighlight
                 style={styles.buttonOption}
-                onPress={() =>
-                    props.navigation.navigate('UserNotificationList', {})
-                }
+                onPress={() => navigation.navigate('UserNotificationList', {})}
                 underlayColor={'#fff'}>
                 <View>
                     <Image style={styles.img} source={bell} />
@@ -77,7 +78,7 @@ const ProfileOptions = (props: any) => {
 
             <TouchableHighlight
                 style={styles.buttonOption}
-                onPress={() => props.navigation.navigate('About', {})}
+                onPress={() => navigation.navigate('About', {})}
                 underlayColor={'#fff'}>
                 <View>
                     <Image style={styles.img} source={info} />

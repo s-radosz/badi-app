@@ -8,7 +8,29 @@ const logout: any = require('./../../assets/images/logout.png');
 const bellWhite: any = require('./../../assets/images/bellWhite.png');
 const message: any = require('./../../assets/images/messageWhite.png');
 
-const ProfileHeader = (props: any) => {
+interface ProfileHeaderProps {
+    showLogout: boolean;
+    navigation: any;
+    foreignUserData: any;
+    handleStartConversation: any;
+    avatar: string;
+    name: string;
+    locationString: string;
+    age: number;
+    countFriends: number;
+}
+
+const ProfileHeader = ({
+    showLogout,
+    navigation,
+    foreignUserData,
+    handleStartConversation,
+    avatar,
+    name,
+    locationString,
+    age,
+    countFriends,
+}: ProfileHeaderProps) => {
     const dispatch = useDispatch();
 
     const activeLanguage = useSelector(
@@ -17,20 +39,17 @@ const ProfileHeader = (props: any) => {
 
     const handleLogout = () => {
         dispatch(setUserDetails(null));
-        props.navigation.navigate('Welcome');
+        navigation.navigate('Welcome');
     };
 
     return (
         <React.Fragment>
             <View style={styles.topBtnContainer}>
-                {props?.showLogout && !props?.foreignUserData ? (
+                {showLogout && !foreignUserData ? (
                     <TouchableOpacity
                         style={styles.logoutContainer}
                         onPress={() =>
-                            props.navigation.navigate(
-                                'UserNotificationList',
-                                {},
-                            )
+                            navigation.navigate('UserNotificationList', {})
                         }>
                         <View style={styles.imgContainer}>
                             <Image
@@ -44,7 +63,7 @@ const ProfileHeader = (props: any) => {
                         </View>
                     </TouchableOpacity>
                 ) : null}
-                {props?.showLogout && !props?.foreignUserData ? (
+                {showLogout && !foreignUserData ? (
                     <TouchableOpacity
                         style={styles.logoutContainer}
                         onPress={handleLogout}>
@@ -61,14 +80,14 @@ const ProfileHeader = (props: any) => {
                     </TouchableOpacity>
                 ) : null}
 
-                {props?.foreignUserData ? (
+                {foreignUserData ? (
                     <>
                         <TouchableOpacity
                             style={styles.logoutContainer}
                             onPress={() => {}}></TouchableOpacity>
                         <TouchableOpacity
                             style={styles.logoutContainer}
-                            onPress={() => props?.handleStartConversation()}>
+                            onPress={() => handleStartConversation()}>
                             <View style={styles.imgContainer}>
                                 <Image
                                     source={message}
@@ -88,13 +107,13 @@ const ProfileHeader = (props: any) => {
                 <Image
                     style={styles.profileHeaderImage}
                     source={{
-                        uri: `${props.avatar}`,
+                        uri: `${avatar}`,
                     }}
                 />
 
-                <Text style={styles.profileHeaderName}>{props.name}</Text>
+                <Text style={styles.profileHeaderName}>{name}</Text>
                 <Text style={styles.profileHeaderLocation}>
-                    {props.locationString}
+                    {locationString}
                 </Text>
                 <View style={styles.profileHeaderInfoContainer}>
                     <View style={styles.profileHeaderInfoWrapper}>
@@ -102,7 +121,7 @@ const ProfileHeader = (props: any) => {
                             style={
                                 styles.profileHeaderSingleInfoContainerMainText
                             }>
-                            {props.age}
+                            {age}
                         </Text>
                         <Text
                             style={
@@ -116,7 +135,7 @@ const ProfileHeader = (props: any) => {
                             style={
                                 styles.profileHeaderSingleInfoContainerMainText
                             }>
-                            {props.countFriends}
+                            {countFriends}
                         </Text>
                         <Text
                             style={
@@ -142,10 +161,6 @@ const styles = StyleSheet.create({
         paddingBottom: 10,
     },
     logoutContainer: {
-        //width: 80,
-        /*flexDirection: "column",
-    justifyContent: "flex-end",
-    alignSelf: "center",*/
         marginRight: 0,
         marginLeft: 0,
     },

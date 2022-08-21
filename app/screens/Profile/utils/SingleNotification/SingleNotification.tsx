@@ -9,69 +9,83 @@ const forumNotification: any = require('./../../../../assets/images/forumNotific
 
 import {productListSingleProductTextContainer} from './../../../../assets/global/globalStyles';
 
-const SingleNotification = (props: any) => {
+interface SingleNotificationProps {
+    navigation: any;
+    notification: {
+        type: string;
+        status: number;
+        message: string;
+        open_details_id: number;
+        sender_id: number;
+    };
+}
+
+const SingleNotification = ({
+    navigation,
+    notification,
+}: SingleNotificationProps) => {
     const userId = useSelector((state: any) => state?.User?.details?.id);
 
     return (
         <TouchableHighlight
             onPress={() =>
-                props.notification.type === 'sended_message'
-                    ? props.navigation.navigate('ConversationDetails', {
-                          conversationId: props.notification.open_details_id,
-                          receiverId: props.notification.sender_id,
+                notification.type === 'sended_message'
+                    ? navigation.navigate('ConversationDetails', {
+                          conversationId: notification.open_details_id,
+                          receiverId: notification.sender_id,
                       })
-                    : props.notification.type === 'started_conversation_user'
-                    ? props.navigation.navigate('ConversationDetails', {
-                          conversationId: props.notification.open_details_id,
-                          receiverId: props.notification.sender_id,
+                    : notification.type === 'started_conversation_user'
+                    ? navigation.navigate('ConversationDetails', {
+                          conversationId: notification.open_details_id,
+                          receiverId: notification.sender_id,
                       })
-                    : props.notification.type === 'friendship_invitation'
-                    ? props?.navigation?.navigate('Profile', {
+                    : notification.type === 'friendship_invitation'
+                    ? navigation?.navigate('Profile', {
                           foreignUserId:
-                              userId !== props.notification.sender_id
-                                  ? props.notification.sender_id
+                              userId !== notification.sender_id
+                                  ? notification.sender_id
                                   : null,
                       })
-                    : props.notification.type === 'friendship_confirmation'
-                    ? props?.navigation?.navigate('Profile', {
+                    : notification.type === 'friendship_confirmation'
+                    ? navigation?.navigate('Profile', {
                           foreignUserId:
-                              userId !== props.notification.sender_id
-                                  ? props.notification.sender_id
+                              userId !== notification.sender_id
+                                  ? notification.sender_id
                                   : null,
                       })
-                    : props.notification.type === 'comment_for_your_forum_post'
-                    ? props.navigation.navigate('PostDetails', {
-                          postId: props.notification.open_details_id,
+                    : notification.type === 'comment_for_your_forum_post'
+                    ? navigation.navigate('PostDetails', {
+                          postId: notification.open_details_id,
                       })
                     : null
             }
             underlayColor={'#fff'}>
             <View
                 style={
-                    props.notification.status === 0
+                    notification.status === 0
                         ? styles.singleNotificationContainerActive
                         : styles.singleNotificationContainer
                 }>
-                {props.notification.type === 'comment_for_your_forum_post' && (
+                {notification.type === 'comment_for_your_forum_post' && (
                     <Image style={styles.icon} source={forumNotification} />
                 )}
-                {props.notification.type === 'started_conversation_user' && (
+                {notification.type === 'started_conversation_user' && (
                     <Image style={styles.icon} source={startConversation} />
                 )}
-                {props.notification.type === 'sended_message' && (
+                {notification.type === 'sended_message' && (
                     <Image style={styles.icon} source={messageNotification} />
                 )}
-                {props.notification.type === 'friendship_invitation' && (
+                {notification.type === 'friendship_invitation' && (
                     <Image style={styles.icon} source={friendship} />
                 )}
-                {props.notification.type === 'friendship_confirmation' && (
+                {notification.type === 'friendship_confirmation' && (
                     <Image style={styles.icon} source={friendship} />
                 )}
 
                 <View style={styles.productListSingleProductTextContainer}>
                     <View style={styles.productListSingleProductTextWrapper}>
                         <Text style={styles.productOnListTextCategory}>
-                            {props.notification.message}
+                            {notification.message}
                         </Text>
                     </View>
                 </View>

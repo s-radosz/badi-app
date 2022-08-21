@@ -11,7 +11,7 @@ interface SelectDateProps {
     navigation: any;
 }
 
-const SelectDate = (props: SelectDateProps) => {
+const SelectDate = ({onClose, navigation}: SelectDateProps) => {
     const dispatch = useDispatch();
 
     const activeLanguage = useSelector(
@@ -37,7 +37,7 @@ const SelectDate = (props: SelectDateProps) => {
             );
             dispatch(setDateTo(endDate?.toISOString()?.slice(0, 10)));
             setOpen(false);
-            props?.onClose();
+            onClose();
         },
         [setOpen, setRange],
     );
@@ -45,7 +45,7 @@ const SelectDate = (props: SelectDateProps) => {
         <SafeAreaView testID="MainScreen" style={styles.container}>
             <Appbar style={styles.topBar}>
                 <Appbar.Header style={styles.topBarBack}>
-                    <Appbar.BackAction onPress={props?.onClose} />
+                    <Appbar.BackAction onPress={onClose} />
                 </Appbar.Header>
                 <Appbar.Content title={lang.title[activeLanguage]} />
             </Appbar>
@@ -56,7 +56,7 @@ const SelectDate = (props: SelectDateProps) => {
                     startDate={range.startDate}
                     endDate={range.endDate}
                     visible={true}
-                    onDismiss={props?.onClose}
+                    onDismiss={onClose}
                     date={new Date()}
                     onConfirm={onConfirm}
                 />

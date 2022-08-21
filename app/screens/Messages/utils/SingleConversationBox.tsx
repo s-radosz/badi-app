@@ -10,58 +10,63 @@ import {
 import moment from 'moment';
 import {customOrangeColor} from './../../../assets/global/globalStyles';
 
-const SingleConversationBox = (props: {
+interface SingleConversationBoxProps {
     conversation: any;
     openConversationDetails: any;
     API_URL: string;
-}): any => {
+}
+
+const SingleConversationBox = ({
+    conversation,
+    openConversationDetails,
+    API_URL,
+}: SingleConversationBoxProps) => {
     const lastMessageDate = moment(
-        props.conversation.messages[props.conversation.messages.length - 1]
-            .updated_at,
+        conversation.messages[conversation.messages.length - 1].updated_at,
     ).format('LLL');
     return (
         <TouchableHighlight
             onPress={(): void => {
-                props.openConversationDetails(
-                    props.conversation.id,
-                    props.conversation.receiverId,
-                    props.conversation.receiverName,
-                    props.conversation.receiverEmail,
-                    props.conversation.receiverPhotoPath,
+                openConversationDetails(
+                    conversation.id,
+                    conversation.receiverId,
+                    conversation.receiverName,
+                    conversation.receiverEmail,
+                    conversation.receiverPhotoPath,
                 );
             }}>
             <View style={styles.productListSingleProductContainer}>
                 <TouchableOpacity
                     onPress={(): void => {
-                        props.openConversationDetails(
-                            props.conversation.id,
-                            props.conversation.receiverId,
-                            props.conversation.receiverName,
-                            props.conversation.receiverEmail,
-                            props.conversation.receiverPhotoPath,
+                        openConversationDetails(
+                            conversation.id,
+                            conversation.receiverId,
+                            conversation.receiverName,
+                            conversation.receiverEmail,
+                            conversation.receiverPhotoPath,
                         );
                     }}>
                     <Image
                         style={styles.productListSingleProductImage}
                         source={{
-                            uri: `${props.conversation.receiverPhotoPath}`,
+                            uri: `${conversation.receiverPhotoPath}`,
                         }}
                     />
                 </TouchableOpacity>
 
                 <View style={styles.productListSingleProductTextContainer}>
                     <Text style={styles.conversationReceiverName}>
-                        {props.conversation.receiverName}
+                        {conversation.receiverName}
                     </Text>
 
                     <Text
                         style={
-                            props.conversation.userHadUnreadedMessages
+                            conversation.userHadUnreadedMessages
                                 ? styles.unreadedConversation
                                 : styles.readedConversation
                         }>
-                        {props.conversation.messages[
-                            props.conversation.messages.length - 1
+                        {conversation.messages[
+                            conversation.messages.length - 1
                         ].message.substring(0, 20)}
                     </Text>
                     <Text style={styles.lastMessageDate}>

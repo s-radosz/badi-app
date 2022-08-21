@@ -5,7 +5,7 @@ import InputComponent from './../../../components/Utils/InputComponent';
 import lang from './../../../lang/Messages/utils/SendMessageBox';
 import {useSelector} from 'react-redux';
 
-const SendMessageBox = (props: {
+interface SendMessageBoxProps {
     sendMessage: any;
     receiverId: number;
     receiverName: string;
@@ -14,7 +14,18 @@ const SendMessageBox = (props: {
     userMessage: string;
     setUserMessage: any;
     conversationId: number;
-}): any => {
+}
+
+const SendMessageBox = ({
+    sendMessage,
+    receiverId,
+    receiverName,
+    receiverEmail,
+    receiverPhotoPath,
+    userMessage,
+    setUserMessage,
+    conversationId,
+}: SendMessageBoxProps) => {
     const activeLanguage = useSelector(
         (state: any) => state?.Translations?.language,
     );
@@ -24,10 +35,8 @@ const SendMessageBox = (props: {
             <View style={styles.messageBoxContainer}>
                 <InputComponent
                     placeholder={lang.message[activeLanguage]}
-                    inputOnChange={(message: string) =>
-                        props.setUserMessage(message)
-                    }
-                    value={props.userMessage}
+                    inputOnChange={(message: string) => setUserMessage(message)}
+                    value={userMessage}
                     secureTextEntry={false}
                     maxLength={400}
                 />
@@ -35,14 +44,14 @@ const SendMessageBox = (props: {
             <View style={styles.btnContainer}>
                 <ButtonComponent
                     pressButtonComponent={async () => {
-                        await props.sendMessage(
+                        await sendMessage(
                             //@ts-ignore
-                            props.receiverId,
-                            props.userMessage,
-                            props.conversationId,
+                            receiverId,
+                            userMessage,
+                            conversationId,
                             0,
                         );
-                        await props.setUserMessage('');
+                        await setUserMessage('');
                     }}
                     buttonComponentText={lang.sendMessage[activeLanguage]}
                     fullWidth={true}

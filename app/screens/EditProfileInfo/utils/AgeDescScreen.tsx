@@ -10,13 +10,21 @@ import {useSelector} from 'react-redux';
 
 const fillInfoBg: any = require('./../../../assets/images/fillInfoBgMin.jpg');
 
-const AgeDescScreen = (props: {
+interface AgeDescProps {
     handleChange: any;
     age: any;
     nickname: string;
     desc: string;
     nextStep: any;
-}): any => {
+}
+
+const AgeDescScreen = ({
+    handleChange,
+    age,
+    nickname,
+    desc,
+    nextStep,
+}: AgeDescProps) => {
     const activeLanguage = useSelector(
         (state: any) => state?.Translations?.language,
     );
@@ -35,16 +43,16 @@ const AgeDescScreen = (props: {
                     </Text>
 
                     <Text style={styles.subText}>
-                        {lang.nick[activeLanguage]} ({props.nickname.length}/20{' '}
+                        {lang.nick[activeLanguage]} ({nickname.length}/20{' '}
                         {lang.chars[activeLanguage]}) *
                     </Text>
 
                     <InputComponent
                         placeholder={lang.nick[activeLanguage]}
                         inputOnChange={(nickname: string) =>
-                            props.handleChange('nickname', nickname)
+                            handleChange('nickname', nickname)
                         }
-                        value={props.nickname}
+                        value={nickname}
                         secureTextEntry={false}
                         maxLength={20}
                     />
@@ -56,24 +64,24 @@ const AgeDescScreen = (props: {
                     <InputComponent
                         placeholder={lang.age[activeLanguage]}
                         inputOnChange={(age: string) =>
-                            props.handleChange('age', age)
+                            handleChange('age', age)
                         }
-                        value={props.age !== 0 ? String(props.age) : ''}
+                        value={age !== 0 ? String(age) : ''}
                         secureTextEntry={false}
                         maxLength={2}
                     />
 
                     <Text style={styles.subText}>
-                        {lang.description[activeLanguage]} ({props.desc.length}
+                        {lang.description[activeLanguage]} ({desc.length}
                         /250 {lang.chars[activeLanguage]})
                     </Text>
 
                     <TextAreaComponent
                         placeholder={lang.description[activeLanguage]}
                         inputOnChange={(desc: string) =>
-                            props.handleChange('desc', desc)
+                            handleChange('desc', desc)
                         }
-                        value={props.desc}
+                        value={desc}
                         maxLength={250}
                         multiline={true}
                         numberOfLines={10}
@@ -82,9 +90,9 @@ const AgeDescScreen = (props: {
             </ScrollView>
 
             <View style={styles.sectionBtnContainer}>
-                {props.age > 0 && props.nickname !== '' && (
+                {age > 0 && nickname !== '' && (
                     <ButtonComponent
-                        pressButtonComponent={props.nextStep}
+                        pressButtonComponent={nextStep}
                         buttonComponentText={lang.next[activeLanguage]}
                         fullWidth={true}
                         underlayColor="#dd904d"

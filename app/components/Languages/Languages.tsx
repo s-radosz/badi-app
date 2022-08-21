@@ -16,7 +16,7 @@ const plFlag: any = require('./../../assets/images/pl-flag.png');
 // const esFlag: any = require('./../../assets/images/es-flag.png');
 // const zhFlag: any = require('./../../assets/images/zh-flag.png');
 
-const Languages = (props: any) => {
+const Languages = () => {
     const dispatch = useDispatch();
 
     const activeLanguage = useSelector(

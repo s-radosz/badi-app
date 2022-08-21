@@ -2,19 +2,33 @@ import React from 'react';
 import {Text, View, TouchableHighlight, Image, StyleSheet} from 'react-native';
 import lang from './../../lang/SharedComponents/ActiveFilters';
 import {customOrangeColor} from './../../assets/global/globalStyles';
-import {useDispatch, useSelector} from 'react-redux';
+import {useSelector} from 'react-redux';
 
 const trash: any = require('./../../assets/images/trash.png');
 
-const ActiveFilters = (props: any) => {
+interface ActiveFiltersProps {
+    filterDistance: number;
+    filterHobbyName: string;
+    filterStatus: string;
+    showFilterModal: boolean;
+    removeFilter: (type: string) => void;
+}
+
+const ActiveFilters = ({
+    filterDistance,
+    filterHobbyName,
+    filterStatus,
+    showFilterModal,
+    removeFilter,
+}: ActiveFiltersProps) => {
     const activeLanguage = useSelector(
         (state: any) => state?.Translations?.language,
     );
 
     return (
         <View>
-            {props.filterDistance || props.filterHobbyName
-                ? !props.showFilterModal && (
+            {filterDistance || filterHobbyName
+                ? !showFilterModal && (
                       <Text style={styles.activeFiltersText}>
                           {lang.activeFilters[activeLanguage]}
                       </Text>
@@ -22,18 +36,15 @@ const ActiveFilters = (props: any) => {
                 : null}
 
             <View style={styles.activeFiltersConatiner}>
-                {props.filterDistance && !props.showFilterModal ? (
+                {filterDistance && !showFilterModal ? (
                     <View style={styles.removeFilterBtnContainer}>
                         <Text style={styles.removeFilterText}>
-                            {lang.distance[activeLanguage]} -{' '}
-                            {props.filterDistance}
+                            {lang.distance[activeLanguage]} - {filterDistance}
                         </Text>
                         <TouchableHighlight
                             style={styles.removeFilterBtn}
                             onPress={() =>
-                                props.removeFilter(
-                                    lang.distance[activeLanguage],
-                                )
+                                removeFilter(lang.distance[activeLanguage])
                             }
                             underlayColor={'#dd904d'}>
                             <Image source={trash} style={styles.img} />
@@ -41,16 +52,15 @@ const ActiveFilters = (props: any) => {
                     </View>
                 ) : null}
 
-                {props.filterHobbyName && !props.showFilterModal ? (
+                {filterHobbyName && !showFilterModal ? (
                     <View style={styles.removeFilterBtnContainer}>
                         <Text style={styles.removeFilterText}>
-                            {lang.hobby[activeLanguage]} -{' '}
-                            {props.filterHobbyName}
+                            {lang.hobby[activeLanguage]} - {filterHobbyName}
                         </Text>
                         <TouchableHighlight
                             style={styles.removeFilterBtn}
                             onPress={() =>
-                                props.removeFilter(lang.hobby[activeLanguage])
+                                removeFilter(lang.hobby[activeLanguage])
                             }
                             underlayColor={'#dd904d'}>
                             <Image source={trash} style={styles.img} />
@@ -58,15 +68,15 @@ const ActiveFilters = (props: any) => {
                     </View>
                 ) : null}
 
-                {props.filterStatus && !props.showFilterModal ? (
+                {filterStatus && !showFilterModal ? (
                     <View style={styles.removeFilterBtnContainer}>
                         <Text style={styles.removeFilterText}>
-                            {lang.status[activeLanguage]} - {props.filterStatus}
+                            {lang.status[activeLanguage]} - {filterStatus}
                         </Text>
                         <TouchableHighlight
                             style={styles.removeFilterBtn}
                             onPress={() =>
-                                props.removeFilter(lang.status[activeLanguage])
+                                removeFilter(lang.status[activeLanguage])
                             }
                             underlayColor={'#dd904d'}>
                             <Image source={trash} style={styles.img} />

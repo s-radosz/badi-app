@@ -1,24 +1,33 @@
 import React from 'react';
 import {TextInput, StyleSheet} from 'react-native';
 
-const TextAreaComponent = (props: {
+interface TextAreaComponentProps {
     placeholder: string;
     inputOnChange: (text: string) => void;
     value: string;
     maxLength: number;
     multiline: boolean;
     numberOfLines: number;
-}) => {
+}
+
+const TextAreaComponent = ({
+    placeholder,
+    inputOnChange,
+    value,
+    maxLength,
+    multiline,
+    numberOfLines,
+}: TextAreaComponentProps) => {
     return (
         <TextInput
             style={styles.textarea}
-            placeholder={props.placeholder}
+            placeholder={placeholder}
             placeholderTextColor="#919191"
-            onChangeText={props.inputOnChange}
-            value={props.value}
-            maxLength={props.maxLength}
-            multiline={props.multiline}
-            numberOfLines={props.numberOfLines}
+            onChangeText={inputOnChange}
+            value={value}
+            maxLength={maxLength}
+            multiline={multiline}
+            numberOfLines={numberOfLines}
         />
     );
 };

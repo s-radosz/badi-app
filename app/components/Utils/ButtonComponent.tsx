@@ -3,7 +3,7 @@ import {Text, TouchableHighlight, Image, StyleSheet} from 'react-native';
 import {customOrangeColor} from './../../assets/global/globalStyles';
 const backArrow: any = require('./../../assets/images/backArrow.png');
 
-const ButtonComponent = (props: {
+interface ButtonComponentProps {
     pressButtonComponent: () => void;
     buttonComponentText: string;
     fullWidth: boolean;
@@ -11,15 +11,25 @@ const ButtonComponent = (props: {
     whiteBg: boolean;
     showBackIcon: boolean;
     additionalStyle?: any;
-}) => {
+}
+
+const ButtonComponent = ({
+    pressButtonComponent,
+    buttonComponentText,
+    fullWidth,
+    underlayColor,
+    whiteBg,
+    showBackIcon,
+    additionalStyle,
+}: ButtonComponentProps) => {
     return (
         <TouchableHighlight
             style={
-                props?.additionalStyle
-                    ? [props?.additionalStyle, styles.buttonComponent]
-                    : props.fullWidth
+                additionalStyle
+                    ? [additionalStyle, styles.buttonComponent]
+                    : fullWidth
                     ? styles.buttonComponentFullWidth
-                    : props.whiteBg
+                    : whiteBg
                     ? styles.buttonComponentFullWidthWhite
                     : [
                           styles.buttonComponent,
@@ -31,9 +41,9 @@ const ButtonComponent = (props: {
                           },
                       ]
             }
-            onPress={props.pressButtonComponent}
-            underlayColor={props.underlayColor}>
-            {props.showBackIcon ? (
+            onPress={pressButtonComponent}
+            underlayColor={underlayColor}>
+            {showBackIcon ? (
                 <Image
                     source={backArrow}
                     style={{width: 20}}
@@ -42,12 +52,10 @@ const ButtonComponent = (props: {
             ) : (
                 <Text
                     style={[
-                        props.whiteBg
-                            ? styles.whiteBtnText
-                            : styles.peachBtnText,
+                        whiteBg ? styles.whiteBtnText : styles.peachBtnText,
                         {fontWeight: 'bold', lineHeight: 40},
                     ]}>
-                    {props.buttonComponentText}
+                    {buttonComponentText}
                 </Text>
             )}
         </TouchableHighlight>

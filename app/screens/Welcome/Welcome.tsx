@@ -30,7 +30,11 @@ const friends: any = require('./../../assets/images/friends.png');
 const support: any = require('./../../assets/images/support.png');
 const like: any = require('./../../assets/images/like.png');
 
-const Welcome = (props: any) => {
+interface WelcomeProps {
+    navigation: any;
+}
+
+const Welcome = ({navigation}: WelcomeProps) => {
     const activeLanguage = useSelector(
         (state: any) => state?.Translations?.language,
     );
@@ -69,8 +73,6 @@ const Welcome = (props: any) => {
             </View>
         );
     };
-
-    const navigation = props.navigation;
 
     return (
         <SafeAreaView style={styles.areaContainer}>

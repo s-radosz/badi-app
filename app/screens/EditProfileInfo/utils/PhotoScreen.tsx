@@ -16,14 +16,23 @@ import {
 import {useSelector} from 'react-redux';
 const fillInfoBg: any = require('./../../../assets/images/fillInfoBgMin.jpg');
 
-const PhotoScreen = (props: {
+interface PhotoProps {
     photo: any;
     handleChoosePhoto: any;
     nextStep: any;
     prevStep: any;
     userSavedPhoto: string;
     API_URL: string;
-}): any => {
+}
+
+const PhotoScreen = ({
+    photo,
+    handleChoosePhoto,
+    nextStep,
+    prevStep,
+    userSavedPhoto,
+    API_URL,
+}: PhotoProps) => {
     const activeLanguage = useSelector(
         (state: any) => state?.Translations?.language,
     );
@@ -41,23 +50,20 @@ const PhotoScreen = (props: {
                     {lang.photoText[activeLanguage]}
                 </Text>
 
-                {props.photo ? (
-                    <Image
-                        source={{uri: props.photo.path}}
-                        style={styles.image}
-                    />
+                {photo ? (
+                    <Image source={{uri: photo.path}} style={styles.image} />
                 ) : null}
 
-                {props.userSavedPhoto && props.API_URL && !props.photo ? (
+                {userSavedPhoto && API_URL && !photo ? (
                     <Image
-                        source={{uri: `${props.userSavedPhoto}`}}
+                        source={{uri: `${userSavedPhoto}`}}
                         style={styles.image}
                     />
                 ) : null}
 
                 <View style={{marginTop: 10}}>
                     <ButtonComponent
-                        pressButtonComponent={props.handleChoosePhoto}
+                        pressButtonComponent={handleChoosePhoto}
                         buttonComponentText={lang.choose[activeLanguage]}
                         fullWidth={true}
                         underlayColor="#dd904d"
@@ -70,7 +76,7 @@ const PhotoScreen = (props: {
             <View style={styles.sectionBtnBackContainer}>
                 <View style={styles.backBtn}>
                     <ButtonComponent
-                        pressButtonComponent={props.prevStep}
+                        pressButtonComponent={prevStep}
                         buttonComponentText={lang.back[activeLanguage]}
                         fullWidth={false}
                         underlayColor="#dd904d"
@@ -79,9 +85,9 @@ const PhotoScreen = (props: {
                     />
                 </View>
                 <View style={styles.nextBtn}>
-                    {props.photo || props.userSavedPhoto ? (
+                    {photo || userSavedPhoto ? (
                         <ButtonComponent
-                            pressButtonComponent={props.nextStep}
+                            pressButtonComponent={nextStep}
                             buttonComponentText={lang.next[activeLanguage]}
                             fullWidth={true}
                             underlayColor="#dd904d"

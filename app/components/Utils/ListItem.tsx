@@ -2,7 +2,7 @@ import React from 'react';
 import {View, Text, TouchableHighlight, Image, StyleSheet} from 'react-native';
 import {fontSizeSmall, darkGrayColor} from './../../assets/global/globalStyles';
 
-const ListItem = (props: {
+interface ListItemProps {
     onPress: () => void;
     API_URL: string;
     image: string;
@@ -11,35 +11,46 @@ const ListItem = (props: {
     subSubText: string;
     key: string;
     userHadUnreadedMessages: boolean;
-}) => {
+}
+
+const ListItem = ({
+    onPress,
+    API_URL,
+    image,
+    mainText,
+    subText,
+    subSubText,
+    key,
+    userHadUnreadedMessages,
+}: ListItemProps) => {
     return (
-        <TouchableHighlight onPress={props.onPress} underlayColor={'#fff'}>
+        <TouchableHighlight onPress={onPress} underlayColor={'#fff'}>
             <View style={styles.listItemContainer}>
                 <View
                     style={
-                        props.userHadUnreadedMessages
+                        userHadUnreadedMessages
                             ? styles.listItemSingleContainerActive
                             : styles.listItemSingleContainer
                     }>
                     <Image
                         style={styles.listItemImage}
                         source={{
-                            uri: `${props.image}`,
+                            uri: `${image}`,
                         }}
                     />
                     <View style={styles.listItemTextContainer}>
                         <View>
                             <Text style={styles.listItemMainText}>
-                                {props.mainText}
+                                {mainText}
                             </Text>
                             <View>
                                 <Text style={styles.listItemSubText}>
-                                    {props.subText}
+                                    {subText}
                                 </Text>
                             </View>
                             <View>
                                 <Text style={styles.listItemSubText}>
-                                    {props.subSubText}
+                                    {subSubText}
                                 </Text>
                             </View>
                         </View>
