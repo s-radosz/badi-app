@@ -113,11 +113,11 @@ const Profile = ({navigation, route}: IFeedbackModalProps) => {
         });
     };
 
-    const handleSetShowProfilePreview = (): void => {
+    const handleSetShowProfilePreview = () => {
         setShowProfilePreview(!showProfilePreview);
     };
 
-    const getAmountOfFriends = (id: number): void => {
+    const getAmountOfFriends = (id: number) => {
         axios
             .post(API_URL + '/countFriends', {
                 userId: id,
@@ -184,7 +184,7 @@ const Profile = ({navigation, route}: IFeedbackModalProps) => {
 
                         {!showEditUserData && (
                             <ProfileHeader
-                                API_URL={API_URL}
+                                // API_URL={API_URL}
                                 avatar={
                                     foreignUserData?.photo_path
                                         ? foreignUserData?.photo_path
@@ -199,8 +199,8 @@ const Profile = ({navigation, route}: IFeedbackModalProps) => {
                                         ? userData?.name
                                         : null
                                 }
-                                cityDistrict={locationDetails?.cityDistrict}
-                                city={locationDetails.city}
+                                // cityDistrict={locationDetails?.cityDistrict}
+                                // city={locationDetails.city}
                                 age={
                                     foreignUserData?.age
                                         ? foreignUserData?.age
@@ -209,7 +209,7 @@ const Profile = ({navigation, route}: IFeedbackModalProps) => {
                                         : null
                                 }
                                 countFriends={countFriends}
-                                countKids={0}
+                                // countKids={0}
                                 locationString={
                                     foreignUserData?.location_string
                                         ? foreignUserData?.location_string
@@ -229,12 +229,12 @@ const Profile = ({navigation, route}: IFeedbackModalProps) => {
                             !showEditUserData &&
                             !foreignUserData && (
                                 <ProfileOptions
-                                    setShowProfilePreview={
-                                        handleSetShowProfilePreview
-                                    }
+                                    // setShowProfilePreview={
+                                    //     handleSetShowProfilePreview
+                                    // }
                                     navigation={navigation}
-                                    user={userData}
-                                    API_URL={API_URL}
+                                    // user={userData}
+                                    // API_URL={API_URL}
                                 />
                             )}
                         {showProfilePreview &&
@@ -249,7 +249,7 @@ const Profile = ({navigation, route}: IFeedbackModalProps) => {
                                     <UserPreview
                                         description={userData?.description}
                                         hobbies={userData?.hobbies}
-                                        kids={userData?.kids}
+                                        // kids={userData?.kids}
                                     />
                                 </Suspense>
                             )}

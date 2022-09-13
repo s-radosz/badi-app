@@ -29,6 +29,7 @@ const LoggedInUserDetails = ({navigation}: ILoggedInUserDetailsProps) => {
         (state: any) => state?.Translations?.translations,
     );
 
+    const [foreignUserData, setForeignUserData] = useState(null);
     const [showUserMessageBox, setShowUserMessageBox] = useState(false);
     const [locationDetails, setLocationDetails] = useState(null);
     const [userDetailsData, setUserDetailsData] = useState(null);
@@ -96,6 +97,36 @@ const LoggedInUserDetails = ({navigation}: ILoggedInUserDetailsProps) => {
             });
     };
 
+    const handleStartConversation = () => {
+        return new Promise((resolve, reject) => {
+            axios
+                .post(API_URL + '/saveConversation', {
+                    senderId: userData?.id,
+                    receiverId: foreignUserData?.id,
+                    message: 'Conversation started',
+                })
+                .then(response => {
+                    console.log(['saveConversation', response]);
+                    if (response?.data?.result) {
+                        const {} = response?.data?.result;
+                        // navigation?.navigate('Messages');
+
+                        navigation.navigate('ConversationDetails', {
+                            conversationId:
+                                response?.data?.result?.conversation?.id,
+                            receiverId: response?.data?.result?.receiverId,
+                        });
+                        // setForeignUserData(response?.data?.result);
+                        resolve(true);
+                    }
+                })
+                .catch(error => {
+                    navigation?.navigate('Messages');
+                    reject(true);
+                });
+        });
+    };
+
     return (
         <React.Fragment>
             <SafeAreaView style={styles.container}>
@@ -111,17 +142,23 @@ const LoggedInUserDetails = ({navigation}: ILoggedInUserDetailsProps) => {
 
                                 <React.Fragment>
                                     <ProfileHeader
-                                        API_URL={API_URL}
+                                        // API_URL={API_URL}
                                         avatar={userDetailsData?.photo_path}
                                         name={userDetailsData?.name}
-                                        cityDistrict={
-                                            locationDetails?.cityDistrict
-                                        }
-                                        city={locationDetails?.city}
+                                        // cityDistrict={
+                                        //     locationDetails?.cityDistrict
+                                        // }
+                                        // city={locationDetails?.city}
                                         age={userDetailsData?.age}
                                         countFriends={countFriends}
                                         locationString={
                                             userDetailsData?.location_string
+                                        }
+                                        showLogout={true}
+                                        navigation={navigation}
+                                        foreignUserData={foreignUserData}
+                                        handleStartConversation={
+                                            handleStartConversation
                                         }
                                     />
 

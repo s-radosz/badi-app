@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import SingleNotification from './SingleNotification/SingleNotification';
 import axios from 'axios';
-import {View, SafeAreaView, ScrollView, StyleSheet} from 'react-native';
+import {View, SafeAreaView, ScrollView, StyleSheet, Text} from 'react-native';
 import BottomPanel from './../../../components/SharedComponents/BottomPanel';
 import lang from './../../../lang/Profile/utils/UserNotificationList';
 import TopHeader from './../../../components/Utils/TopHeader';
@@ -10,6 +10,7 @@ import {API_URL} from './../../../helpers/globalVariables';
 import {setAlert} from '../../../../app/store/alert/actions';
 import {setLoader} from '../../../../app/store/loader/actions';
 import {returnTranslation} from './../../../helpers/globalMethods';
+import {FlatList} from 'react-native-gesture-handler';
 
 const loaderImage: any = require('./../../../assets/images/loader.gif');
 
@@ -79,11 +80,18 @@ const UserNotificationList = ({navigation}: IUserNotificationListProps) => {
     useEffect(() => {
         if (userData) {
             getUserNotificationList();
+
             // await this.context.clearUserNotificationsStatus(
             //     this.context.userData.id,
             // );
         }
     }, []);
+
+    const renderItem = ({item}) => {
+        return (
+            <SingleNotification notification={item} navigation={navigation} />
+        );
+    };
 
     return (
         <React.Fragment>
@@ -96,18 +104,11 @@ const UserNotificationList = ({navigation}: IUserNotificationListProps) => {
                                 title={lang.notificationTitle[activeLanguage]}
                             />
                             <View style={styles.notificationsListContainer}>
-                                {userNotificationList &&
-                                    userNotificationList.map(
-                                        (notification: any, i: number) => {
-                                            return (
-                                                <SingleNotification
-                                                    notification={notification}
-                                                    key={`SingleNotification-${i}`}
-                                                    navigation={navigation}
-                                                />
-                                            );
-                                        },
-                                    )}
+                                <FlatList
+                                    data={userNotificationList}
+                                    renderItem={renderItem}
+                                    keyExtractor={item => item?.id}
+                                />
                             </View>
                         </ScrollView>
                         <BottomPanel

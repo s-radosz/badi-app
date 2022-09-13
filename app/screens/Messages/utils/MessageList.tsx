@@ -16,42 +16,48 @@ const MessageList = ({messagesList, navigation}: MessageListProps) => {
         (state: any) => state?.Translations?.language,
     );
 
-    if (messagesList) {
-        return messagesList && messagesList.length > 0 ? (
-            messagesList.map((conversation: any, i: number) => {
-                return (
-                    <ListItem
-                        API_URL={API_URL}
-                        key={`MessageList-${i}`}
-                        image={`${messagesList[i][0].receiverPhotoPath}`}
-                        mainText={messagesList[i][0].receiverName}
-                        subText={messagesList[i][0].messages[
-                            messagesList[i][0].messages.length - 1
-                        ].message.substring(0, 20)}
-                        subSubText={moment(
-                            messagesList[i][0].messages[
-                                messagesList[i][0].messages.length - 1
-                            ].updated_at,
-                        ).format('LLL')}
-                        onPress={(): void => {
-                            navigation.navigate('ConversationDetails', {
-                                conversationId: messagesList[i][0].id,
-                                receiverId: messagesList[i][0].receiverId,
-                            });
-                        }}
-                        userHadUnreadedMessages={
-                            false
-                            // messagesList[i][0].userHadUnreadedMessages
-                        }
-                    />
-                );
-            })
-        ) : (
-            <Text style={styles.noResultsContainer}>
-                {lang.noResults[activeLanguage]}
-            </Text>
+    const renderItem = ({item}) => {
+        return (
+            <ListItem
+                API_URL={API_URL}
+                key={item?.id}
+                image={`${item[0].receiverPhotoPath}`}
+                mainText={item[0].receiverName}
+                subText={item[0].messages[
+                    item[0].messages.length - 1
+                ].message.substring(0, 20)}
+                subSubText={moment(
+                    item[0].messages[item[0].messages.length - 1].updated_at,
+                ).format('LLL')}
+                onPress={(): void => {
+                    navigation.navigate('ConversationDetails', {
+                        conversationId: item[0].id,
+                        receiverId: item[0].receiverId,
+                    });
+                }}
+                userHadUnreadedMessages={
+                    false
+                    // messagesList[i][0].userHadUnreadedMessages
+                }
+            />
         );
-    }
+    };
+
+    return (
+        <>
+            <FlatList
+                data={messagesList}
+                renderItem={renderItem}
+                keyExtractor={item => item?.id}
+            />
+
+            {!messagesList?.length ? (
+                <Text style={styles.noResultsContainer}>
+                    {lang.noResults[activeLanguage]}
+                </Text>
+            ) : null}
+        </>
+    );
 };
 
 const styles = StyleSheet.create({
